@@ -52,44 +52,6 @@ The following sample components are provided:
 - NotFound: A stateless component used as the fall-through if no other routes
   are matched.
 
-### Google Sign-in Support
-
-#### Setup
-
-Some quick POCs may require an integration with Google Sign-in. This support is
-toggled off by default, but it can be easily enabled in the `App` component.
-
-Past projets have been set up on [Google Developer
-Console](https://console.developers.google.com/), so you may be able to reach
-out for an existing `client_id`. This value is required to be set in the `.env`
-as `GOOGLE_SIGNIN_CLIENT`.
-
-If you are not able to acquire an existing `client_id` or would prefer to set
-up your own, simply create a Google Developer Console project and configure an
-"OAuth consent screen" to generate a valid `client_id`.
-
-#### Components
-
-The following components are included for Google Sign-in support:
-
-- App: App is always included, but the version for Google Sign-in includes
-  application-level state that tracks the user's authentication status.
-- GoogleLoginButton: A class component that handles the sign-in/out actions. It
-  accepts callbacks as props to update the application-level state in App.
-- Login: A stateless component to be rendered when an unauthenticated user
-  attempts to view a private route.
-
-When Google Sign-in is not needed, please remove the `GoogleLoginButton` and
-`Login` components. You should also prefer the stateless version of the `App`
-component.
-
-#### Routing
-
-Public and private routes have been set up to be as simple as possible. By
-leveraging the application state, private routes are conditionally rendered. To
-add more public or private routes, simply add more routes to their respective
-`Switch`es in `Routes.js`. New routes are automatically included in `App`.
-
 ### Linting
 
 This project has been pre-configured with ESLint to work with the
