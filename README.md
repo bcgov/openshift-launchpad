@@ -48,9 +48,6 @@ Please refer to [Makefile](Makefile) for a list of all commands. Some of the mos
 
 `make restart` : Stops the app, rebuilds the images and restarts the app.
 
-`make server-test` : Runs the server unit tests.
-
-`make client-test` : Runs the client unit tests.
 
 NOTE: If you're having any unexpected issues, it's best to run `make rebuild` to cleanup and rebuild containers from scratch.
 
@@ -59,12 +56,6 @@ NOTE: If you're having any unexpected issues, it's best to run `make rebuild` to
 - The client container exposes port 3000 and can be viewed by visiting http://localhost:3000
 - The server container exposes port 5000 and can be viewed by visiting http://localhost:5000
 - The database container exposes port 5432 and can be viewed by using pgAdmin.
-
-## Contributing
-
-If you intended to make changes to this boilerplate, you will want to use one
-of the following workflows.
-
 
 ## License
 
