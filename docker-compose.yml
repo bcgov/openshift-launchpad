@@ -1,0 +1,86 @@
+version: "3"
+
+services:
+  ####################### Client Definition #######################
+  client:
+    restart: always
+    container_name: client
+    build:
+      context: client
+    command: ["npm", "run", "serve"]
+    environment:
+      HOST: 0.0.0.0
+      PORT: 3000
+    volumes:
+      - ./client/src/:/opt/client/src/
+      - "/app/node_modules"
+    ports:
+      - 3000:3000
+    depends_on:
+      - server
+    networks:
+      - default
+
+  ####################### Database Definition #######################
+  database:
+    container_name: database
+    build:
+      context: database
+    ports:
+      - 5435:5432
+    environment:
+      - POSTGRES_USER=admin
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_DB=sample_db
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    networks:
+      - default
+
+  ####################### Server Definition #######################
+  server:
+    container_name: server
+    build:
+      context: server
+    volumes:
+      - "./server:/opt/server/"
+    ports:
+      - "5000:5000"
+    environment:
+      - FLASK_ENV=development
+      - APP_SETTINGS=app.config.DevelopmentConfig
+      - DATABASE_URL=postgres://admin:password@database:5432/sample_db
+      - DATABASE_TEST_URL=postgres://admin:password@database:5432/sample_db_test
+    depends_on:
+      - server-migrate
+    networks:
+      - default
+
+  ####### Server Database Migration Definition ###########
+
+  server-migrate:
+    restart: on-failure
+    container_name: server-migrate
+    build:
+      context: server
+    command: python manage.py create-db
+    volumes:
+      - "./server:/opt/server/"
+    environment:
+      - FLASK_ENV=development
+      - APP_SETTINGS=app.config.Config
+      - DATABASE_URL=postgres://admin:password@database:5432/sample_db
+      - DATABASE_TEST_URL=postgres://admin:password@database:5432/sample_db_test
+    depends_on:
+      - database
+    networks:
+      - default
+
+####################### Networks Definition #######################
+networks:
+  default:
+    driver: bridge
+
+####################### Volumes Definition #######################
+volumes:
+  postgres-data:

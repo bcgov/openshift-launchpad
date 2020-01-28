@@ -1,0 +1,32 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders correctly with a name 1`] = `
+<div>
+  <h1>
+    Basic React App
+  </h1>
+  <p>
+    Hello, 
+    Developer
+    !
+  </p>
+  <Link
+    to="/about-us"
+  >
+    Go to About Us
+  </Link>
+</div>
+`;
+
+exports[`renders correctly with no name 1`] = `
+<div>
+  <h1>
+    Basic React App
+  </h1>
+  <Link
+    to="/about-us"
+  >
+    Go to About Us
+  </Link>
+</div>
+`;
