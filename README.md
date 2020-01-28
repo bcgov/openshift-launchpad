@@ -60,20 +60,11 @@ NOTE: If you're having any unexpected issues, it's best to run `make rebuild` to
 - The server container exposes port 5000 and can be viewed by visiting http://localhost:5000
 - The database container exposes port 5432 and can be viewed by using pgAdmin.
 
-## CI/CD
-
-- The application uses Github Workflows to run CI/CD pipelines. For more information checkout the [Github Actions Readme](.github/workflows/README.md)
-
 ## Contributing
 
 If you intended to make changes to this boilerplate, you will want to use one
 of the following workflows.
 
-### Backend/Deployment Changes
-
-If you would like to update any of the Python and/or deployment code, you can
-treat this repo like any other. Simply clone the repo, make a branch for your
-changes, and open a PR for review against the `master` branch.
 
 ## License
 
