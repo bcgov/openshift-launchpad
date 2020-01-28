@@ -6,6 +6,7 @@
   "scripts": {
     "build": "webpack --config-name=prod",
     "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
     "serve": "webpack-dev-server --config-name=dev",
     "start": "pm2 serve dist/ 3000 --spa --no-daemon --name client"
   },
