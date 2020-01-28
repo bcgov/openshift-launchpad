@@ -1,7 +1,7 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React from 'react';
+import { Link } from 'react-router-dom';
 
-const Home = props => (
+const Home = (props) => (
   <div>
     <h1>Basic React App</h1>
     {props.name && <p>Hello, {props.name}!</p>}
