@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from 'axios';
 
 const instance = axios.create({
   baseURL: process.env.API_URL,
@@ -6,12 +6,12 @@ const instance = axios.create({
 
 instance.interceptors.response.use(
   // Automatically unpack the successful response
-  response => response.data,
+  (response) => response.data,
   // Automatically log a failed response and then pass it along
-  error => {
-    console.error(error);
+  (error) => {
+    console.error(error); // eslint-disable-line no-console
     return Promise.reject(error);
-  }
+  },
 );
 
 export default instance;
