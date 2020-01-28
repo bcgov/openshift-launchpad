@@ -1,0 +1,15 @@
+{
+  "name": "react-python-starter",
+  "version": "1.0.0",
+  "description": "Basic react+python app to be used as a starting point",
+  "main": "index.js",
+  "dependencies": {
+    "node": "^13.1.0",
+    "puppeteer": "^2.0.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "node e2e/"
+  },
+  "author": "CoCo Team",
+}
