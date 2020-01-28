@@ -4,7 +4,6 @@ This codebase is a minimal React starter with the following features:
 
 - BrowserRouter client-side routing
 - Webpack with Babel for code transformation and bundling
-- Jest (with snapshot) testing
 
 And the following development tooling:
 
@@ -48,8 +47,7 @@ The following sample components are provided:
 
 - Home: The landing-page component. It includes a Link to `/about-us` as an
   example of routing to another page/component. It also provides an example of
-  conditional rendering based on incoming props. Sample Jest snapshot tests are
-  provided for this component.
+  conditional rendering based on incoming props.
 - AboutUs: A stateful component with an example API request integrated into the
   component state.
 - NotFound: A stateless component used as the fall-through if no other routes
