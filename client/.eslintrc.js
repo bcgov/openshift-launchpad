@@ -6,14 +6,11 @@ module.exports = {
   env: {
     node: true,
     browser: true,
-    jest: true,
   },
   extends: [
     "eslint:recommended",
     "plugin:react/recommended",
     "airbnb-base",
-    "prettier",
-    "prettier/react",
   ],
   parserOptions: {},
   settings: {
