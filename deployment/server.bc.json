@@ -1,0 +1,125 @@
+{
+    "kind": "Template",
+    "apiVersion": "v1",
+    "metadata": {
+      "name": "server-build-config",
+      "creationTimestamp": null
+    },
+    "parameters": [],
+    "objects": [
+      {
+        "kind": "ImageStream",
+        "apiVersion": "v1",
+        "metadata": {
+          "name": "redhat-ubi-python-36",
+          "annotations": {
+            "description": "Python Base Image"
+          },
+          "labels": {
+            "shared": "true",
+            "application": "server-base-image"
+          }
+        },
+        "spec": {
+          "lookupPolicy": {
+            "local": false
+          },
+          "tags": [
+            {
+              "name": "latest",
+              "annotations": null,
+              "from": {
+                "kind": "DockerImage",
+                "name": "registry.access.redhat.com/ubi8/python-36:latest"
+              },
+              "importPolicy": {},
+              "referencePolicy": {
+                "type": "Local"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "kind": "ImageStream",
+        "apiVersion": "v1",
+        "metadata": {
+          "name": "server-application-image",
+          "labels": {
+            "shared": "true"
+          },
+          "annotations": {
+            "description": "Keeps track of changes in the application image"
+          }
+        },
+        "spec": {
+          "lookupPolicy": {
+            "local": false
+          },
+          "tags": []
+        }
+      },
+      {
+        "kind": "BuildConfig",
+        "apiVersion": "v1",
+        "metadata": {
+          "name": "server-bc",
+          "creationTimestamp": null,
+          "annotations": {
+            "description": "Defines how to build the application"
+          }
+        },
+        "spec": {
+          "completionDeadlineSeconds": 600,
+          "triggers": [
+            {
+              "type": "ImageChange"
+            },
+            {
+              "type": "ConfigChange"
+            }
+          ],
+          "runPolicy": "SerialLatestOnly",
+          "source": {
+            "type": "Git",
+            "git": {
+              "uri": "https://github.com/bcgov/openshift-launchpad",
+              "ref": "origin/deployment"
+            },
+            "contextDir": "server"
+          },
+          "strategy": {
+            "type": "Docker",
+            "dockerStrategy": {
+              "from": {
+                "kind": "ImageStreamTag",
+                "name": "redhat-ubi-python-36:latest"
+              },
+              "env": [
+                {
+                  "name": "BUILD_LOGLEVEL",
+                  "value": "2"
+                }
+              ]
+            }
+          },
+          "output": {
+            "to": {
+              "kind": "ImageStreamTag",
+              "name": "server-application-image:latest"
+            }
+          },
+          "resources": {
+            "limits": {
+              "cpu": "500m",
+              "memory": "3Gi"
+            },
+            "requests": {
+              "cpu": "100m",
+              "memory": "2Gi"
+            }
+          }
+        }
+      }
+    ]
+  }
