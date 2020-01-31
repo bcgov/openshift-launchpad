@@ -1,0 +1,24 @@
+{
+    "kind": "NetworkSecurityPolicy",
+    "apiVersion": "secops.pathfinder.gov.bc.ca/v1alpha1",
+    "metadata": {
+      "name": "namespace-to-external-network-apdwlc-tools",
+      "labels": {
+        "name": "namespace-to-external-network",
+        "env": "tools"
+      }
+    },
+    "spec": {
+      "description": "Allow all pods in the namespace to access the internet.",
+      "source": [
+        [
+          "$namespace=apdwlc-tools"
+        ]
+      ],
+      "destination": [
+        [
+          "ext:network=any"
+        ]
+      ]
+    }
+  }
