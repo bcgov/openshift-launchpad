@@ -1,10 +1,8 @@
 # Base image
-FROM registry.access.redhat.com/ubi8/python-36:latest
+FROM python:3.6
 
 # Update installation utilites and packages
-#RUN apt-get update
-
-USER root
+RUN apt-get update
 
 # Set working directory
 RUN mkdir /opt/server
