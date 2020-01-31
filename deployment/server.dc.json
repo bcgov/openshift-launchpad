@@ -1,0 +1,104 @@
+{
+    "kind": "Template",
+    "apiVersion": "v1",
+    "metadata": {
+      "name": "server-dc",
+      "creationTimestamp": null
+    },
+    "parameters": [],
+    "objects": [
+      {
+        "kind": "DeploymentConfig",
+        "apiVersion": "v1",
+        "metadata": {
+          "name": "server-dc",
+          "annotations": {
+            "description": "Defines how to deploy the application server"
+          },
+          "labels": {
+            "shared": "true"
+          }
+        },
+        "spec": {
+          "strategy": {
+            "type": "Rolling",
+            "activeDeadlineSeconds": 21600
+          },
+          "triggers": [
+            {
+              "type": "ConfigChange"
+            }
+          ],
+          "replicas": 1,
+          "selector": {
+            "name": "server-dc"
+          },
+          "template": {
+            "metadata": {
+              "name": "server-dc",
+              "labels": {
+                "name": "server-dc"
+              }
+            },
+            "spec": {
+              "containers": [
+                {
+                  "name": "app",
+                  "image": "docker-registry.default.svc:5000/apdwlc-tools/server-application-image:latest",
+                  "ports": [
+                    {
+                      "containerPort": 5000,
+                      "protocol": "TCP"
+                    }
+                  ],
+                  "env": [],
+                  "resources": {
+                    "limits": {
+                      "cpu": "500m",
+                      "memory": "2Gi"
+                    },
+                    "requests": {
+                      "cpu": "100m",
+                      "memory": "512Mi"
+                    }
+                  },
+                  "terminationMessagePath": "/dev/termination-log",
+                  "terminationMessagePolicy": "File",
+                  "imagePullPolicy": "IfNotPresent"
+                }
+              ],
+              "restartPolicy": "Always",
+              "dnsPolicy": "ClusterFirst",
+              "securityContext": {}
+            }
+          }
+        }
+      },
+      {
+        "kind": "Service",
+        "apiVersion": "v1",
+        "metadata": {
+          "name": "server-service",
+          "creationTimestamp": null,
+          "annotations": {
+            "description": "Exposes and load balances the application pods"
+          }
+        },
+        "spec": {
+          "ports": [
+            {
+              "name": "web",
+              "protocol": "TCP",
+              "port": 5000,
+              "targetPort": 5000
+            }
+          ],
+          "selector": {
+            "name": "server-dc"
+          },
+          "type": "ClusterIP",
+          "sessionAffinity": "None"
+        }
+      }
+    ]
+  }

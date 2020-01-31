@@ -1,0 +1,100 @@
+{
+    "kind": "List",
+    "apiVersion": "v1",
+    "metadata": {},
+    "items": [
+        {
+            "apiVersion": "apps.openshift.io/v1",
+            "kind": "DeploymentConfig",
+            "metadata": {
+                "annotations": {
+                    "description": "Defines how to deploy the application server"
+                },
+                "labels": {
+                    "shared": "true"
+                },
+                "name": "server-dc"
+            },
+            "spec": {
+                "replicas": 1,
+                "selector": {
+                    "name": "server-dc"
+                },
+                "strategy": {
+                    "activeDeadlineSeconds": 21600,
+                    "type": "Rolling"
+                },
+                "template": {
+                    "metadata": {
+                        "labels": {
+                            "name": "server-dc"
+                        },
+                        "name": "server-dc"
+                    },
+                    "spec": {
+                        "containers": [
+                            {
+                                "env": [],
+                                "image": "docker-registry.default.svc:5000/apdwlc-tools/server-application-image:latest",
+                                "imagePullPolicy": "IfNotPresent",
+                                "name": "app",
+                                "ports": [
+                                    {
+                                        "containerPort": 5000,
+                                        "protocol": "TCP"
+                                    }
+                                ],
+                                "resources": {
+                                    "limits": {
+                                        "cpu": "500m",
+                                        "memory": "2Gi"
+                                    },
+                                    "requests": {
+                                        "cpu": "100m",
+                                        "memory": "512Mi"
+                                    }
+                                },
+                                "terminationMessagePath": "/dev/termination-log",
+                                "terminationMessagePolicy": "File"
+                            }
+                        ],
+                        "dnsPolicy": "ClusterFirst",
+                        "restartPolicy": "Always",
+                        "securityContext": {}
+                    }
+                },
+                "triggers": [
+                    {
+                        "type": "ConfigChange"
+                    }
+                ]
+            }
+        },
+        {
+            "apiVersion": "v1",
+            "kind": "Service",
+            "metadata": {
+                "annotations": {
+                    "description": "Exposes and load balances the application pods"
+                },
+                "creationTimestamp": null,
+                "name": "server-service"
+            },
+            "spec": {
+                "ports": [
+                    {
+                        "name": "web",
+                        "port": 5000,
+                        "protocol": "TCP",
+                        "targetPort": 5000
+                    }
+                ],
+                "selector": {
+                    "name": "server-dc"
+                },
+                "sessionAffinity": "None",
+                "type": "ClusterIP"
+            }
+        }
+    ]
+}
