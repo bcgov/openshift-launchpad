@@ -91,10 +91,6 @@
           "strategy": {
             "type": "Docker",
             "dockerStrategy": {
-              "from": {
-                "kind": "ImageStreamTag",
-                "name": "redhat-ubi-python-36:latest"
-              },
               "env": [
                 {
                   "name": "BUILD_LOGLEVEL",

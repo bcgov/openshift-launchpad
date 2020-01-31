@@ -99,11 +99,7 @@
                                 "name": "BUILD_LOGLEVEL",
                                 "value": "2"
                             }
-                        ],
-                        "from": {
-                            "kind": "ImageStreamTag",
-                            "name": "redhat-ubi-python-36:latest"
-                        }
+                        ]
                     },
                     "type": "Docker"
                 },
