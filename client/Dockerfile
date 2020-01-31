@@ -1,4 +1,6 @@
-FROM node:10-alpine
+FROM registry.access.redhat.com/ubi8/nodejs-10:latest
+
+USER root
 
 # Create working directory
 RUN mkdir /opt/client

@@ -1,0 +1,121 @@
+{
+    "kind": "Template",
+    "apiVersion": "v1",
+    "metadata": {
+      "name": "client-build-config",
+      "creationTimestamp": null
+    },
+    "parameters": [],
+    "objects": [
+      {
+        "kind": "ImageStream",
+        "apiVersion": "v1",
+        "metadata": {
+          "name": "redhat-ubi-node-10",
+          "annotations": {
+            "description": "Node Base Image"
+          },
+          "labels": {
+            "shared": "true",
+            "application": "node-base-image"
+          }
+        },
+        "spec": {
+          "lookupPolicy": {
+            "local": false
+          },
+          "tags": [
+            {
+              "name": "latest",
+              "annotations": null,
+              "from": {
+                "kind": "DockerImage",
+                "name": "registry.access.redhat.com/ubi8/nodejs-10:latest"
+              },
+              "importPolicy": {},
+              "referencePolicy": {
+                "type": "Local"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "kind": "ImageStream",
+        "apiVersion": "v1",
+        "metadata": {
+          "name": "client-application-image",
+          "labels": {
+            "shared": "true"
+          },
+          "annotations": {
+            "description": "Keeps track of changes in the application image"
+          }
+        },
+        "spec": {
+          "lookupPolicy": {
+            "local": false
+          },
+          "tags": []
+        }
+      },
+      {
+        "kind": "BuildConfig",
+        "apiVersion": "v1",
+        "metadata": {
+          "name": "client-bc",
+          "creationTimestamp": null,
+          "annotations": {
+            "description": "Defines how to build the application"
+          }
+        },
+        "spec": {
+          "completionDeadlineSeconds": 600,
+          "triggers": [
+            {
+              "type": "ImageChange"
+            },
+            {
+              "type": "ConfigChange"
+            }
+          ],
+          "runPolicy": "SerialLatestOnly",
+          "source": {
+            "type": "Git",
+            "git": {
+              "uri": "https://github.com/bcgov/openshift-launchpad",
+              "ref": "origin/deployment"
+            },
+            "contextDir": "client"
+          },
+          "strategy": {
+            "type": "Docker",
+            "dockerStrategy": {
+              "env": [
+                {
+                  "name": "BUILD_LOGLEVEL",
+                  "value": "2"
+                }
+              ]
+            }
+          },
+          "output": {
+            "to": {
+              "kind": "ImageStreamTag",
+              "name": "client-application-image:latest"
+            }
+          },
+          "resources": {
+            "limits": {
+              "cpu": "500m",
+              "memory": "3Gi"
+            },
+            "requests": {
+              "cpu": "100m",
+              "memory": "2Gi"
+            }
+          }
+        }
+      }
+    ]
+  }
