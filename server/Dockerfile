@@ -9,10 +9,7 @@ WORKDIR /opt/server
 
 # Add and install requirements
 COPY requirements.txt .
-RUN source /opt/app-root/etc/scl_enable && \
-    set -x && \
-    pip install -U pip setuptools wheel && \
-    cd /opt/server && pip install -r requirements.txt
+RUN pip install --no-cache-dir -r requirements.txt
 
 # Add rest of files
 COPY . .
