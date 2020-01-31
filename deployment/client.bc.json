@@ -11,39 +11,6 @@
         "kind": "ImageStream",
         "apiVersion": "v1",
         "metadata": {
-          "name": "redhat-ubi-node-10",
-          "annotations": {
-            "description": "Node Base Image"
-          },
-          "labels": {
-            "shared": "true",
-            "application": "node-base-image"
-          }
-        },
-        "spec": {
-          "lookupPolicy": {
-            "local": false
-          },
-          "tags": [
-            {
-              "name": "latest",
-              "annotations": null,
-              "from": {
-                "kind": "DockerImage",
-                "name": "registry.access.redhat.com/ubi8/nodejs-10:latest"
-              },
-              "importPolicy": {},
-              "referencePolicy": {
-                "type": "Local"
-              }
-            }
-          ]
-        }
-      },
-      {
-        "kind": "ImageStream",
-        "apiVersion": "v1",
-        "metadata": {
           "name": "client-application-image",
           "labels": {
             "shared": "true"
