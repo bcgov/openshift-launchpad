@@ -15,6 +15,9 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Add rest of files
 COPY . .
 
+# add user
+RUN useradd --create-home -s /bin/bash -g www-data -G sudo -u 1000 dev
+
 # Run server
 EXPOSE 5000
 CMD python manage.py run -h 0.0.0.0

@@ -48,6 +48,8 @@ Please refer to [Makefile](Makefile) for a list of all commands. Some of the mos
 
 `make restart` : Stops the app, rebuilds the images and restarts the app.
 
+`make db-upgrade` : Run database migrations 
+
 
 NOTE: If you're having any unexpected issues, it's best to run `make rebuild` to cleanup and rebuild containers from scratch.
 
