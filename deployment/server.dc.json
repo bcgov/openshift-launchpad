@@ -1,23 +1,24 @@
 {
     "kind": "Template",
     "apiVersion": "v1",
-    "metadata": {
-      "name": "server-dc",
-      "creationTimestamp": null
+    "labels": {
+      "template": "openshift-launchpad"
     },
-    "parameters": [],
+    "metadata": {
+      "name": "server-dc"
+    },
+    "parameters": [
+      {
+        "name": "NAMESPACE",
+        "required": true
+      }
+    ],
     "objects": [
       {
         "kind": "DeploymentConfig",
         "apiVersion": "v1",
         "metadata": {
-          "name": "server-dc",
-          "annotations": {
-            "description": "Defines how to deploy the application server"
-          },
-          "labels": {
-            "shared": "true"
-          }
+          "name": "server-dc"
         },
         "spec": {
           "strategy": {
@@ -44,7 +45,7 @@
               "containers": [
                 {
                   "name": "app",
-                  "image": "docker-registry.default.svc:5000/apdwlc-tools/server-application-image:latest",
+                  "image": "docker-registry.default.svc:5000/${NAMESPACE}/server-application-image:latest",
                   "ports": [
                     {
                       "containerPort": 5000,
@@ -78,11 +79,7 @@
         "kind": "Service",
         "apiVersion": "v1",
         "metadata": {
-          "name": "server-service",
-          "creationTimestamp": null,
-          "annotations": {
-            "description": "Exposes and load balances the application pods"
-          }
+          "name": "server-service"
         },
         "spec": {
           "ports": [

@@ -20,12 +20,15 @@ clean:
 	@docker-compose rm -f -v -s
 	@docker volume rm -f openshift-launchpad_postgres-data
 
-db-upgrade:
-	@echo "+\n++ Running database migrations ... \n+"
-	@docker-compose restart server-migrate
+openshift-server-build:
+	@echo "+\n++ Creating OpenShift build config and image stream...\n+"
+	@oc process -f deployment/server.bc.json | oc create --validate -f -
 
-# Lint server
-# Ensure postgres utils are in path `which pg_config`
-# Install linting & other deps `pip install pylint pylint_flask pylint_flask_sqlalchemy`
-pylint:
-	pylint --rcfile=server/.pylintrc server
+openshift-server-deploy:
+	test -n "$(NAMESPACE)" # Please provide a namespace via NAMESPACE=mynamespace
+	@echo "+\n++ Creating OpenShift deployment config, services, and routes...\n+"
+	@oc process -f deployment/server.dc.json -p NAMESPACE=$(NAMESPACE) | oc create --validate -f -
+
+openshift-server-clean:
+	@echo "+\n++ Tearing down OpenShift objects created from templates...\n+"
+	@oc delete all -l template=openshift-launchpad
