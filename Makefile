@@ -27,3 +27,10 @@ clean:
 db-upgrade:
 	@echo "+\n++ Running database migrations ... \n+"
 	@docker-compose restart server-migrate
+	
+## run pylint on the package and tests
+pylint:
+	pylint --rcfile=server/setup.cfg \
+	 --load-plugins=pylint_flask \
+	 --disable=C0301,W0511 \
+	 server
