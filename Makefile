@@ -29,8 +29,7 @@ db-upgrade:
 	@docker-compose restart server-migrate
 	
 ## run pylint on the package and tests
+## need to pip install pylint_flask
+## need to pip install pylint_flask_sqlalchemy
 pylint:
-	pylint --rcfile=server/setup.cfg \
-	 --load-plugins=pylint_flask \
-	 --disable=C0301,W0511 \
-	 server
+	pylint --rcfile=server/.pylintrc server

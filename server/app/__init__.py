@@ -3,12 +3,11 @@ from flask import Flask, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
 from flask_migrate import Migrate
+from app.api.models.db import DB
+from app.api.blueprints.foo import FOO_BLUEPRINT
 
-# Instantiate the database
-db = SQLAlchemy()
 
-
-def create_app(script_info=None):
+def create_app():
     # Instantiate the app
     app = Flask(__name__)
 
@@ -19,19 +18,12 @@ def create_app(script_info=None):
     app.config.from_object('app.config.Config')
 
     # Set up extensions
-    db.init_app(app)
+    DB.init_app(app)
 
     # instantiate Migrate
     migrate = Migrate(app, db)
 
-    # Register blueprints
-    from app.api.blueprints.foo import foo_blueprint
-    app.register_blueprint(foo_blueprint)
-    # ADD OTHER BLUEPRINTS AS NEW RESOURCES ARE NEEDED
-
-    # Shell context for flask cli
-    @app.shell_context_processor
-    def ctx():
-        return {'app': app, 'db': db}
+    # Register blueprints (add more as needed)
+    app.register_blueprint(FOO_BLUEPRINT)
 
     return app

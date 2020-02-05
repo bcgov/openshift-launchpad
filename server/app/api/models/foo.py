@@ -1,10 +1,12 @@
-from app import db
+# pylint: disable=blacklisted-name; delete or rename Foo entity
+# pylint: disable=too-few-public-methods; a real entity would have more
 
+from .db import DB
 
-class Foo(db.Model):
+class Foo(DB.Model):
     __tablename__ = 'foo'
-    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    string_field = db.Column(db.String(128), nullable=False)
+    id = DB.Column(DB.Integer, primary_key=True, autoincrement=True)
+    string_field = DB.Column(DB.String(128), nullable=False)
 
     def __init__(self, string_field):
         self.string_field = string_field
@@ -14,3 +16,4 @@ class Foo(db.Model):
             'id': self.id,
             'string_field': self.string_field,
         }
+
