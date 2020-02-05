@@ -2,6 +2,7 @@ import os
 from flask import Flask, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
+from flask_migrate import Migrate
 
 # Instantiate the database
 db = SQLAlchemy()
@@ -19,6 +20,9 @@ def create_app(script_info=None):
 
     # Set up extensions
     db.init_app(app)
+
+    # instantiate Migrate
+    migrate = Migrate(app, db)
 
     # Register blueprints
     from app.api.blueprints.foo import foo_blueprint
