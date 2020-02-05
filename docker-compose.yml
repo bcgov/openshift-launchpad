@@ -62,7 +62,7 @@ services:
     container_name: server-migrate
     build:
       context: server
-    command: python manage.py create-db
+    command: flask db upgrade
     volumes:
       - "./server:/opt/server/"
     environment:
