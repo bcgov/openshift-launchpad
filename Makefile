@@ -18,12 +18,12 @@ stop:
 	@echo "+\n++ Stopping client and server ...\n+"
 	@docker-compose down
 
-db-seed:
-	@echo "+\n++ Seeding database ...\n+"
-	@docker-compose run server python manage.py seed-db
-
 clean:
-	@echo "+\n++ Removing containers, images, volumes etc..."
+	@echo "+\n++ Removing containers, images, volumes etc ..."
 	@echo "+\n++ Note: does not clear image cache \n+"
 	@docker-compose rm -f -v -s
 	@docker volume rm -f openshift-launchpad_postgres-data
+
+db-upgrade:
+	@echo "+\n++ Running database migrations ... \n+"
+	@docker-compose restart server-migrate
