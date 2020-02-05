@@ -19,11 +19,11 @@ stop:
 	@docker-compose down
 
 clean:
-	@echo "+\n++ Removing containers, images, volumes etc..."
+	@echo "+\n++ Removing containers, images, volumes etc ..."
 	@echo "+\n++ Note: does not clear image cache \n+"
 	@docker-compose rm -f -v -s
 	@docker volume rm -f openshift-launchpad_postgres-data
 
 db-upgrade:
-	@echo "+\n++ Running database migrations \n+"
+	@echo "+\n++ Running database migrations ... \n+"
 	@docker-compose restart server-migrate

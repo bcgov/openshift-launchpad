@@ -36,11 +36,11 @@ The project uses Make commands listed in the [Makefile](Makefile) for ease of de
 
 Please refer to [Makefile](Makefile) for a list of all commands. Some of the most common ones are listed as follows:
 
-`make run` : Launches the application using docker (Builds the images if they haven't been built before)
+`make run` : Launches the application using docker (Builds the images if they haven't been built before).
 
-`make run-server` : Launches the server using docker (Builds the images if they haven't been built before)
+`make run-server` : Launches the server using docker (Builds the images if they haven't been built before).
 
-`make stop` : Stops any running containers
+`make stop` : Stops any running containers.
 
 `make build` : (Re-)Builds container images listed in the docker-compose.
 
@@ -48,7 +48,7 @@ Please refer to [Makefile](Makefile) for a list of all commands. Some of the mos
 
 `make restart` : Stops the app, rebuilds the images and restarts the app.
 
-`make db-upgrade` : Run database migrations 
+`make db-upgrade` : Run database migrations.
 
 
 NOTE: If you're having any unexpected issues, it's best to run `make rebuild` to cleanup and rebuild containers from scratch.
