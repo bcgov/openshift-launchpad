@@ -1,14 +1,12 @@
+# pylint: disable=too-few-public-methods; just a config object
 import os
 
+DB_URL_ENV_VAR_NAME = 'DATABASE_URL'
+DB_URL_DEFAULT = 'postgres://admin:password@database:5432/sample_db'
+
 class Config:
+
     SQLALCHEMY_TRACK_MODIFICATIONS = False
-    SQLALCHEMY_DATABASE_URI = os.environ.get(get_db_url_env_name(), get_db_url_default_value())
+    SQLALCHEMY_DATABASE_URI = os.environ.get(DB_URL_ENV_VAR_NAME,
+                                             DB_URL_DEFAULT)
     SECRET_KEY = 'temp'
-
-    @staticmethod
-    def get_db_url_env_name():
-        return 'DATABASE_URL'
-
-    @staticmethod
-    def get_db_url_default_value():
-        return 'postgres://admin:password@database:5432/sample_db'

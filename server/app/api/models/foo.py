@@ -1,5 +1,4 @@
 # pylint: disable=blacklisted-name; delete or rename Foo entity
-# pylint: disable=too-few-public-methods; a real entity would have more
 
 from .db import DB
 
@@ -17,3 +16,26 @@ class Foo(DB.Model):
             'string_field': self.string_field,
         }
 
+    def save(self):
+        DB.session.add(self)
+        DB.session.commit()
+
+    def delete(self):
+        DB.session.delete(self)
+        DB.session.commit()
+
+    @staticmethod
+    def update():
+        DB.session.commit()
+
+    @staticmethod
+    def find_all():
+        return Foo.query.all()
+
+    @staticmethod
+    def find_all_by_string_field(string_field):
+        return Foo.query.filter_by(string_field=string_field).all()
+
+    @staticmethod
+    def find_by_id(foo_id):
+        return Foo.query.filter_by(id=foo_id).first()

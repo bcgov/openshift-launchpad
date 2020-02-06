@@ -1,6 +1,5 @@
 # pylint: disable=blacklisted-name; delete Foo entity
 from flask import Blueprint, jsonify, request
-from app.api.models.db import DB
 from app.api.models.foo import Foo
 
 
@@ -15,15 +14,14 @@ def post():
     string_field = post_data.get('string_field')
 
     # Validate request data
-    if len(Foo.query.filter_by(string_field=string_field).all()) > 0:
+    if len(Foo.find_all_by_string_field(string_field)) > 0:
         response_object = {
             'errors': [f'String "{string_field}" already exists']
         }
         return jsonify(response_object), 400
 
     record = Foo(string_field=string_field)
-    DB.session.add(record)
-    DB.session.commit()
+    record.save()
 
     return jsonify(record.to_json()), 201
 
@@ -31,14 +29,14 @@ def post():
 @FOO_BLUEPRINT.route('/api/foo', methods=['GET'], strict_slashes=False)
 def get_all():
     response_object = {
-        'records': [foos.to_json() for foos in Foo.query.all()]
+        'records': [foos.to_json() for foos in Foo.find_all()]
     }
     return jsonify(response_object), 200
 
 
 @FOO_BLUEPRINT.route('/api/foo/<int:foo_id>', methods=['GET'], strict_slashes=False)
 def get(foo_id):
-    record = Foo.query.filter_by(id=foo_id).first()
+    record = Foo.find_by_id(foo_id)
     if not record:
         return jsonify({
             'errors': [f'No record with id={foo_id} found.']
@@ -55,7 +53,7 @@ def put(foo_id):
     new_string_field = put_data.get('string_field')
 
     # Validate request data
-    record = Foo.query.filter_by(id=foo_id).first()
+    record = Foo.find_by_id(foo_id)
     if not record:
         response_object = {
             'errors': [f'No record with id={foo_id} found.']
@@ -69,7 +67,7 @@ def put(foo_id):
         return jsonify(response_object), 400
 
     record.string_field = new_string_field
-    DB.session.commit()
+    record.update()
 
     return jsonify(record.to_json()), 200
 
@@ -84,7 +82,6 @@ def delete(foo_id):
         }
         return jsonify(response_object), 404
 
-    DB.session.delete(record)
-    DB.session.commit()
+    record.delete()
 
     return jsonify({}), 200
