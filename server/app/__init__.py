@@ -37,7 +37,7 @@ def create_app():
     DB.init_app(app)
 
     # instantiate Migrate
-    migrate = Migrate(app, db)
+    Migrate(app, DB)
 
     # Register blueprints (add more as needed)
     app.register_blueprint(FOO_BLUEPRINT)
