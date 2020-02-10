@@ -1,14 +1,25 @@
-import os
-from flask import Flask, jsonify
-from flask_sqlalchemy import SQLAlchemy
+"""
+Top-level package for the openshift launchpad application
+
+This is a Flask app with minimal dependencies. The purpose is to provide a clean starting template
+without any tech debt that can be run on OpenShift. The app provides http endpoints for a REST web
+service that connects to a PostgreSQL database. Database versioning if provided and demonstrated
+using Flask Migrate.
+
+Not included in this version: authorization, automated testing, CI/CD entity versioning (alembic),
+paging of large resource lists, etc.
+
+"""
+
+from flask import Flask
 from flask_cors import CORS
 from flask_migrate import Migrate
+from app.api.models.db import DB
+from app.api.blueprints.foo import FOO_BLUEPRINT
 
-# Instantiate the database
-db = SQLAlchemy()
 
-
-def create_app(script_info=None):
+def create_app():
+    '''Initializes the Flask application including extensions (like SQLAlchemy).'''
     # Instantiate the app
     app = Flask(__name__)
 
@@ -16,22 +27,17 @@ def create_app(script_info=None):
     CORS(app)
 
     # Get config
+    # Resist the urge to put conditional logic here for environments
+    # -- use environment variables at the container level instead.
     app.config.from_object('app.config.Config')
 
     # Set up extensions
-    db.init_app(app)
+    DB.init_app(app)
 
     # instantiate Migrate
-    migrate = Migrate(app, db)
+    Migrate(app, DB)
 
-    # Register blueprints
-    from app.api.blueprints.foo import foo_blueprint
-    app.register_blueprint(foo_blueprint)
-    # ADD OTHER BLUEPRINTS AS NEW RESOURCES ARE NEEDED
-
-    # Shell context for flask cli
-    @app.shell_context_processor
-    def ctx():
-        return {'app': app, 'db': db}
+    # Register blueprints (add more as needed)
+    app.register_blueprint(FOO_BLUEPRINT)
 
     return app
