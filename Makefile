@@ -28,8 +28,8 @@ db-upgrade:
 	@echo "+\n++ Running database migrations ... \n+"
 	@docker-compose restart server-migrate
 	
-## run pylint on the package and tests
-## need to pip install pylint_flask
-## need to pip install pylint_flask_sqlalchemy
+# Lint server
+# Ensure postgres utils are in path `which pg_config`
+# Install linting & other deps `pip install pylint pylint_flask pylint_flask_sqlalchemy`
 pylint:
 	pylint --rcfile=server/.pylintrc server

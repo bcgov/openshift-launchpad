@@ -11,9 +11,7 @@ paging of large resource lists, etc.
 
 """
 
-import os
-from flask import Flask, jsonify
-from flask_sqlalchemy import SQLAlchemy
+from flask import Flask
 from flask_cors import CORS
 from flask_migrate import Migrate
 from app.api.models.db import DB
