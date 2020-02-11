@@ -1,88 +1,65 @@
 {
-    "kind": "Template",
-    "apiVersion": "v1",
-    "metadata": {
-      "name": "client-build-config",
-      "creationTimestamp": null
+  "apiVersion": "v1",
+  "kind": "Template",
+  "labels": {
+    "app": "openshift-launchpad",
+    "template": "openshift-launchpad"
+  },
+  "metadata": {
+    "annotations": {
+      "description": "An example Node.js application with no database. For more information about using this template, including OpenShift considerations, see https://github.com/sclorg/nodejs-ex/blob/master/README.md."
     },
-    "parameters": [],
-    "objects": [
-      {
-        "kind": "ImageStream",
-        "apiVersion": "v1",
-        "metadata": {
-          "name": "client-application-image",
-          "labels": {
-            "shared": "true"
-          },
-          "annotations": {
-            "description": "Keeps track of changes in the application image"
-          }
+    "name": "openshift-launchpad"
+  },
+  "objects": [
+    {
+      "apiVersion": "v1",
+      "kind": "ImageStream",
+      "metadata": {
+        "annotations": {
+          "description": "Keeps track of changes in the application image"
         },
-        "spec": {
-          "lookupPolicy": {
-            "local": false
-          },
-          "tags": []
-        }
-      },
-      {
-        "kind": "BuildConfig",
-        "apiVersion": "v1",
-        "metadata": {
-          "name": "client-bc",
-          "creationTimestamp": null,
-          "annotations": {
-            "description": "Defines how to build the application"
-          }
-        },
-        "spec": {
-          "completionDeadlineSeconds": 600,
-          "triggers": [
-            {
-              "type": "ImageChange"
-            },
-            {
-              "type": "ConfigChange"
-            }
-          ],
-          "runPolicy": "SerialLatestOnly",
-          "source": {
-            "type": "Git",
-            "git": {
-              "uri": "https://github.com/bcgov/openshift-launchpad",
-              "ref": "origin/deployment"
-            },
-            "contextDir": "client"
-          },
-          "strategy": {
-            "type": "Docker",
-            "dockerStrategy": {
-              "env": [
-                {
-                  "name": "BUILD_LOGLEVEL",
-                  "value": "2"
-                }
-              ]
-            }
-          },
-          "output": {
-            "to": {
-              "kind": "ImageStreamTag",
-              "name": "client-application-image:latest"
-            }
-          },
-          "resources": {
-            "limits": {
-              "cpu": "500m",
-              "memory": "3Gi"
-            },
-            "requests": {
-              "cpu": "100m",
-              "memory": "2Gi"
-            }
-          }
-        }
+        "name": "openshift-launchpad-is"
       }
-    ]
-  }
+    },
+    {
+      "apiVersion": "v1",
+      "kind": "BuildConfig",
+      "metadata": {
+        "annotations": {
+          "description": "Defines how to build the application",
+          "template.alpha.openshift.io/wait-for-ready": "true"
+        },
+        "name": "openshift-launchpad-bc"
+      },
+      "spec": {
+        "output": {
+          "to": {
+            "kind": "ImageStreamTag",
+            "name": "openshift-launchpad-is:latest"
+          }
+        },
+        "source": {
+          "contextDir": "client",
+          "git": {
+            "ref": "origin/test-deployment",
+            "uri": "https://github.com/bcgov/openshift-launchpad"
+          },
+          "type": "Git"
+        },
+        "strategy": {
+          "type": "Docker"
+        },
+        "triggers": [
+          {
+            "type": "ImageChange"
+          },
+          {
+            "type": "ConfigChange"
+          }
+        ]
+      }
+    }
+  ],
+  "parameters": []
+}
