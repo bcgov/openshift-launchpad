@@ -2,7 +2,8 @@
     "kind": "Template",
     "apiVersion": "v1",
     "labels": {
-      "template": "openshift-launchpad"
+      "app": "openshift-launchpad",
+      "template": "openshift-launchpad-server"
     },
     "metadata": {
       "name": "server-dc"
@@ -27,25 +28,38 @@
           },
           "triggers": [
             {
+              "imageChangeParams": {
+                "automatic": true,
+                "containerNames": [
+                  "openshift-launchpad-server"
+                ],
+                "from": {
+                  "kind": "ImageStreamTag",
+                  "name": "openshift-launchpad-server:latest"
+                }
+              },
+              "type": "ImageChange"
+            },
+            {
               "type": "ConfigChange"
             }
           ],
           "replicas": 1,
           "selector": {
-            "name": "server-dc"
+            "name": "openshift-launchpad-server"
           },
           "template": {
             "metadata": {
-              "name": "server-dc",
+              "name": "openshift-launchpad-server",
               "labels": {
-                "name": "server-dc"
+                "name": "openshift-launchpad-server"
               }
             },
             "spec": {
               "containers": [
                 {
-                  "name": "app",
-                  "image": "docker-registry.default.svc:5000/${NAMESPACE}/server-application-image:latest",
+                  "name": "openshift-launchpad-server",
+                  "image": " ",
                   "ports": [
                     {
                       "containerPort": 5000,
@@ -91,7 +105,7 @@
             }
           ],
           "selector": {
-            "name": "server-dc"
+            "name": "openshift-launchpad-server"
           },
           "type": "ClusterIP",
           "sessionAffinity": "None"
