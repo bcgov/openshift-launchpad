@@ -3,7 +3,7 @@
   "kind": "Template",
   "labels": {
     "app": "openshift-launchpad",
-    "template": "openshift-launchpad-client"
+    "template": "openshift-launchpad"
   },
   "metadata": {
     "annotations": {
