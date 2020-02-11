@@ -21,14 +21,16 @@ clean:
 	@docker volume rm -f openshift-launchpad_postgres-data
 
 oc-server-build:
-	test -n "$(NAMESPACE)" # Please provide a namespace via NAMESPACE=mynamespace
+	test -n "$(NAMESPACE)" # Please template param via NAMESPACE=mynamespace
 	@echo "+\n++ Creating OpenShift build config and image stream...\n+"
 	@oc process -f deployment/server.bc.json -p NAMESPACE=$(NAMESPACE) | oc create --validate -f -
 
 oc-server-deploy:
-	test -n "$(NAMESPACE)" # Please provide a namespace via NAMESPACE=mynamespace
+	test -n "$(POSTGRESQL_USER)" # Please template param via POSTGRESQL_USER=admin
+	test -n "$(POSTGRESQL_PASSWORD)" # Please template param via POSTGRESQL_PASSWORD=password
+	test -n "$(NAMESPACE)" # Please template param via NAMESPACE=myproject
 	@echo "+\n++ Creating OpenShift deployment config, services, and routes...\n+"
-	@oc process -f deployment/server.dc.json -p NAMESPACE=$(NAMESPACE) | oc create --validate -f -
+	@oc process -f deployment/server.dc.json -p NAMESPACE=$(NAMESPACE) POSTGRESQL_USER=$(POSTGRESQL_USER) POSTGRESQL_PASSWORD=$(POSTGRESQL_PASSWORD) | oc create --validate -f -
 
 oc-all-clean:
 	@echo "+\n++ Tearing down OpenShift objects created from templates...\n+"
