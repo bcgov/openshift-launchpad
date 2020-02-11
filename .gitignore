@@ -12,7 +12,8 @@ dist
 *.pyc
 *.ds_store
 .env
-.vscode
+.vscode/*
+.idea/*
 .python-version
 
 # Icon must end with two \r
