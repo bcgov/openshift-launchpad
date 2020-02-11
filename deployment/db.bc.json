@@ -2,8 +2,8 @@
     "kind": "Template",
     "apiVersion": "v1",
     "labels": {
-      "template": "openshift-launchpad",
-      "service": "db"
+      "app": "openshift-launchpad",
+      "template": "openshift-launchpad-database"
     },
     "parameters": [
       {
@@ -38,60 +38,6 @@
                 }
               }
             ]
-        }
-    },
-      {
-        "kind": "BuildConfig",
-        "apiVersion": "v1",
-        "metadata": {
-          "name": "postgresql-bc"
-        },
-        "spec": {
-          "completionDeadlineSeconds": 600,
-          "triggers": [
-            {
-              "type": "ImageChange"
-            },
-            {
-              "type": "ConfigChange"
-            }
-          ],
-          "runPolicy": "SerialLatestOnly",
-          "source": {
-            "type": "Git",
-            "git": {
-              "uri": "https://github.com/bcgov/openshift-launchpad",
-              "ref": "origin/deployment"
-            },
-            "contextDir": "database"
-          },
-          "strategy": {
-            "dockerStrategy": {
-              "from": {
-                "kind": "ImageStreamTag",
-                "name": "postgresql:10",
-                "namespace": "${NAMESPACE}"
-              }
-            },
-            "type": "Docker"
-          },
-          "output": {
-            "to": {
-              "kind": "ImageStreamTag",
-              "name": "postgresql:latest",
-              "namespace": "${NAMESPACE}"
-            }
-          },
-          "resources": {
-            "limits": {
-              "cpu": "500m",
-              "memory": "3Gi"
-            },
-            "requests": {
-              "cpu": "100m",
-              "memory": "2Gi"
-            }
-          }
         }
       }
     ]

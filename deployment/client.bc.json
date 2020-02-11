@@ -3,7 +3,7 @@
   "kind": "Template",
   "labels": {
     "app": "openshift-launchpad",
-    "template": "openshift-launchpad"
+    "template": "openshift-launchpad-client"
   },
   "metadata": {
     "annotations": {
@@ -19,7 +19,8 @@
         "annotations": {
           "description": "Keeps track of changes in the application image"
         },
-        "name": "openshift-launchpad-is"
+        "name": "openshift-launchpad-client",
+        "namespace": "${NAMESPACE}"
       }
     },
     {
@@ -30,19 +31,20 @@
           "description": "Defines how to build the application",
           "template.alpha.openshift.io/wait-for-ready": "true"
         },
-        "name": "openshift-launchpad-bc"
+        "name": "openshift-launchpad-client-bc"
       },
       "spec": {
         "output": {
           "to": {
             "kind": "ImageStreamTag",
-            "name": "openshift-launchpad-is:latest"
+            "name": "openshift-launchpad-client:latest",
+            "namespace": "${NAMESPACE}"
           }
         },
         "source": {
           "contextDir": "client",
           "git": {
-            "ref": "origin/test-deployment",
+            "ref": "origin/deployment",
             "uri": "https://github.com/bcgov/openshift-launchpad"
           },
           "type": "Git"
@@ -61,5 +63,10 @@
       }
     }
   ],
-  "parameters": []
+  "parameters": [
+    {
+      "name": "NAMESPACE",
+      "required": true
+    }
+  ]
 }
