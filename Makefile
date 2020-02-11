@@ -21,8 +21,9 @@ clean:
 	@docker volume rm -f openshift-launchpad_postgres-data
 
 oc-server-build:
+	test -n "$(NAMESPACE)" # Please provide a namespace via NAMESPACE=mynamespace
 	@echo "+\n++ Creating OpenShift build config and image stream...\n+"
-	@oc process -f deployment/server.bc.json | oc create --validate -f -
+	@oc process -f deployment/server.bc.json -p NAMESPACE=$(NAMESPACE) | oc create --validate -f -
 
 oc-server-deploy:
 	test -n "$(NAMESPACE)" # Please provide a namespace via NAMESPACE=mynamespace
