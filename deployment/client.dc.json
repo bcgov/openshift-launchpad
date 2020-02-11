@@ -3,7 +3,7 @@
   "kind": "Template",
   "labels": {
     "app": "openshift-launchpad",
-    "template": "openshift-launchpad"
+    "template": "openshift-launchpad-client"
   },
   "metadata": {
     "annotations": {
@@ -19,7 +19,7 @@
         "annotations": {
           "description": "Exposes and load balances the application pods"
         },
-        "name": "openshift-launchpad-service"
+        "name": "openshift-launchpad-client-service"
       },
       "spec": {
         "ports": [
@@ -30,7 +30,7 @@
           }
         ],
         "selector": {
-          "name": "openshift-launchpad-dc"
+          "name": "openshift-launchpad-client-dc"
         }
       }
     },
@@ -38,13 +38,13 @@
       "apiVersion": "v1",
       "kind": "Route",
       "metadata": {
-        "name": "openshift-launchpad-route"
+        "name": "openshift-launchpad-client-route"
       },
       "spec": {
         "host": "",
         "to": {
           "kind": "Service",
-          "name": "openshift-launchpad-service"
+          "name": "openshift-launchpad-client-service"
         }
       }
     },
@@ -56,12 +56,12 @@
           "description": "Defines how to deploy the application server",
           "template.alpha.openshift.io/wait-for-ready": "true"
         },
-        "name": "openshift-launchpad-dc"
+        "name": "openshift-launchpad-client-dc"
       },
       "spec": {
         "replicas": 1,
         "selector": {
-          "name": "openshift-launchpad-dc"
+          "name": "openshift-launchpad-client-dc"
         },
         "strategy": {
           "type": "Rolling"
@@ -69,9 +69,9 @@
         "template": {
           "metadata": {
             "labels": {
-              "name": "openshift-launchpad-dc"
+              "name": "openshift-launchpad-client-dc"
             },
-            "name": "openshift-launchpad-dc"
+            "name": "openshift-launchpad-client-dc"
           },
           "spec": {
             "containers": [
@@ -86,7 +86,7 @@
                   "initialDelaySeconds": 30,
                   "timeoutSeconds": 3
                 },
-                "name": "openshift-launchpad-app",
+                "name": "openshift-launchpad-client",
                 "ports": [
                   {
                     "containerPort": 3000
@@ -114,11 +114,12 @@
             "imageChangeParams": {
               "automatic": true,
               "containerNames": [
-                "openshift-launchpad-app"
+                "openshift-launchpad-client"
               ],
               "from": {
                 "kind": "ImageStreamTag",
-                "name": "openshift-launchpad-is:latest"
+                "name": "openshift-launchpad-client:latest",
+                "namespace": "${NAMESPACE}"
               }
             },
             "type": "ImageChange"
@@ -130,5 +131,10 @@
       }
     }
   ],
-  "parameters": []
+  "parameters": [
+    {
+      "name": "NAMESPACE",
+      "required": true
+    }
+  ]
 }

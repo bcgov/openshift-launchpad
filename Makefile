@@ -39,7 +39,7 @@ oc-server-deploy:
 
 oc-all-clean:
 	@echo "+\n++ Tearing down OpenShift objects created from templates...\n+"
-	@oc delete all -l template=openshift-launchpad
+	@oc delete all -l app=openshift-launchpad
 
 oc-db-build:
 	test -n "$(NAMESPACE)" # Please provide a namespace via NAMESPACE=myproject
@@ -57,9 +57,23 @@ oc-db-deploy:
 
 oc-db-clean:
 	@echo "+\n++ Tearing down OpenShift postgresql objects created from templates...\n+"
-	@oc delete all -l service=db
+	@oc delete all -l template=openshift-launchpad-database
 
 oc-db-storage-rm:
 	test -n "$(DATABASE_SERVICE_NAME) # database service name
 	@echo "+\n++ Remove persistant storage used by db service \n+"
 	@oc volume pvc/$(DATABASE_SERVICE_NAME) --remove
+
+oc-client-build:
+	test -n "$(NAMESPACE)" # Please provide a namespace via NAMESPACE=myproject
+	@echo "+\n++ Creating OpenShift DB build config and image stream...\n+"
+	@oc process -f deployment/client.bc.json -p NAMESPACE=$(NAMESPACE) | oc create --validate -f -
+
+oc-client-deploy:
+	test -n "$(NAMESPACE)" # Please provide a namespace via NAMESPACE=myproject
+	@echo "+\n++ Creating OpenShift deployment config, services, and routes...\n+"
+	@oc process -f deployment/client.dc.json -p NAMESPACE=$(NAMESPACE) | oc create --validate -f -
+
+oc-client-clean:
+	@echo "+\n++ Tearing down client related OpenShift postgresql objects created from templates...\n+"
+	@oc delete all -l template=openshift-launchpad-client

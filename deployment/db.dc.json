@@ -2,8 +2,8 @@
     "apiVersion": "v1",
     "kind": "Template",
     "labels": {
-        "template": "openshift-launchpad",
-        "service": "db"
+        "app": "openshift-launchpad",
+        "template": "openshift-launchpad-database"
     },
     "message": "The following service(s) have been created in your project: ${DATABASE_SERVICE_NAME}.\n\n       Username: ${POSTGRESQL_USER}\n       Password: ${POSTGRESQL_PASSWORD}\n  Database Name: ${POSTGRESQL_DATABASE}\n Connection URL: postgresql://${DATABASE_SERVICE_NAME}:5432/\n\nFor more information about using this template, including OpenShift considerations, see https://github.com/sclorg/postgresql-container/.",
     "metadata": {
@@ -209,7 +209,7 @@
                             ],
                             "from": {
                                 "kind": "ImageStreamTag",
-                                "name": "postgresql:latest",
+                                "name": "postgresql:10",
                                 "namespace": "${NAMESPACE}"
                             }
                         },
@@ -232,14 +232,14 @@
             "description": "The OpenShift Namespace where the ImageStream resides.",
             "displayName": "Namespace",
             "name": "NAMESPACE",
-            "value": "openshift"
+            "value": "myproject"
         },
         {
             "description": "The name of the OpenShift Service exposed for the database.",
             "displayName": "Database Service Name",
             "name": "DATABASE_SERVICE_NAME",
             "required": true,
-            "value": "postgresql"
+            "value": "db-service"
         },
         {
             "description": "Username for PostgreSQL user that will be used for accessing the database.",
@@ -262,7 +262,7 @@
             "displayName": "PostgreSQL Database Name",
             "name": "POSTGRESQL_DATABASE",
             "required": true,
-            "value": "sampledb"
+            "value": "sample_db"
         },
         {
             "description": "Volume space available for data, e.g. 512Mi, 2Gi.",
