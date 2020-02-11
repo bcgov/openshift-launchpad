@@ -1,24 +1,19 @@
-FROM registry.access.redhat.com/ubi8/nodejs-10:latest
+FROM node:latest
 
-USER root
+# Set working directory
+WORKDIR /usr/src/app
 
-# Create working directory
-RUN mkdir /opt/client
-WORKDIR /opt/client
+# A wildcard is used to ensure both package.json AND package-lock.json are copied
+COPY package*.json ./
 
-# Install app dependencies
-COPY package.json package-lock.json ./
-RUN npm set progress=false && npm ci
+## Install only the packages defined in the package-lock.json (faster than the normal npm install)
+RUN npm install
 
-# Add node_module binaries on PATH
-ENV PATH /opt/client/node_modules/.bin:$PATH
-
-# Copy over source code
+# Copy the contents of the project to the image
 COPY . .
 
 # Build the source
 RUN npm run build
 
-# Run the server
 EXPOSE 3000
-CMD [ "npm", "run", "start" ]
+CMD ["npm", "run", "start"]
