@@ -1,63 +1,45 @@
-# Minimal React + Python Boilerplate
+# Openshift Launchpad
 
-## Installation and Usage
+This codebase is a wrapper for creating applications that will run on [Openshift](https://www.openshift.com/). 
+Deployment logic has been pre-configured for your convenience.
 
-This file describes how to run the project and develop against it.
-NOTE: The instructions below haven't been tested on windows. If you are using windows
-it is recommended to use WSL (Windows Subsytem for Linux).
+Estimated time to deploy the app:
+- Locally: ~2-5 min
+- Openshift: ~30 min
 
-### Starting a New Project
+Created by: [FreshWorks Studio](https://freshworks.io)
 
-This repo uses [git
-submodules](https://git-scm.com/book/en/v2/Git-Tools-Submodules). If you will
-be using this repo as a starting-point for a new project, it is recommended
-that you use the following command to setup the repo once you have cloned it.
+#### Requirements:
 
-This will:
-- Install the client submodule
-- Remove unnecessary files
-- Reinitialize the git history
-
-
-```
-$ make setup
-```
-
-**NOTE:** Do not run this command if you would like to contribute to the
-boilerplate. See the Contributing section for more details.
-
-## Requirements
-
-- Docker
+- [Docker](https://www.docker.com/)
 
 ## Getting Started
 
-The project uses Make commands listed in the [Makefile](Makefile) for ease of development.
+1. Install [Docker](https://www.docker.com/) (if you haven't already)
 
-Please refer to [Makefile](Makefile) for a list of all commands. Some of the most common ones are listed as follows:
+2. Under the root directory, run `make run` in your terminal
 
-`make run` : Launches the application using docker (Builds the images if they haven't been built before).
+3. Visit the application on the following ports/URLs:
+    - The client container exposes port 3000 and can be viewed by visiting http://localhost:3000
+    - The server container exposes port 5000 and can be viewed by visiting http://localhost:5000
+    - The database container exposes port 5432 and can be viewed by using pgAdmin.
 
-`make run-server` : Launches the server using docker (Builds the images if they haven't been built before).
+## Commands
 
-`make stop` : Stops any running containers.
+The project uses Make commands listed in the [Makefile](Makefile) for ease of development. The commands are as follows:
 
-`make build` : (Re-)Builds container images listed in the docker-compose.
+| Command         | Description                                                                                 |
+|-----------------|---------------------------------------------------------------------------------------------|
+| make build      | (Re-)Builds container images listed in the docker-compose                                   |
+| make run        | Launches the application using Docker (Builds the images if they haven't been built before) |
+| make stop       | Stops and removes any running containers                                                    |
+| make restart    | Stops the app, rebuilds the images and restarts the app                                     |
+| make clean      | Purges containers, images and volumes                                                       |
+| make db-upgrade | Run database migrations                                                                     |
 
-`make clean` : Purges containers, images and volumes.
+## Deployment
 
-`make restart` : Stops the app, rebuilds the images and restarts the app.
-
-`make db-upgrade` : Run database migrations.
-
-
-NOTE: If you're having any unexpected issues, it's best to run `make rebuild` to cleanup and rebuild containers from scratch.
-
-## Container Information
-
-- The client container exposes port 3000 and can be viewed by visiting http://localhost:3000
-- The server container exposes port 5000 and can be viewed by visiting http://localhost:5000
-- The database container exposes port 5432 and can be viewed by using pgAdmin.
+Write-up TODO
 
 ## License
 
