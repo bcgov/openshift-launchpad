@@ -2,7 +2,8 @@
     "kind": "Template",
     "apiVersion": "v1",
     "labels": {
-      "template": "openshift-launchpad"
+      "app": "openshift-launchpad",
+      "template": "openshift-launchpad-server"
     },
     "metadata": {
       "name": "server-build-config"
@@ -12,14 +13,14 @@
         "kind": "ImageStream",
         "apiVersion": "v1",
         "metadata": {
-          "name": "server-application-image"
+          "name": "openshift-launchpad-server"
         }
       },
       {
         "kind": "BuildConfig",
         "apiVersion": "v1",
         "metadata": {
-          "name": "server-bc"
+          "name": "openshift-launchpad-server"
         },
         "spec": {
           "completionDeadlineSeconds": 600,
@@ -46,7 +47,7 @@
           "output": {
             "to": {
               "kind": "ImageStreamTag",
-              "name": "server-application-image:latest"
+              "name": "openshift-launchpad-server:latest"
             }
           },
           "resources": {
