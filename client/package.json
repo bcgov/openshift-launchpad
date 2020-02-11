@@ -30,7 +30,6 @@
     "eslint-plugin-react": "^7.18.0",
     "html-webpack-plugin": "^3.2.0",
     "node-sass": "^4.13.1",
-    "pm2": "^4.2.3",
     "react-hot-loader": "^4.12.19",
     "sass-loader": "^8.0.2",
     "serve": "^11.3.0",
