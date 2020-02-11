@@ -6,15 +6,35 @@
       "template": "openshift-launchpad-server"
     },
     "metadata": {
-      "name": "server-dc"
+      "name": "openshift-launchpad-server-dc"
     },
     "parameters": [
       {
-        "name": "NAMESPACE",
-        "required": true
+        "description": "The OpenShift Namespace where the ImageStream resides.",
+        "displayName": "Namespace",
+        "required": true,
+        "name": "NAMESPACE"
       }
     ],
     "objects": [
+      {
+        "apiVersion": "v1",
+        "kind": "Route",
+        "metadata": {
+          "name": "openshift-launchpad-server"
+        },
+        "spec": {
+          "port": {
+            "targetPort": "web"
+          },
+          "to": {
+            "kind": "Service",
+            "name": "openshift-launchpad-server-service",
+            "weight": 100
+          },
+          "wildcardPolicy": "None"
+        }
+      },
       {
         "kind": "DeploymentConfig",
         "apiVersion": "v1",
@@ -35,7 +55,8 @@
                 ],
                 "from": {
                   "kind": "ImageStreamTag",
-                  "name": "openshift-launchpad-server:latest"
+                  "name": "openshift-launchpad-server:latest",
+                  "namespace": "${NAMESPACE}"
                 }
               },
               "type": "ImageChange"
@@ -93,7 +114,7 @@
         "kind": "Service",
         "apiVersion": "v1",
         "metadata": {
-          "name": "server-service"
+          "name": "openshift-launchpad-server-service"
         },
         "spec": {
           "ports": [

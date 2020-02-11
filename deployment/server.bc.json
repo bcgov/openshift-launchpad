@@ -6,8 +6,16 @@
       "template": "openshift-launchpad-server"
     },
     "metadata": {
-      "name": "server-build-config"
+      "name": "openshift-launchpad-server-bc"
     },
+    "parameters": [
+      {
+        "description": "The OpenShift Namespace where the ImageStream resides.",
+        "displayName": "Namespace",
+        "required": true,
+        "name": "NAMESPACE"
+      }
+    ],
     "objects": [
       {
         "kind": "ImageStream",
@@ -47,7 +55,8 @@
           "output": {
             "to": {
               "kind": "ImageStreamTag",
-              "name": "openshift-launchpad-server:latest"
+              "name": "openshift-launchpad-server:latest",
+              "namespace": "${NAMESPACE}"
             }
           },
           "resources": {
