@@ -44,7 +44,7 @@
         "source": {
           "contextDir": "client",
           "git": {
-            "ref": "origin/deployment",
+            "ref": "origin/deployment-v2",
             "uri": "https://github.com/bcgov/openshift-launchpad"
           },
           "type": "Git"
