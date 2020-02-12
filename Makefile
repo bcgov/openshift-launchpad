@@ -20,6 +20,10 @@ clean:
 	@docker-compose rm -f -v -s
 	@docker volume rm -f openshift-launchpad_postgres-data
 
+oc-server-clean:
+	@echo "+\n++ Tearing down OpenShift postgresql objects created from templates...\n+"
+	@oc delete all -l template=openshift-launchpad-server
+
 oc-server-build:
 	test -n "$(NAMESPACE)" # Please template param via NAMESPACE=mynamespace
 	@echo "+\n++ Creating OpenShift build config and image stream...\n+"

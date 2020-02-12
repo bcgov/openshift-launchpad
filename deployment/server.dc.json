@@ -68,7 +68,20 @@
       "spec": {
         "strategy": {
           "type": "Rolling",
-          "activeDeadlineSeconds": 21600
+          "activeDeadlineSeconds": 21600,
+          "rollingParams": {
+            "post": {
+            "execNewPod": {
+                "command": [
+                "flask",
+                "db",
+                "upgrade"
+                ],
+                "containerName": "openshift-launchpad-server"
+            },
+            "failurePolicy": "ignore"
+            }
+          }
         },
         "triggers": [
           {
