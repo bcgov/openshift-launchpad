@@ -1,75 +1,75 @@
 {
-    "kind": "Template",
-    "apiVersion": "v1",
-    "labels": {
-      "app": "openshift-launchpad",
-      "template": "openshift-launchpad-server"
-    },
-    "metadata": {
-      "name": "openshift-launchpad-server-bc"
-    },
-    "parameters": [
-      {
-        "description": "The OpenShift Namespace where the ImageStream resides.",
-        "displayName": "Namespace",
-        "required": true,
-        "name": "NAMESPACE"
+  "kind": "Template",
+  "apiVersion": "v1",
+  "labels": {
+    "app": "openshift-launchpad",
+    "template": "openshift-launchpad-server"
+  },
+  "metadata": {
+    "name": "openshift-launchpad-server-bc"
+  },
+  "parameters": [
+    {
+      "description": "The OpenShift Namespace where the ImageStream resides.",
+      "displayName": "Namespace",
+      "required": true,
+      "name": "NAMESPACE"
+    }
+  ],
+  "objects": [
+    {
+      "kind": "ImageStream",
+      "apiVersion": "v1",
+      "metadata": {
+        "name": "openshift-launchpad-server"
       }
-    ],
-    "objects": [
-      {
-        "kind": "ImageStream",
-        "apiVersion": "v1",
-        "metadata": {
-          "name": "openshift-launchpad-server"
-        }
+    },
+    {
+      "kind": "BuildConfig",
+      "apiVersion": "v1",
+      "metadata": {
+        "name": "openshift-launchpad-server"
       },
-      {
-        "kind": "BuildConfig",
-        "apiVersion": "v1",
-        "metadata": {
-          "name": "openshift-launchpad-server"
+      "spec": {
+        "completionDeadlineSeconds": 600,
+        "triggers": [
+          {
+            "type": "ImageChange"
+          },
+          {
+            "type": "ConfigChange"
+          }
+        ],
+        "runPolicy": "SerialLatestOnly",
+        "source": {
+          "type": "Git",
+          "git": {
+            "uri": "https://github.com/bcgov/openshift-launchpad",
+            "ref": "origin/deployment-v2"
+          },
+          "contextDir": "server"
         },
-        "spec": {
-          "completionDeadlineSeconds": 600,
-          "triggers": [
-            {
-              "type": "ImageChange"
-            },
-            {
-              "type": "ConfigChange"
-            }
-          ],
-          "runPolicy": "SerialLatestOnly",
-          "source": {
-            "type": "Git",
-            "git": {
-              "uri": "https://github.com/bcgov/openshift-launchpad",
-              "ref": "origin/deployment-v2"
-            },
-            "contextDir": "server"
+        "strategy": {
+          "type": "Docker"
+        },
+        "output": {
+          "to": {
+            "kind": "ImageStreamTag",
+            "name": "openshift-launchpad-server:latest",
+            "namespace": "${NAMESPACE}"
+          }
+        },
+        "resources": {
+          "limits": {
+            "cpu": "500m",
+            "memory": "3Gi"
           },
-          "strategy": {
-            "type": "Docker"
-          },
-          "output": {
-            "to": {
-              "kind": "ImageStreamTag",
-              "name": "openshift-launchpad-server:latest",
-              "namespace": "${NAMESPACE}"
-            }
-          },
-          "resources": {
-            "limits": {
-              "cpu": "500m",
-              "memory": "3Gi"
-            },
-            "requests": {
-              "cpu": "100m",
-              "memory": "2Gi"
-            }
+          "requests": {
+            "cpu": "100m",
+            "memory": "2Gi"
           }
         }
       }
-    ]
-  }
+    }
+  ]
+}

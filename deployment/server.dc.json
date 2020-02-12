@@ -1,165 +1,165 @@
 {
-    "kind": "Template",
-    "apiVersion": "v1",
-    "labels": {
-      "app": "openshift-launchpad",
-      "template": "openshift-launchpad-server"
+  "kind": "Template",
+  "apiVersion": "v1",
+  "labels": {
+    "app": "openshift-launchpad",
+    "template": "openshift-launchpad-server"
+  },
+  "metadata": {
+    "name": "openshift-launchpad-server-dc"
+  },
+  "parameters": [
+    {
+      "description": "The OpenShift Namespace where the ImageStream resides.",
+      "displayName": "Namespace",
+      "name": "NAMESPACE",
+      "required": true
     },
-    "metadata": {
-      "name": "openshift-launchpad-server-dc"
+    {
+      "description": "Username for PostgreSQL user that will be used for accessing the database.",
+      "displayName": "PostgreSQL Connection Username",
+      "name": "POSTGRESQL_USER",
+      "required": true
     },
-    "parameters": [
-      {
-        "description": "The OpenShift Namespace where the ImageStream resides.",
-        "displayName": "Namespace",
-        "name": "NAMESPACE",
-        "required": true
+    {
+      "description": "Password for the PostgreSQL connection user.",
+      "displayName": "PostgreSQL Connection Password",
+      "name": "POSTGRESQL_PASSWORD",
+      "required": true
+    },
+    {
+      "description": "The name of the OpenShift Service exposed for the database.",
+      "displayName": "Database Service Name",
+      "name": "DATABASE_SERVICE_NAME",
+      "value": "db-service"
+    },
+    {
+      "description": "Name of the PostgreSQL database accessed.",
+      "displayName": "PostgreSQL Database Name",
+      "name": "POSTGRESQL_DATABASE",
+      "value": "sample_db"
+    }
+  ],
+  "objects": [
+    {
+      "apiVersion": "v1",
+      "kind": "Route",
+      "metadata": {
+        "name": "openshift-launchpad-server"
       },
-      {
-        "description": "Username for PostgreSQL user that will be used for accessing the database.",
-        "displayName": "PostgreSQL Connection Username",
-        "name": "POSTGRESQL_USER",
-        "required": true
-      },
-      {
-        "description": "Password for the PostgreSQL connection user.",
-        "displayName": "PostgreSQL Connection Password",
-        "name": "POSTGRESQL_PASSWORD",
-        "required": true
-      },
-      {
-        "description": "The name of the OpenShift Service exposed for the database.",
-        "displayName": "Database Service Name",
-        "name": "DATABASE_SERVICE_NAME",
-        "value": "db-service"
-      },
-      {
-        "description": "Name of the PostgreSQL database accessed.",
-        "displayName": "PostgreSQL Database Name",
-        "name": "POSTGRESQL_DATABASE",
-        "value": "sample_db"
+      "spec": {
+        "port": {
+          "targetPort": "web"
+        },
+        "to": {
+          "kind": "Service",
+          "name": "openshift-launchpad-server-service",
+          "weight": 100
+        },
+        "wildcardPolicy": "None"
       }
-    ],
-    "objects": [
-      {
-        "apiVersion": "v1",
-        "kind": "Route",
-        "metadata": {
-          "name": "openshift-launchpad-server"
-        },
-        "spec": {
-          "port": {
-            "targetPort": "web"
-          },
-          "to": {
-            "kind": "Service",
-            "name": "openshift-launchpad-server-service",
-            "weight": 100
-          },
-          "wildcardPolicy": "None"
-        }
+    },
+    {
+      "kind": "DeploymentConfig",
+      "apiVersion": "v1",
+      "metadata": {
+        "name": "openshift-launchpad-server"
       },
-      {
-        "kind": "DeploymentConfig",
-        "apiVersion": "v1",
-        "metadata": {
-          "name": "openshift-launchpad-server"
+      "spec": {
+        "strategy": {
+          "type": "Rolling",
+          "activeDeadlineSeconds": 21600
         },
-        "spec": {
-          "strategy": {
-            "type": "Rolling",
-            "activeDeadlineSeconds": 21600
-          },
-          "triggers": [
-            {
-              "imageChangeParams": {
-                "automatic": true,
-                "containerNames": [
-                  "openshift-launchpad-server"
-                ],
-                "from": {
-                  "kind": "ImageStreamTag",
-                  "name": "openshift-launchpad-server:latest",
-                  "namespace": "${NAMESPACE}"
-                }
-              },
-              "type": "ImageChange"
-            },
-            {
-              "type": "ConfigChange"
-            }
-          ],
-          "replicas": 1,
-          "selector": {
-            "name": "openshift-launchpad-server"
-          },
-          "template": {
-            "metadata": {
-              "name": "openshift-launchpad-server",
-              "labels": {
-                "name": "openshift-launchpad-server"
+        "triggers": [
+          {
+            "imageChangeParams": {
+              "automatic": true,
+              "containerNames": [
+                "openshift-launchpad-server"
+              ],
+              "from": {
+                "kind": "ImageStreamTag",
+                "name": "openshift-launchpad-server:latest",
+                "namespace": "${NAMESPACE}"
               }
             },
-            "spec": {
-              "containers": [
-                {
-                  "name": "openshift-launchpad-server",
-                  "image": " ",
-                  "ports": [
-                    {
-                      "containerPort": 5000,
-                      "protocol": "TCP"
-                    }
-                  ],
-                  "env": [
-                    {
-                      "name": "DATABASE_URL",
-                      "value": "postgres://${POSTGRESQL_USER}:${POSTGRESQL_PASSWORD}@${DATABASE_SERVICE_NAME}:5432/${POSTGRESQL_DATABASE}"
-                    }
-                  ],
-                  "resources": {
-                    "limits": {
-                      "cpu": "500m",
-                      "memory": "2Gi"
-                    },
-                    "requests": {
-                      "cpu": "100m",
-                      "memory": "512Mi"
-                    }
-                  },
-                  "terminationMessagePath": "/dev/termination-log",
-                  "terminationMessagePolicy": "File",
-                  "imagePullPolicy": "IfNotPresent"
-                }
-              ],
-              "restartPolicy": "Always",
-              "dnsPolicy": "ClusterFirst",
-              "securityContext": {}
+            "type": "ImageChange"
+          },
+          {
+            "type": "ConfigChange"
+          }
+        ],
+        "replicas": 1,
+        "selector": {
+          "name": "openshift-launchpad-server"
+        },
+        "template": {
+          "metadata": {
+            "name": "openshift-launchpad-server",
+            "labels": {
+              "name": "openshift-launchpad-server"
             }
+          },
+          "spec": {
+            "containers": [
+              {
+                "name": "openshift-launchpad-server",
+                "image": " ",
+                "ports": [
+                  {
+                    "containerPort": 5000,
+                    "protocol": "TCP"
+                  }
+                ],
+                "env": [
+                  {
+                    "name": "DATABASE_URL",
+                    "value": "postgres://${POSTGRESQL_USER}:${POSTGRESQL_PASSWORD}@${DATABASE_SERVICE_NAME}:5432/${POSTGRESQL_DATABASE}"
+                  }
+                ],
+                "resources": {
+                  "limits": {
+                    "cpu": "500m",
+                    "memory": "2Gi"
+                  },
+                  "requests": {
+                    "cpu": "100m",
+                    "memory": "512Mi"
+                  }
+                },
+                "terminationMessagePath": "/dev/termination-log",
+                "terminationMessagePolicy": "File",
+                "imagePullPolicy": "IfNotPresent"
+              }
+            ],
+            "restartPolicy": "Always",
+            "dnsPolicy": "ClusterFirst",
+            "securityContext": {}
           }
         }
-      },
-      {
-        "kind": "Service",
-        "apiVersion": "v1",
-        "metadata": {
-          "name": "openshift-launchpad-server-service"
-        },
-        "spec": {
-          "ports": [
-            {
-              "name": "web",
-              "protocol": "TCP",
-              "port": 5000,
-              "targetPort": 5000
-            }
-          ],
-          "selector": {
-            "name": "openshift-launchpad-server"
-          },
-          "type": "ClusterIP",
-          "sessionAffinity": "None"
-        }
       }
-    ]
-  }
+    },
+    {
+      "kind": "Service",
+      "apiVersion": "v1",
+      "metadata": {
+        "name": "openshift-launchpad-server-service"
+      },
+      "spec": {
+        "ports": [
+          {
+            "name": "web",
+            "protocol": "TCP",
+            "port": 5000,
+            "targetPort": 5000
+          }
+        ],
+        "selector": {
+          "name": "openshift-launchpad-server"
+        },
+        "type": "ClusterIP",
+        "sessionAffinity": "None"
+      }
+    }
+  ]
+}
