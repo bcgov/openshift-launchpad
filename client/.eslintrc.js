@@ -1,29 +1,29 @@
-const path = require("path");
+const path = require('path');
 
 module.exports = {
-  parser: "babel-eslint",
+  parser: 'babel-eslint',
   root: true,
   env: {
     node: true,
     browser: true,
   },
   extends: [
-    "eslint:recommended",
-    "plugin:react/recommended",
-    "airbnb-base",
+    'eslint:recommended',
+    'plugin:react/recommended',
+    'airbnb-base',
   ],
   parserOptions: {},
   settings: {
     react: {
-      version: "detect",
+      version: 'detect',
     },
-    "import/resolver": {
+    'import/resolver': {
       alias: {
-        map: [["@", path.join(__dirname, "src")]],
+        map: [['@', path.join(__dirname, 'src')]],
       },
     },
   },
   rules: {
-    "react/prop-types": 0,
+    'react/prop-types': 0,
   },
 };
