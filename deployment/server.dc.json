@@ -38,6 +38,12 @@
       "displayName": "PostgreSQL Database Name",
       "name": "POSTGRESQL_DATABASE",
       "value": "sample_db"
+    },
+    {
+      "description": "Minishift cluster IP address",
+      "displayName": "Cluster IP",
+      "name": "CLUSTER_IP",
+      "required": true
     }
   ],
   "objects": [
@@ -48,6 +54,7 @@
         "name": "openshift-launchpad-server"
       },
       "spec": {
+        "host": "server.${CLUSTER_IP}.nip.io",
         "port": {
           "targetPort": "web"
         },

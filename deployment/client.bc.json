@@ -65,7 +65,15 @@
   ],
   "parameters": [
     {
+      "description": "The OpenShift Namespace where the ImageStream resides.",
+      "displayName": "Namespace",
       "name": "NAMESPACE",
+      "required": true
+    },
+    {
+      "description": "Minishift cluster IP address",
+      "displayName": "Cluster IP",
+      "name": "CLUSTER_IP",
       "required": true
     }
   ]

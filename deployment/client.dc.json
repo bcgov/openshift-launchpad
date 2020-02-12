@@ -41,7 +41,7 @@
         "name": "openshift-launchpad-client-route"
       },
       "spec": {
-        "host": "",
+        "host": "client.${CLUSTER_IP}.nip.io",
         "to": {
           "kind": "Service",
           "name": "openshift-launchpad-client-service"
@@ -133,7 +133,15 @@
   ],
   "parameters": [
     {
+      "description": "The OpenShift Namespace where the ImageStream resides.",
+      "displayName": "Namespace",
       "name": "NAMESPACE",
+      "required": true
+    },
+    {
+      "description": "Minishift cluster IP address",
+      "displayName": "Cluster IP",
+      "name": "CLUSTER_IP",
       "required": true
     }
   ]
