@@ -69,12 +69,6 @@
       "displayName": "Namespace",
       "name": "NAMESPACE",
       "required": true
-    },
-    {
-      "description": "Minishift cluster IP address",
-      "displayName": "Cluster IP",
-      "name": "CLUSTER_IP",
-      "required": true
     }
   ]
 }

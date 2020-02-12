@@ -9,7 +9,7 @@ const PORT = process.env.PORT || 3000;
 
 const env = dotenv.config().parsed || {};
 
-const API_URL = env.API_URL || 'http://localhost:5000/api';
+const API_URL = env.API_URL || 'http://openshift-launchpad-server-apdwlc-tools.pathfinder.gov.bc.ca/api';
 
 const ENVIRONMENT_VARIABLES = {
   'process.env.API_URL': JSON.stringify(API_URL),

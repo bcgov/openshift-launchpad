@@ -66,12 +66,12 @@ oc-db-storage-rm:
 oc-client-build:
 	test -n "$(NAMESPACE)" # Please provide a namespace via NAMESPACE=myproject
 	@echo "+\n++ Creating OpenShift DB build config and image stream...\n+"
-	@oc process -f deployment/client.bc.json -p NAMESPACE=$(NAMESPACE) CLUSTER_IP=$(shell minishift ip) | oc create -f -
+	@oc process -f deployment/client.bc.json -p NAMESPACE=$(NAMESPACE) | oc create -f -
 
 oc-client-deploy:
 	test -n "$(NAMESPACE)" # Please provide a namespace via NAMESPACE=myproject
 	@echo "+\n++ Creating OpenShift deployment config, services, and routes...\n+"
-	@oc process -f deployment/client.dc.json -p NAMESPACE=$(NAMESPACE) CLUSTER_IP=$(shell minishift ip) | oc create -f -
+	@oc process -f deployment/client.dc.json -p NAMESPACE=$(NAMESPACE) | oc create -f -
 
 oc-client-clean:
 	@echo "+\n++ Tearing down client related OpenShift postgresql objects created from templates...\n+"
