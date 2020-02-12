@@ -8,8 +8,7 @@
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "serve": "webpack-dev-server --config-name=dev",
-    "start": "serve -p 3000 -s dist",
-    "start:fresh": "npm run build && npm run start" 
+    "start": "serve -p 3000 -s dist"
   },
   "keywords": [],
   "author": "",

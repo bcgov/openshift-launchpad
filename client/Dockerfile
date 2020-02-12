@@ -12,5 +12,8 @@ RUN npm install
 # Copy the contents of the project to the image
 COPY . .
 
+# Build the source
+RUN npm run build
+
 EXPOSE 3000
-CMD ["npm", "run", "start:fresh"]
+CMD ["npm", "run", "start"]
