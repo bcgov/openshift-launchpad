@@ -44,8 +44,8 @@
         "source": {
           "contextDir": "client",
           "git": {
-            "ref": "origin/deployment",
-            "uri": "https://github.com/bcgov/openshift-launchpad"
+            "ref": "${BRANCH_NAME}",
+            "uri": "${REPO_URL}"
           },
           "type": "Git"
         },
@@ -66,6 +66,14 @@
   "parameters": [
     {
       "name": "NAMESPACE",
+      "required": true
+    },
+    {
+      "name": "REPO_URL",
+      "required": true
+    },
+    {
+      "name": "BRANCH_NAME",
       "required": true
     }
   ]
