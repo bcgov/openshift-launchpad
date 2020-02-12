@@ -1,9 +1,9 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+
 import Axios from '@/apiClient/Axios';
 
-// Example stateful component
-export default class AboutUs extends React.Component {
+class AboutUs extends React.Component {
   state = { isLoading: true };
 
   componentDidMount() {
@@ -44,3 +44,5 @@ export default class AboutUs extends React.Component {
     );
   }
 }
+
+export default AboutUs;
