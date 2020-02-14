@@ -55,7 +55,7 @@
             "env": [
               {
                 "name": "API_URL",
-                "value": "http://openshift-launchpad-server-launchpad.192.168.64.4.nip.io/api"
+                "value": "${API_URL}/api"
               }
             ]
           }
@@ -76,6 +76,12 @@
       "description": "The OpenShift Namespace where the ImageStream resides.",
       "displayName": "Namespace",
       "name": "NAMESPACE",
+      "required": true
+    },
+    {
+      "description": "Base URL of deployed API. Will be suffixed with `/api`.",
+      "displayName": "API Base URL",
+      "name": "API_URL",
       "required": true
     }
   ]

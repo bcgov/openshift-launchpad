@@ -58,8 +58,9 @@ deploy-database:
 
 deploy-client:
 	test -n "$(NAMESPACE)" # Please provide a namespace via NAMESPACE=myproject
+	test -n "$(API_URL)" # Please provide a base API URL via API_URL=myproject
 	@echo "+\n++ Creating OpenShift client build config and image stream...\n+"
-	@oc process -f deployment/client.bc.json -p NAMESPACE=$(NAMESPACE) | oc create -f -
+	@oc process -f deployment/client.bc.json -p NAMESPACE=$(NAMESPACE) API_URL=$(API_URL) | oc create -f -
 	@echo "+\n++ Creating OpenShift client deployment config, services, and routes...\n+"
 	@oc process -f deployment/client.dc.json -p NAMESPACE=$(NAMESPACE) | oc create -f -
 
