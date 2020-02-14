@@ -46,7 +46,7 @@ The project uses Make commands listed in the [Makefile](Makefile) for ease of de
 |-----------------|---------------------------------------------------------------------------------------------|
 | make build      | (Re-)Builds container images listed in the docker-compose                                   |
 | make run        | Launches the application using Docker (Builds the images if they haven't been built before) |
-| make stop       | Stops and removes any running containers                                                    |
+| make close      | Stops and removes any running containers                                                    |
 | make restart    | Stops the app, rebuilds the images and restarts the app                                     |
 | make clean      | Purges containers, images and volumes                                                       |
 | make db-upgrade | Run database migrations                                                                     |
