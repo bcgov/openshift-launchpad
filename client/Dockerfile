@@ -1,7 +1,7 @@
 FROM node:10
 
 # Set working directory
-WORKDIR /usr/src/app
+WORKDIR /opt/client
 
 # A wildcard is used to ensure both package.json AND package-lock.json are copied
 COPY package*.json ./
