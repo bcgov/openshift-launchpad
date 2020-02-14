@@ -11,6 +11,7 @@ services:
     environment:
       HOST: 0.0.0.0
       PORT: 3000
+      API_URL: http://localhost:5000/api
     volumes:
       - "./client:/opt/client"
       - "/opt/client/node_modules"

@@ -42,7 +42,7 @@ module.exports = [
         template: './src/index.html',
       }),
       new webpack.HotModuleReplacementPlugin(),
-      new webpack.EnvironmentPlugin({API_URL: 'http://localhost:5000'}),
+      new webpack.EnvironmentPlugin({API_URL: 'http://localhost:5000/api'}),
     ],
     devServer: {
       contentBase: './dist',
@@ -88,7 +88,7 @@ module.exports = [
         title: 'Basic React App',
         template: './src/index.html',
       }),
-      new webpack.EnvironmentPlugin({API_URL: 'http://localhost:5000'}),
+      new webpack.EnvironmentPlugin({API_URL: 'http://localhost:5000/api'}),
     ],
   },
 ];
