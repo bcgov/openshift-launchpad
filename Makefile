@@ -4,25 +4,34 @@
 # Development commands
 ##############################################################################
 
-restart: stop build run
-
-build:
-	@echo "+\n++ Building images ...\n+"
-	@docker-compose build
+restart: close build run
 
 run:
-	@echo "+\n++ Running client and server ...\n+"
+	@echo "+\n++ Running client and server...\n+"
 	@docker-compose up -d
 
-stop:
-	@echo "+\n++ Stopping client and server ...\n+"
+close:
+	@echo "+\n++ Stopping client and server...\n+"
 	@docker-compose down
 
+build:
+	@echo "+\n++ Building images...\n+"
+	@docker-compose build
+
 clean:
-	@echo "+\n++ Removing containers, images, volumes etc ..."
-	@echo "+\n++ Note: does not clear image cache \n+"
+	@echo "+\n++ Removing containers, images, volumes etc...\n+"
+	@echo "+\n++ Note: does not clear image cache. \n+"
 	@docker-compose rm -f -v -s
 	@docker volume rm -f openshift-launchpad_postgres-data
+
+client-test:
+	@echo "+\n++ Running client unit tests...\n+"
+	@docker-compose run client npm test
+
+server-test:
+	@echo "+\n++ TODO...\n+"
+	#@echo "+\n++ Running server unit tests...\n+"
+	#@docker-compose run server python manage.py test
 
 ##############################################################################
 # Deployment commands
