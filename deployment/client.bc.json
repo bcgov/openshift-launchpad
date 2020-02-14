@@ -50,7 +50,15 @@
           "type": "Git"
         },
         "strategy": {
-          "type": "Docker"
+          "type": "Docker",
+          "dockerStrategy": {
+            "env": [
+              {
+                "name": "API_URL",
+                "value": "http://openshift-launchpad-server-launchpad.192.168.64.4.nip.io/api"
+              }
+            ]
+          }
         },
         "triggers": [
           {
