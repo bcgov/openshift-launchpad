@@ -57,7 +57,15 @@
           "contextDir": "server"
         },
         "strategy": {
-          "type": "Docker"
+          "type": "Docker",
+          "dockerStrategy": {
+            "env": [
+              {
+                "name": "DATABASE_URL",
+                "value": "postgres://${POSTGRESQL_USER}:${POSTGRESQL_PASSWORD}@db-service:5432/sample_db"
+              }
+            ]
+          }
         },
         "output": {
           "to": {
