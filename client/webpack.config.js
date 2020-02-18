@@ -1,19 +1,10 @@
 const path = require('path');
 const webpack = require('webpack');
-const dotenv = require('dotenv');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
 const HOST = process.env.HOST || '0.0.0.0';
 const PORT = process.env.PORT || 3000;
-
-const env = dotenv.config().parsed || {};
-
-const API_URL = env.API_URL || 'http://localhost:5000/api';
-
-const ENVIRONMENT_VARIABLES = {
-  'process.env.API_URL': JSON.stringify(API_URL),
-};
 
 module.exports = [
   {
@@ -50,8 +41,8 @@ module.exports = [
         title: 'Basic React App',
         template: './src/index.html',
       }),
-      new webpack.DefinePlugin(ENVIRONMENT_VARIABLES),
       new webpack.HotModuleReplacementPlugin(),
+      new webpack.EnvironmentPlugin({API_URL: 'http://localhost:5000/api'}),
     ],
     devServer: {
       contentBase: './dist',
@@ -97,7 +88,7 @@ module.exports = [
         title: 'Basic React App',
         template: './src/index.html',
       }),
-      new webpack.DefinePlugin(ENVIRONMENT_VARIABLES),
+      new webpack.EnvironmentPlugin({API_URL: 'http://localhost:5000/api'}),
     ],
   },
 ];
