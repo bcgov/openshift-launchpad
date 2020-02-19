@@ -28,7 +28,7 @@ jobs:
 #      - name: Run server tests
 #        run: make server-test
 
-# TODO: Add Openshift login script
+# TODO: Add OpenShift login script
 #  deploy:
 #    name: Build and deploy client, database and server...
 #    runs-on: ubuntu-latest
