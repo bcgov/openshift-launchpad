@@ -15,6 +15,10 @@
       "required": true
     },
     {
+      "name": "REPO",
+      "required": true
+    },
+    {
       "name": "BRANCH",
       "required": true
     },
@@ -49,8 +53,8 @@
         "source": {
           "contextDir": "client",
           "git": {
-            "ref": "origin/${BRANCH}",
-            "uri": "https://github.com/bcgov/openshift-launchpad"
+            "uri": "${REPO}",
+            "ref": "origin/${BRANCH}"
           },
           "type": "Git"
         },
