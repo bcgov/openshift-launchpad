@@ -25,7 +25,7 @@ jobs:
 #    name: Build and deploy client, database and server...
 #    runs-on: ubuntu-latest
 #
-#    # Env variables get injected into bash scripts.
+#    # Env variables get injected into make scripts.
 #    # `secrets.*` come from the GitHub repository settings.
 #    env:
 #      MY_SECRET: ${{ secrets.MY_SECRET }}
