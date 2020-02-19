@@ -25,13 +25,13 @@ services:
   ####################### Database Definition #######################
   database:
     container_name: database
-    image: postgres:10-alpine
+    image: centos/postgresql-10-centos7:latest
     ports:
       - 5435:5432
     environment:
-      - POSTGRES_USER=admin
-      - POSTGRES_PASSWORD=password
-      - POSTGRES_DB=sample_db
+      - POSTGRESQL_USER=admin
+      - POSTGRESQL_PASSWORD=password
+      - POSTGRESQL_DATABASE=sample_db
     volumes:
       - "postgres-data:/var/lib/postgresql/data"
     networks:
@@ -49,7 +49,10 @@ services:
     environment:
       - FLASK_ENV=development
       - APP_SETTINGS=app.config.DevelopmentConfig
-      - DATABASE_URL=postgres://admin:password@database:5432/sample_db
+      - POSTGRESQL_USER=admin
+      - POSTGRESQL_PASSWORD=password
+      - POSTGRESQL_DATABASE=sample_db
+      - POSTGRESQL_SERVICE=database
     depends_on:
       - server-migrate
     networks:

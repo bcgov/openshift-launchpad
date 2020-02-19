@@ -32,67 +32,62 @@ client-test:
 # Deployment commands
 ##############################################################################
 
-############################
-# Generic commands
-############################
-
-oc-all-clean:
-	@echo "+\n++ Tearing down all OpenShift objects created from templates...\n+"
-	@oc delete all -l app=openshift-launchpad
+deploy-database:
+	test -n "$(NAMESPACE)" # Please provide a namespace via NAMESPACE=myproject
+	test -n "$(APP_NAME)" # Please provide an app name via APP_NAME=openshift-launchpad
+	test -n "$(POSTGRESQL_DATABASE)" # Please provide a database name via POSTGRESQL_DATABASE=sample_db
+	@echo "+\n++ Creating OpenShift database build config and image stream...\n+"
+	@oc process -f deployment/database.bc.json -p NAMESPACE=$(NAMESPACE) APP_NAME=$(APP_NAME) | oc create -f -	
+	@echo "+\n++ Creating OpenShift database deployment config, services, and routes...\n+"
+	@oc process -f deployment/database.dc.json -p NAMESPACE=$(NAMESPACE) APP_NAME=$(APP_NAME) POSTGRESQL_DATABASE=$(POSTGRESQL_DATABASE) | oc create -f -
 
 deploy-server:
 	test -n "$(NAMESPACE)" # Please provide a namespace via NAMESPACE=myproject
-	test -n "$(POSTGRESQL_USER)" # Please provide a database user via POSTGRESQL_USER=admin
-	test -n "$(POSTGRESQL_PASSWORD)" # Please provide a database password via POSTGRESQL_PASSWORD=password
+	test -n "$(APP_NAME)" # Please provide an app name via APP_NAME=openshift-launchpad
+	test -n "$(REPO)" # Please provide a git repo via REPO=https://github.com/bcgov/openshift-launchpad
+	test -n "$(BRANCH)" # Please provide a git branch via BRANCH=develop
 	@echo "+\n++ Creating OpenShift server build config and image stream...\n+"
-	@oc process -f deployment/server.bc.json -p NAMESPACE=$(NAMESPACE) | oc create -f -
+	@oc process -f deployment/server.bc.json -p NAMESPACE=$(NAMESPACE) APP_NAME=$(APP_NAME) REPO=$(REPO) BRANCH=$(BRANCH) | oc create -f -
 	@echo "+\n++ Creating OpenShift server deployment config, services, and routes...\n+"
-	@oc process -f deployment/server.dc.json -p NAMESPACE=$(NAMESPACE) POSTGRESQL_USER=$(POSTGRESQL_USER) POSTGRESQL_PASSWORD=$(POSTGRESQL_PASSWORD) | oc create -f -
-
-deploy-database:
-	test -n "$(NAMESPACE)" # Please provide a namespace via NAMESPACE=myproject
-	test -n "$(DATABASE_SERVICE_NAME)" # Please provide a database service name via DATABASE_SERVICE_NAME=db-service
-	test -n "$(POSTGRESQL_USER)" # Please provide a database user via POSTGRESQL_USER=admin
-	test -n "$(POSTGRESQL_PASSWORD)" # Please provide a database password via POSTGRESQL_PASSWORD=password
-	test -n "$(POSTGRESQL_DATABASE)" # Please provide a database name via POSTGRESQL_DATABASE=sample_db
-	@echo "+\n++ Creating OpenShift database build config and image stream...\n+"
-	@oc process -f deployment/db.bc.json -p NAMESPACE=$(NAMESPACE) | oc create -f -	
-	@echo "+\n++ Creating OpenShift database deployment config, services, and routes...\n+"
-	@oc process -f deployment/db.dc.json -p NAMESPACE=$(NAMESPACE) DATABASE_SERVICE_NAME=$(DATABASE_SERVICE_NAME) POSTGRESQL_DATABASE=$(POSTGRESQL_DATABASE) POSTGRESQL_USER=$(POSTGRESQL_USER) POSTGRESQL_PASSWORD=$(POSTGRESQL_PASSWORD) | oc create -f -
+	@oc process -f deployment/server.dc.json -p NAMESPACE=$(NAMESPACE) APP_NAME=$(APP_NAME) | oc create -f -
 
 deploy-client:
 	test -n "$(NAMESPACE)" # Please provide a namespace via NAMESPACE=myproject
+	test -n "$(APP_NAME)" # Please provide an app name via APP_NAME=openshift-launchpad
+	test -n "$(REPO)" # Please provide a git repo via REPO=https://github.com/bcgov/openshift-launchpad
+	test -n "$(BRANCH)" # Please provide a git branch via BRANCH=develop
 	test -n "$(API_URL)" # Please provide a base API URL via API_URL=myproject
 	@echo "+\n++ Creating OpenShift client build config and image stream...\n+"
-	@oc process -f deployment/client.bc.json -p NAMESPACE=$(NAMESPACE) API_URL=$(API_URL) | oc create -f -
+	@oc process -f deployment/client.bc.json -p NAMESPACE=$(NAMESPACE) APP_NAME=$(APP_NAME) REPO=$(REPO) BRANCH=$(BRANCH) API_URL=$(API_URL) | oc create -f -
 	@echo "+\n++ Creating OpenShift client deployment config, services, and routes...\n+"
-	@oc process -f deployment/client.dc.json -p NAMESPACE=$(NAMESPACE) | oc create -f -
+	@oc process -f deployment/client.dc.json -p NAMESPACE=$(NAMESPACE) APP_NAME=$(APP_NAME) | oc create -f -
 
-############################
-# Server commands
-############################
+##############################################################################
+# Deployment cleanup commands
+##############################################################################
+
+oc-all-clean:
+	test -n "$(APP_NAME)" # Please provide an app name via APP_NAME=openshift-launchpad
+	@echo "+\n++ Tearing down all OpenShift objects created from templates...\n+"
+	@oc delete all -l app=$(APP_NAME)
 
 oc-server-clean:
+	test -n "$(APP_NAME)" # Please provide an app name via APP_NAME=openshift-launchpad
 	@echo "+\n++ Tearing down OpenShift server objects created from templates...\n+"
-	@oc delete all -l template=openshift-launchpad-server
-
-############################
-# Database commands
-############################
+	@oc delete all -l template=$(APP_NAME)-server
 
 oc-db-clean:
+	test -n "$(APP_NAME)" # Please provide an app name via APP_NAME=openshift-launchpad
 	@echo "+\n++ Tearing down OpenShift postgresql objects created from templates...\n+"
-	@oc delete all -l template=openshift-launchpad-database
+	@oc delete all -l template=$(APP_NAME)-database
 
-oc-db-storage-rm:
-	test -n "$(DATABASE_SERVICE_NAME) # Please provide a database service name via DATABASE_SERVICE_NAME=db-service
+oc-persisted-clean:
+	test -n "$(APP_NAME)" # Please provide a database service name via DATABASE_SERVICE_NAME=db-service
 	@echo "+\n++ Remove persistant storage used by db service \n+"
-	@oc volume pvc/$(DATABASE_SERVICE_NAME) --remove
-
-############################
-# Client commands
-############################
+	@oc delete pvc $(APP_NAME)-database
+	@oc delete secret $(APP_NAME)-database
 
 oc-client-clean:
+	test -n "$(APP_NAME)" # Please provide an app name via APP_NAME=openshift-launchpad
 	@echo "+\n++ Tearing down OpenShift client objects created from templates...\n+"
-	@oc delete all -l template=openshift-launchpad-client
+	@oc delete all -l template=$(APP_NAME)-client

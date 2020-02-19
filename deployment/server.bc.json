@@ -2,18 +2,25 @@
   "kind": "Template",
   "apiVersion": "v1",
   "labels": {
-    "app": "openshift-launchpad",
-    "template": "openshift-launchpad-server"
-  },
-  "metadata": {
-    "name": "openshift-launchpad-server-bc"
+    "app": "${APP_NAME}",
+    "template": "${APP_NAME}-server"
   },
   "parameters": [
     {
-      "description": "The OpenShift Namespace where the ImageStream resides.",
-      "displayName": "Namespace",
-      "required": true,
-      "name": "NAMESPACE"
+      "name": "NAMESPACE",
+      "required": true
+    },
+    {
+      "name": "APP_NAME",
+      "required": true
+    },
+    {
+      "name": "REPO",
+      "required": true
+    },
+    {
+      "name": "BRANCH",
+      "required": true
     }
   ],
   "objects": [
@@ -21,14 +28,14 @@
       "kind": "ImageStream",
       "apiVersion": "v1",
       "metadata": {
-        "name": "openshift-launchpad-server"
+        "name": "${APP_NAME}-server"
       }
     },
     {
       "kind": "BuildConfig",
       "apiVersion": "v1",
       "metadata": {
-        "name": "openshift-launchpad-server"
+        "name": "${APP_NAME}-server"
       },
       "spec": {
         "completionDeadlineSeconds": 600,
@@ -44,8 +51,8 @@
         "source": {
           "type": "Git",
           "git": {
-            "uri": "https://github.com/bcgov/openshift-launchpad",
-            "ref": "origin/deployment-v2"
+            "uri": "${REPO}",
+            "ref": "origin/${BRANCH}"
           },
           "contextDir": "server"
         },
@@ -55,7 +62,7 @@
         "output": {
           "to": {
             "kind": "ImageStreamTag",
-            "name": "openshift-launchpad-server:latest",
+            "name": "${APP_NAME}-server:latest",
             "namespace": "${NAMESPACE}"
           }
         },
