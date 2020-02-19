@@ -21,6 +21,7 @@ jobs:
       
       - name: Test OpenShift CLI version
         run: |
+          pwd
           ls
           oc version
 
