@@ -6,11 +6,14 @@
     "template": "openshift-launchpad-client"
   },
   "metadata": {
-    "annotations": {
-      "description": "An example Node.js application with no database. For more information about using this template, including OpenShift considerations, see https://github.com/sclorg/nodejs-ex/blob/master/README.md."
-    },
     "name": "openshift-launchpad"
   },
+  "parameters": [
+    {
+      "name": "NAMESPACE",
+      "required": true
+    }
+  ],
   "objects": [
     {
       "apiVersion": "v1",
@@ -129,14 +132,6 @@
           }
         ]
       }
-    }
-  ],
-  "parameters": [
-    {
-      "description": "The OpenShift Namespace where the ImageStream resides.",
-      "displayName": "Namespace",
-      "name": "NAMESPACE",
-      "required": true
     }
   ]
 }

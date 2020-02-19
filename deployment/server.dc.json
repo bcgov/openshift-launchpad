@@ -10,32 +10,22 @@
   },
   "parameters": [
     {
-      "description": "The OpenShift Namespace where the ImageStream resides.",
-      "displayName": "Namespace",
       "name": "NAMESPACE",
       "required": true
     },
     {
-      "description": "Username for PostgreSQL user that will be used for accessing the database.",
-      "displayName": "PostgreSQL Connection Username",
       "name": "POSTGRESQL_USER",
       "required": true
     },
     {
-      "description": "Password for the PostgreSQL connection user.",
-      "displayName": "PostgreSQL Connection Password",
       "name": "POSTGRESQL_PASSWORD",
       "required": true
     },
     {
-      "description": "The name of the OpenShift Service exposed for the database.",
-      "displayName": "Database Service Name",
       "name": "DATABASE_SERVICE_NAME",
       "value": "db-service"
     },
     {
-      "description": "Name of the PostgreSQL database accessed.",
-      "displayName": "PostgreSQL Database Name",
       "name": "POSTGRESQL_DATABASE",
       "value": "sample_db"
     }
@@ -147,8 +137,7 @@
               }
             ],
             "restartPolicy": "Always",
-            "dnsPolicy": "ClusterFirst",
-            "securityContext": {}
+            "dnsPolicy": "ClusterFirst"
           }
         }
       }
