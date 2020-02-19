@@ -18,7 +18,9 @@ jobs:
           sudo cp "$FILE" /usr/local/bin/oc
         
       - name: Test OpenShift CLI version
-        run: oc version
+        run: |
+          ls
+          oc version
 
 #       - name: Run client tests
 #         run: make client-test
