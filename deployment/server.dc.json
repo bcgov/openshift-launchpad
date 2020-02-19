@@ -2,42 +2,17 @@
   "kind": "Template",
   "apiVersion": "v1",
   "labels": {
-    "app": "openshift-launchpad",
-    "template": "openshift-launchpad-server"
-  },
-  "metadata": {
-    "name": "openshift-launchpad-server-dc"
+    "app": "${APP_NAME}",
+    "template": "${APP_NAME}-server"
   },
   "parameters": [
     {
-      "description": "The OpenShift Namespace where the ImageStream resides.",
-      "displayName": "Namespace",
       "name": "NAMESPACE",
       "required": true
     },
     {
-      "description": "Username for PostgreSQL user that will be used for accessing the database.",
-      "displayName": "PostgreSQL Connection Username",
-      "name": "POSTGRESQL_USER",
+      "name": "APP_NAME",
       "required": true
-    },
-    {
-      "description": "Password for the PostgreSQL connection user.",
-      "displayName": "PostgreSQL Connection Password",
-      "name": "POSTGRESQL_PASSWORD",
-      "required": true
-    },
-    {
-      "description": "The name of the OpenShift Service exposed for the database.",
-      "displayName": "Database Service Name",
-      "name": "DATABASE_SERVICE_NAME",
-      "value": "db-service"
-    },
-    {
-      "description": "Name of the PostgreSQL database accessed.",
-      "displayName": "PostgreSQL Database Name",
-      "name": "POSTGRESQL_DATABASE",
-      "value": "sample_db"
     }
   ],
   "objects": [
@@ -45,7 +20,7 @@
       "apiVersion": "v1",
       "kind": "Route",
       "metadata": {
-        "name": "openshift-launchpad-server"
+        "name": "${APP_NAME}-server"
       },
       "spec": {
         "host": "",
@@ -54,7 +29,7 @@
         },
         "to": {
           "kind": "Service",
-          "name": "openshift-launchpad-server-service",
+          "name": "${APP_NAME}-server",
           "weight": 100
         },
         "wildcardPolicy": "None"
@@ -64,7 +39,7 @@
       "kind": "DeploymentConfig",
       "apiVersion": "v1",
       "metadata": {
-        "name": "openshift-launchpad-server"
+        "name": "${APP_NAME}-server"
       },
       "spec": {
         "strategy": {
@@ -73,12 +48,17 @@
           "rollingParams": {
             "post": {
             "execNewPod": {
-                "command": [
+              "metadata": {
+                "labels": {
+                  "name": "${APP_NAME}-server"
+                }
+              },
+              "command": [
                 "flask",
                 "db",
                 "upgrade"
-                ],
-                "containerName": "openshift-launchpad-server"
+              ],
+              "containerName": "${APP_NAME}-server"
             },
             "failurePolicy": "ignore"
             }
@@ -89,11 +69,11 @@
             "imageChangeParams": {
               "automatic": true,
               "containerNames": [
-                "openshift-launchpad-server"
+                "${APP_NAME}-server"
               ],
               "from": {
                 "kind": "ImageStreamTag",
-                "name": "openshift-launchpad-server:latest",
+                "name": "${APP_NAME}-server:latest",
                 "namespace": "${NAMESPACE}"
               }
             },
@@ -105,19 +85,19 @@
         ],
         "replicas": 1,
         "selector": {
-          "name": "openshift-launchpad-server"
+          "name": "${APP_NAME}-server"
         },
         "template": {
           "metadata": {
-            "name": "openshift-launchpad-server",
+            "name": "${APP_NAME}-server",
             "labels": {
-              "name": "openshift-launchpad-server"
+              "name": "${APP_NAME}-server"
             }
           },
           "spec": {
             "containers": [
               {
-                "name": "openshift-launchpad-server",
+                "name": "${APP_NAME}-server",
                 "image": " ",
                 "ports": [
                   {
@@ -127,8 +107,40 @@
                 ],
                 "env": [
                   {
-                    "name": "DATABASE_URL",
-                    "value": "postgres://${POSTGRESQL_USER}:${POSTGRESQL_PASSWORD}@${DATABASE_SERVICE_NAME}:5432/${POSTGRESQL_DATABASE}"
+                    "name": "POSTGRESQL_USER",
+                    "valueFrom": {
+                      "secretKeyRef": {
+                        "key": "database-user",
+                        "name": "${APP_NAME}-database"
+                      }
+                    }
+                  },
+                  {
+                    "name": "POSTGRESQL_PASSWORD",
+                    "valueFrom": {
+                      "secretKeyRef": {
+                        "key": "database-password",
+                        "name": "${APP_NAME}-database"
+                      }
+                    }
+                  },
+                  {
+                    "name": "POSTGRESQL_DATABASE",
+                    "valueFrom": {
+                      "secretKeyRef": {
+                        "key": "database-name",
+                        "name": "${APP_NAME}-database"
+                      }
+                    }
+                  },
+                  {
+                    "name": "POSTGRESQL_SERVICE",
+                    "valueFrom": {
+                      "secretKeyRef": {
+                        "key": "database-service",
+                        "name": "${APP_NAME}-database"
+                      }
+                    }
                   }
                 ],
                 "resources": {
@@ -147,8 +159,7 @@
               }
             ],
             "restartPolicy": "Always",
-            "dnsPolicy": "ClusterFirst",
-            "securityContext": {}
+            "dnsPolicy": "ClusterFirst"
           }
         }
       }
@@ -157,7 +168,7 @@
       "kind": "Service",
       "apiVersion": "v1",
       "metadata": {
-        "name": "openshift-launchpad-server-service"
+        "name": "${APP_NAME}-server"
       },
       "spec": {
         "ports": [
@@ -169,7 +180,7 @@
           }
         ],
         "selector": {
-          "name": "openshift-launchpad-server"
+          "name": "${APP_NAME}-server"
         },
         "type": "ClusterIP",
         "sessionAffinity": "None"
