@@ -12,7 +12,6 @@
     },
     {
       "name": "APP_NAME",
-      "value": "openshift-launchpad",
       "required": true
     }
   ],

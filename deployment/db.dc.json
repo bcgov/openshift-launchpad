@@ -12,7 +12,6 @@
     },
     {
       "name": "APP_NAME",
-      "value": "openshift-launchpad",
       "required": true
     },
     {
@@ -29,7 +28,6 @@
     },
     {
       "name": "POSTGRESQL_DATABASE",
-      "value": "sample_db",
       "required": true
     }
   ],

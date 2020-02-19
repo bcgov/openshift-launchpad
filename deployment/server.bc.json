@@ -12,12 +12,10 @@
     },
     {
       "name": "APP_NAME",
-      "value": "openshift-launchpad",
       "required": true
     },
     {
       "name": "BRANCH",
-      "value": "develop",
       "required": true
     }
   ],
