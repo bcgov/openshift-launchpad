@@ -19,13 +19,15 @@ environments which will invalidate your testing.
 # pylint: disable=too-few-public-methods; just a config object
 import os
 
-DB_URL_ENV_VAR_NAME = 'DATABASE_URL'
-DB_URL_DEFAULT = 'postgres://admin:password@database:5432/sample_db'
+DB_URL = 'postgres://{}:{}@{}:5432/{}'.format(
+    os.environ.get('POSTGRESQL_USER', 'admin'),
+    os.environ.get('POSTGRESQL_PASSWORD', 'password'),
+    os.environ.get('POSTGRESQL_SERVICE', 'database'),
+    os.environ.get('POSTGRESQL_DATABASE', 'sample_db'))
 
 class Config:
     """Defines values that are known to and consumed by a Flask app"""
 
     SQLALCHEMY_TRACK_MODIFICATIONS = False
-    SQLALCHEMY_DATABASE_URI = os.environ.get(DB_URL_ENV_VAR_NAME,
-                                             DB_URL_DEFAULT)
+    SQLALCHEMY_DATABASE_URI = DB_URL
     SECRET_KEY = 'temp'

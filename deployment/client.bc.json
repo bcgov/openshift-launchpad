@@ -2,24 +2,37 @@
   "apiVersion": "v1",
   "kind": "Template",
   "labels": {
-    "app": "openshift-launchpad",
-    "template": "openshift-launchpad-client"
+    "app": "${APP_NAME}",
+    "template": "${APP_NAME}-client"
   },
-  "metadata": {
-    "annotations": {
-      "description": "An example Node.js application with no database. For more information about using this template, including OpenShift considerations, see https://github.com/sclorg/nodejs-ex/blob/master/README.md."
+  "parameters": [
+    {
+      "name": "NAMESPACE",
+      "required": true
     },
-    "name": "openshift-launchpad"
-  },
+    {
+      "name": "APP_NAME",
+      "required": true
+    },
+    {
+      "name": "REPO",
+      "required": true
+    },
+    {
+      "name": "BRANCH",
+      "required": true
+    },
+    {
+      "name": "API_URL",
+      "required": true
+    }
+  ],
   "objects": [
     {
       "apiVersion": "v1",
       "kind": "ImageStream",
       "metadata": {
-        "annotations": {
-          "description": "Keeps track of changes in the application image"
-        },
-        "name": "openshift-launchpad-client",
+        "name": "${APP_NAME}-client",
         "namespace": "${NAMESPACE}"
       }
     },
@@ -27,25 +40,21 @@
       "apiVersion": "v1",
       "kind": "BuildConfig",
       "metadata": {
-        "annotations": {
-          "description": "Defines how to build the application",
-          "template.alpha.openshift.io/wait-for-ready": "true"
-        },
-        "name": "openshift-launchpad-client-bc"
+        "name": "${APP_NAME}-client"
       },
       "spec": {
         "output": {
           "to": {
             "kind": "ImageStreamTag",
-            "name": "openshift-launchpad-client:latest",
+            "name": "${APP_NAME}-client:latest",
             "namespace": "${NAMESPACE}"
           }
         },
         "source": {
           "contextDir": "client",
           "git": {
-            "ref": "origin/deployment-v2",
-            "uri": "https://github.com/bcgov/openshift-launchpad"
+            "uri": "${REPO}",
+            "ref": "origin/${BRANCH}"
           },
           "type": "Git"
         },
@@ -69,20 +78,6 @@
           }
         ]
       }
-    }
-  ],
-  "parameters": [
-    {
-      "description": "The OpenShift Namespace where the ImageStream resides.",
-      "displayName": "Namespace",
-      "name": "NAMESPACE",
-      "required": true
-    },
-    {
-      "description": "Base URL of deployed API. Will be suffixed with `/api`.",
-      "displayName": "API Base URL",
-      "name": "API_URL",
-      "required": true
     }
   ]
 }
