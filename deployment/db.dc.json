@@ -2,11 +2,8 @@
   "apiVersion": "v1",
   "kind": "Template",
   "labels": {
-    "app": "openshift-launchpad",
-    "template": "openshift-launchpad-database"
-  },
-  "metadata": {
-    "name": "postgresql-persistent"
+    "app": "${APP_NAME}",
+    "template": "${APP_NAME}-database"
   },
   "parameters": [
     {
@@ -14,9 +11,9 @@
       "value": "myproject"
     },
     {
-      "name": "DATABASE_SERVICE_NAME",
-      "required": true,
-      "value": "db-service"
+      "name": "APP_NAME",
+      "value": "openshift-launchpad",
+      "required": true
     },
     {
       "from": "user[A-Z0-9]{3}",
@@ -47,13 +44,13 @@
           "template.openshift.io/expose-username": "{.data['database-user']}",
           "template.openshift.io/expose-service": "{.data['database-service']}"
         },
-        "name": "${DATABASE_SERVICE_NAME}"
+        "name": "${APP_NAME}-database"
       },
       "stringData": {
         "database-name": "${POSTGRESQL_DATABASE}",
         "database-password": "${POSTGRESQL_PASSWORD}",
         "database-user": "${POSTGRESQL_USER}",
-        "database-service": "${DATABASE_SERVICE_NAME}"
+        "database-service": "${APP_NAME}-database"
       }
     },
     {
@@ -63,7 +60,7 @@
         "annotations": {
           "template.openshift.io/expose-uri": "postgres://{.spec.clusterIP}:{.spec.ports[?(.name==\"postgresql\")].port}"
         },
-        "name": "${DATABASE_SERVICE_NAME}"
+        "name": "${APP_NAME}-database"
       },
       "spec": {
         "ports": [
@@ -76,7 +73,7 @@
           }
         ],
         "selector": {
-          "name": "${DATABASE_SERVICE_NAME}"
+          "name": "${APP_NAME}-database"
         },
         "sessionAffinity": "None",
         "type": "ClusterIP"
@@ -86,7 +83,7 @@
       "apiVersion": "v1",
       "kind": "PersistentVolumeClaim",
       "metadata": {
-        "name": "${DATABASE_SERVICE_NAME}"
+        "name": "${APP_NAME}-database"
       },
       "spec": {
         "accessModes": [
@@ -106,12 +103,12 @@
         "annotations": {
           "template.alpha.openshift.io/wait-for-ready": "true"
         },
-        "name": "${DATABASE_SERVICE_NAME}"
+        "name": "${APP_NAME}-database"
       },
       "spec": {
         "replicas": 1,
         "selector": {
-          "name": "${DATABASE_SERVICE_NAME}"
+          "name": "${APP_NAME}-database"
         },
         "strategy": {
           "type": "Recreate"
@@ -119,7 +116,7 @@
         "template": {
           "metadata": {
             "labels": {
-              "name": "${DATABASE_SERVICE_NAME}"
+              "name": "${APP_NAME}-database"
             }
           },
           "spec": {
@@ -131,7 +128,7 @@
                     "valueFrom": {
                       "secretKeyRef": {
                         "key": "database-user",
-                        "name": "${DATABASE_SERVICE_NAME}"
+                        "name": "${APP_NAME}-database"
                       }
                     }
                   },
@@ -140,7 +137,7 @@
                     "valueFrom": {
                       "secretKeyRef": {
                         "key": "database-password",
-                        "name": "${DATABASE_SERVICE_NAME}"
+                        "name": "${APP_NAME}-database"
                       }
                     }
                   },
@@ -149,7 +146,7 @@
                     "valueFrom": {
                       "secretKeyRef": {
                         "key": "database-name",
-                        "name": "${DATABASE_SERVICE_NAME}"
+                        "name": "${APP_NAME}-database"
                       }
                     }
                   }
@@ -194,7 +191,7 @@
                 "volumeMounts": [
                   {
                     "mountPath": "/var/lib/pgsql/data",
-                    "name": "${DATABASE_SERVICE_NAME}-data"
+                    "name": "${APP_NAME}-database-data"
                   }
                 ]
               }
@@ -203,9 +200,9 @@
             "restartPolicy": "Always",
             "volumes": [
               {
-                "name": "${DATABASE_SERVICE_NAME}-data",
+                "name": "${APP_NAME}-database-data",
                 "persistentVolumeClaim": {
-                  "claimName": "${DATABASE_SERVICE_NAME}"
+                  "claimName": "${APP_NAME}-database"
                 }
               }
             ]
