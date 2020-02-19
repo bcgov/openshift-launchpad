@@ -14,20 +14,9 @@
       "required": true
     },
     {
-      "name": "POSTGRESQL_USER",
-      "required": true
-    },
-    {
-      "name": "POSTGRESQL_PASSWORD",
-      "required": true
-    },
-    {
       "name": "DATABASE_SERVICE_NAME",
+      "required": true,
       "value": "db-service"
-    },
-    {
-      "name": "POSTGRESQL_DATABASE",
-      "value": "sample_db"
     }
   ],
   "objects": [
@@ -117,8 +106,40 @@
                 ],
                 "env": [
                   {
-                    "name": "DATABASE_URL",
-                    "value": "postgres://${POSTGRESQL_USER}:${POSTGRESQL_PASSWORD}@${DATABASE_SERVICE_NAME}:5432/${POSTGRESQL_DATABASE}"
+                    "name": "POSTGRESQL_USER",
+                    "valueFrom": {
+                      "secretKeyRef": {
+                        "key": "database-user",
+                        "name": "${DATABASE_SERVICE_NAME}"
+                      }
+                    }
+                  },
+                  {
+                    "name": "POSTGRESQL_PASSWORD",
+                    "valueFrom": {
+                      "secretKeyRef": {
+                        "key": "database-password",
+                        "name": "${DATABASE_SERVICE_NAME}"
+                      }
+                    }
+                  },
+                  {
+                    "name": "POSTGRESQL_DATABASE",
+                    "valueFrom": {
+                      "secretKeyRef": {
+                        "key": "database-name",
+                        "name": "${DATABASE_SERVICE_NAME}"
+                      }
+                    }
+                  },
+                  {
+                    "name": "POSTGRESQL_SERVICE",
+                    "valueFrom": {
+                      "secretKeyRef": {
+                        "key": "database-service",
+                        "name": "${DATABASE_SERVICE_NAME}"
+                      }
+                    }
                   }
                 ],
                 "resources": {
