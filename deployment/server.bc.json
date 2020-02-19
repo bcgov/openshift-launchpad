@@ -1,6 +1,6 @@
 {
-  "kind": "Template",
   "apiVersion": "v1",
+  "kind": "Template",
   "labels": {
     "app": "openshift-launchpad",
     "template": "openshift-launchpad-server"
@@ -10,8 +10,6 @@
   },
   "parameters": [
     {
-      "description": "The OpenShift Namespace where the ImageStream resides.",
-      "displayName": "Namespace",
       "required": true,
       "name": "NAMESPACE"
     }

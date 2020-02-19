@@ -1,9 +1,12 @@
 {
-    "kind": "Template",
     "apiVersion": "v1",
+    "kind": "Template",
     "labels": {
       "app": "openshift-launchpad",
       "template": "openshift-launchpad-database"
+    },
+    "metadata": {
+      "name": "db-build-config"
     },
     "parameters": [
       {
@@ -11,9 +14,6 @@
         "required": true
       }
     ],
-    "metadata": {
-      "name": "db-build-config"
-    },
     "objects": [
       {
         "apiVersion": "v1",
