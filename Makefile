@@ -34,8 +34,9 @@ client-test:
 
 deploy-server:
 	test -n "$(NAMESPACE)" # Please provide a namespace via NAMESPACE=myproject
+	test -n "$(BRANCH)" # Please provide a git branch via BRANCH=develop
 	@echo "+\n++ Creating OpenShift server build config and image stream...\n+"
-	@oc process -f deployment/server.bc.json -p NAMESPACE=$(NAMESPACE) | oc create -f -
+	@oc process -f deployment/server.bc.json -p NAMESPACE=$(NAMESPACE) BRANCH=$(BRANCH) | oc create -f -
 	@echo "+\n++ Creating OpenShift server deployment config, services, and routes...\n+"
 	@oc process -f deployment/server.dc.json -p NAMESPACE=$(NAMESPACE) | oc create -f -
 
@@ -49,9 +50,10 @@ deploy-database:
 
 deploy-client:
 	test -n "$(NAMESPACE)" # Please provide a namespace via NAMESPACE=myproject
+	test -n "$(BRANCH)" # Please provide a git branch via BRANCH=develop
 	test -n "$(API_URL)" # Please provide a base API URL via API_URL=myproject
 	@echo "+\n++ Creating OpenShift client build config and image stream...\n+"
-	@oc process -f deployment/client.bc.json -p NAMESPACE=$(NAMESPACE) API_URL=$(API_URL) | oc create -f -
+	@oc process -f deployment/client.bc.json -p NAMESPACE=$(NAMESPACE) BRANCH=$(BRANCH) API_URL=$(API_URL) | oc create -f -
 	@echo "+\n++ Creating OpenShift client deployment config, services, and routes...\n+"
 	@oc process -f deployment/client.dc.json -p NAMESPACE=$(NAMESPACE) | oc create -f -
 
@@ -62,7 +64,7 @@ deploy-client:
 oc-all-clean:
 	@echo "+\n++ Tearing down all OpenShift objects created from templates...\n+"
 	@oc delete all -l app=openshift-launchpad
-	@oc volume pvc/openshift-launchpad-database --remove
+	@oc delete pvc openshift-launchpad-database
 	@oc delete secret openshift-launchpad-database
 
 oc-server-clean:
