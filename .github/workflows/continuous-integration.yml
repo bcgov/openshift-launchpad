@@ -9,9 +9,15 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v1
+      
+      - name: Test OpenShift CLI download
+        run: brew install openshift-cli
+        
+      - name: Test OpenShift CLI version
+        run: oc version
 
-      - name: Run client tests
-        run: make client-test
+#       - name: Run client tests
+#         run: make client-test
 
 # TODO: Add server tests
 #      - name: Run server tests
