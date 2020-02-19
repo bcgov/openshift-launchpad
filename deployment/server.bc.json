@@ -14,6 +14,11 @@
       "name": "APP_NAME",
       "value": "openshift-launchpad",
       "required": true
+    },
+    {
+      "name": "BRANCH",
+      "value": "develop",
+      "required": true
     }
   ],
   "objects": [
@@ -45,7 +50,7 @@
           "type": "Git",
           "git": {
             "uri": "https://github.com/bcgov/openshift-launchpad",
-            "ref": "origin/BOIL-43-template-params"
+            "ref": "origin/${BRANCH}"
           },
           "contextDir": "server"
         },
