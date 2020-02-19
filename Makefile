@@ -32,6 +32,15 @@ client-test:
 # Deployment commands
 ##############################################################################
 
+deploy-database:
+	test -n "$(NAMESPACE)" # Please provide a namespace via NAMESPACE=myproject
+	test -n "$(APP_NAME)" # Please provide an app name via APP_NAME=openshift-launchpad
+	test -n "$(POSTGRESQL_DATABASE)" # Please provide a database name via POSTGRESQL_DATABASE=sample_db
+	@echo "+\n++ Creating OpenShift database build config and image stream...\n+"
+	@oc process -f deployment/database.bc.json -p NAMESPACE=$(NAMESPACE) APP_NAME=$(APP_NAME) | oc create -f -	
+	@echo "+\n++ Creating OpenShift database deployment config, services, and routes...\n+"
+	@oc process -f deployment/database.dc.json -p NAMESPACE=$(NAMESPACE) APP_NAME=$(APP_NAME) POSTGRESQL_DATABASE=$(POSTGRESQL_DATABASE) | oc create -f -
+
 deploy-server:
 	test -n "$(NAMESPACE)" # Please provide a namespace via NAMESPACE=myproject
 	test -n "$(APP_NAME)" # Please provide an app name via APP_NAME=openshift-launchpad
@@ -41,15 +50,6 @@ deploy-server:
 	@oc process -f deployment/server.bc.json -p NAMESPACE=$(NAMESPACE) APP_NAME=$(APP_NAME) REPO=$(REPO) BRANCH=$(BRANCH) | oc create -f -
 	@echo "+\n++ Creating OpenShift server deployment config, services, and routes...\n+"
 	@oc process -f deployment/server.dc.json -p NAMESPACE=$(NAMESPACE) APP_NAME=$(APP_NAME) | oc create -f -
-
-deploy-database:
-	test -n "$(NAMESPACE)" # Please provide a namespace via NAMESPACE=myproject
-	test -n "$(APP_NAME)" # Please provide an app name via APP_NAME=openshift-launchpad
-	test -n "$(POSTGRESQL_DATABASE)" # Please provide a database name via POSTGRESQL_DATABASE=sample_db
-	@echo "+\n++ Creating OpenShift database build config and image stream...\n+"
-	@oc process -f deployment/db.bc.json -p NAMESPACE=$(NAMESPACE) APP_NAME=$(APP_NAME) | oc create -f -	
-	@echo "+\n++ Creating OpenShift database deployment config, services, and routes...\n+"
-	@oc process -f deployment/db.dc.json -p NAMESPACE=$(NAMESPACE) APP_NAME=$(APP_NAME) POSTGRESQL_DATABASE=$(POSTGRESQL_DATABASE) | oc create -f -
 
 deploy-client:
 	test -n "$(NAMESPACE)" # Please provide a namespace via NAMESPACE=myproject
