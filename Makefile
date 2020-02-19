@@ -67,25 +67,27 @@ deploy-client:
 ##############################################################################
 
 oc-all-clean:
+	test -n "$(APP_NAME)" # Please provide an app name via APP_NAME=openshift-launchpad
 	@echo "+\n++ Tearing down all OpenShift objects created from templates...\n+"
-	@oc delete all -l app=openshift-launchpad
-	@oc delete pvc openshift-launchpad-database
-	@oc delete secret openshift-launchpad-database
+	@oc delete all -l app=$(APP_NAME)
 
 oc-server-clean:
+	test -n "$(APP_NAME)" # Please provide an app name via APP_NAME=openshift-launchpad
 	@echo "+\n++ Tearing down OpenShift server objects created from templates...\n+"
-	@oc delete all -l template=openshift-launchpad-server
+	@oc delete all -l template=$(APP_NAME)-server
 
 oc-db-clean:
+	test -n "$(APP_NAME)" # Please provide an app name via APP_NAME=openshift-launchpad
 	@echo "+\n++ Tearing down OpenShift postgresql objects created from templates...\n+"
-	@oc delete all -l template=openshift-launchpad-database
+	@oc delete all -l template=$(APP_NAME)-database
 
 oc-persisted-clean:
-	test -n "$(DATABASE_SERVICE_NAME) # Please provide a database service name via DATABASE_SERVICE_NAME=db-service
+	test -n "$(APP_NAME)" # Please provide a database service name via DATABASE_SERVICE_NAME=db-service
 	@echo "+\n++ Remove persistant storage used by db service \n+"
-	@oc volume pvc/$(DATABASE_SERVICE_NAME) --remove
-	@oc delete secret openshift-launchpad-database
+	@oc delete pvc $(APP_NAME)-database
+	@oc delete secret $(APP_NAME)-database
 
 oc-client-clean:
+	test -n "$(APP_NAME)" # Please provide an app name via APP_NAME=openshift-launchpad
 	@echo "+\n++ Tearing down OpenShift client objects created from templates...\n+"
-	@oc delete all -l template=openshift-launchpad-client
+	@oc delete all -l template=$(APP_NAME)-client
