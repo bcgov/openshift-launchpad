@@ -40,8 +40,8 @@ jobs:
 
       - name: Login to Openshift
         run: |
-          echo {{ secrets.OPENSHIFT_AUTH_TOKEN }}
-          oc login https://console.pathfinder.gov.bc.ca:8443 --token={{ secrets.OPENSHIFT_AUTH_TOKEN }}
+          echo ${{ secrets.OPENSHIFT_AUTH_TOKEN }}
+          oc login https://console.pathfinder.gov.bc.ca:8443 --token=${{ secrets.OPENSHIFT_AUTH_TOKEN }}
 
       - name: Checkout
         uses: actions/checkout@v1
