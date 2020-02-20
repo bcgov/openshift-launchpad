@@ -31,6 +31,11 @@ client-test:
 ##############################################################################
 # Deployment commands
 ##############################################################################
+set-nsp:
+	test -n "$(NAMESPACE)" # Please provide a namespace via NAMESPACE=myproject
+	test -n "$(APP_NAME)" # Please provide an app name via APP_NAME=openshift-launchpad
+	@echo "+\n++ Set network security policies \n+"
+	@oc process -f deployment/nsp.json -p NAMESPACE=$(NAMESPACE) APP_NAME=$(APP_NAME) | oc create -f -
 
 deploy-database:
 	test -n "$(NAMESPACE)" # Please provide a namespace via NAMESPACE=myproject
@@ -86,6 +91,7 @@ oc-persisted-clean:
 	@echo "+\n++ Remove persistant storage used by db service \n+"
 	@oc delete pvc $(APP_NAME)-database
 	@oc delete secret $(APP_NAME)-database
+	@oc delete nsp -l app=$(APP_NAME)
 
 oc-client-clean:
 	test -n "$(APP_NAME)" # Please provide an app name via APP_NAME=openshift-launchpad
