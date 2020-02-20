@@ -8,7 +8,7 @@ jobs:
     runs-on: ubuntu-latest
 
     env:
-      PR_NUMBER: ${{ echo $GITHUB_REF | sed 's/.*pull\/\([0-9]*\)\/.*/\1/' }}
+      PR_NUMBER: ${{ $(echo $GITHUB_REF | sed 's/.*pull\/\([0-9]*\)\/.*/\1/') }}
       NAMESPACE: apdwlc-tools
       APP_NAME: openshift-launchpad-PR#$PR_NUMBER
       POSTGRESQL_DATABASE: launchpad
