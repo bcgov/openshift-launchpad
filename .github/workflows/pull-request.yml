@@ -8,7 +8,6 @@ jobs:
     runs-on: ubuntu-latest
 
     env:
-#      PR_NUMBER: ${{ $GITHUB_REF | sed 's/.*pull\/\([0-9]*\)\/.*/\1/' }}
       NAMESPACE: apdwlc-tools
       APP_NAME: openshift-launchpad-PR#$PR_NUMBER
       POSTGRESQL_DATABASE: launchpad
@@ -17,25 +16,13 @@ jobs:
       API_URL: http://$APP_NAME-server-$NAMESPACE.pathfinder.gov.bc.ca
 
     steps:
-#      - name: Set PR Number env variable
-#        run: |
-#          export PR_NUMBER=$(echo $GITHUB_REF | sed 's/.*pull\/\([0-9]*\)\/.*/\1/')
-#          export NAMESPACE="apdwlc-tools"
-#          export APP_NAME="openshift-launchpad-PR#$PR_NUMBER"
-#          export POSTGRESQL_DATABASE="launchpad"
-#          export REPO="https://github.com/bcgov/openshift-launchpad"
-#          export BRANCH="BOIL-36-github-actions"
-#          export API_URL="http://$APP_NAME-server-$NAMESPACE.pathfinder.gov.bc.ca"
-#
+      - name: Set PR Number env variable
+        run: echo ::set-env name=PR_NUMBER::$(echo $GITHUB_REF | sed 's/.*pull\/\([0-9]*\)\/.*/\1/')
+
       - name: Testing
         run: |
-          echo ::set-env name=FOO::$(echo -n "hello world")
-          echo "$FOO"
-
-      - name: Testing2
-        run: echo "$FOO"
-#          echo "$PR_NUMBER"
-#          echo "$NAMESPACE"
+          echo "I'm here"
+          echo "$PR_NUMBER"
 #
 #      - name: Download OpenShift CLI
 #        run: |
