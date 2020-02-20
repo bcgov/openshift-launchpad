@@ -28,8 +28,12 @@ client-test:
 	@echo "+\n++ Running client unit tests...\n+"
 	@docker-compose run client npm test
 
+server-test:
+	@echo "+\n++ Running server unit tests...\n+"
+	@echo "TODO"
+
 ##############################################################################
-# Deployment commands
+# Deployment / CI-CD commands
 ##############################################################################
 
 deploy-nsp:
@@ -38,7 +42,7 @@ deploy-nsp:
 	@echo "+\n++ Set network security policies \n+"
 	@oc process -f deployment/nsp.json -p NAMESPACE=$(NAMESPACE) APP_NAME=$(APP_NAME) | oc create -f -
 
-deploy-database:
+create-database:
 	test -n "$(NAMESPACE)" # Please provide a namespace via NAMESPACE=myproject
 	test -n "$(APP_NAME)" # Please provide an app name via APP_NAME=openshift-launchpad
 	test -n "$(POSTGRESQL_DATABASE)" # Please provide a database name via POSTGRESQL_DATABASE=sample_db
@@ -47,7 +51,7 @@ deploy-database:
 	@echo "+\n++ Creating OpenShift database deployment config, services, and routes...\n+"
 	@oc process -f deployment/database.dc.json -p NAMESPACE=$(NAMESPACE) APP_NAME=$(APP_NAME) POSTGRESQL_DATABASE=$(POSTGRESQL_DATABASE) | oc create -f -
 
-deploy-server:
+create-server:
 	test -n "$(NAMESPACE)" # Please provide a namespace via NAMESPACE=myproject
 	test -n "$(APP_NAME)" # Please provide an app name via APP_NAME=openshift-launchpad
 	test -n "$(REPO)" # Please provide a git repo via REPO=https://github.com/bcgov/openshift-launchpad
@@ -57,7 +61,7 @@ deploy-server:
 	@echo "+\n++ Creating OpenShift server deployment config, services, and routes...\n+"
 	@oc process -f deployment/server.dc.json -p NAMESPACE=$(NAMESPACE) APP_NAME=$(APP_NAME) | oc create -f -
 
-deploy-client:
+create-client:
 	test -n "$(NAMESPACE)" # Please provide a namespace via NAMESPACE=myproject
 	test -n "$(APP_NAME)" # Please provide an app name via APP_NAME=openshift-launchpad
 	test -n "$(REPO)" # Please provide a git repo via REPO=https://github.com/bcgov/openshift-launchpad

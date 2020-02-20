@@ -1,0 +1,45 @@
+name: Continuous Deployment
+
+on:
+  push:
+    branches:
+      - develop
+
+jobs:
+  test:
+    name: Run client and server tests...
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v1
+
+      - name: Run client tests
+        run: make client-test
+
+      - name: Run server tests
+        run: make server-test
+
+  deploy:
+    name: Deploy client and server...
+    runs-on: ubuntu-latest
+    needs: test
+
+    steps:
+      - name: Download OpenShift CLI
+        run: |
+          wget --quiet -O oc.tar.gz https://github.com/openshift/origin/releases/download/v3.11.0/openshift-origin-client-tools-v3.11.0-0cbc58b-linux-64bit.tar.gz
+          FILE=$(tar --warning=no-unknown-keyword -tf oc.tar.gz | grep '/oc$')
+          tar --warning=no-unknown-keyword -zxf oc.tar.gz "$FILE"
+          sudo mv "$FILE" /usr/local/bin/oc
+
+      - name: Login to Openshift
+        run: oc login https://console.pathfinder.gov.bc.ca:8443 --token=${{ secrets.OPENSHIFT_AUTH_TOKEN }}
+
+      - name: Checkout
+        uses: actions/checkout@v1
+
+#      - name: Deploy server
+#        run: make deploy-server NAMESPACE=apdwlc-dev APP_NAME=openshift-launchpad REPO=https://github.com/bcgov/openshift-launchpad BRANCH=BOIL-36-github-actions
+
+#      - name: Deploy client
+#        run: make deploy-client NAMESPACE=apdwlc-dev APP_NAME=openshift-launchpad REPO=https://github.com/bcgov/openshift-launchpad BRANCH=BOIL-36-github-actions API_URL=http://openshift-launchpad-server-launchpad.192.168.64.4.nip.io

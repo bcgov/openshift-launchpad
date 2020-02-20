@@ -1,9 +1,6 @@
-name: Continuous Deployment
+name: Continuous Integration
 
-on:
-  push:
-    branches:
-      - develop
+on: pull_request
 
 jobs:
   test:
@@ -16,12 +13,11 @@ jobs:
       - name: Run client tests
         run: make client-test
 
-# TODO: Add server tests
-#      - name: Run server tests
-#        run: make server-test
+      - name: Run server tests
+        run: make server-test
 
   deploy:
-    name: Build and deploy client, database and server...
+    name: Create new instance of client, database and server...
     runs-on: ubuntu-latest
     needs: test
 
@@ -39,11 +35,11 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v1
 
-      - name: Deploy database
-        run: make deploy-database NAMESPACE=apdwlc-dev APP_NAME=openshift-launchpad POSTGRESQL_DATABASE=launchpad
+      - name: Create database
+        run: make create-database NAMESPACE=apdwlc-dev APP_NAME=openshift-launchpad POSTGRESQL_DATABASE=launchpad
 
-#      - name: Deploy server
-#        run: make deploy-server NAMESPACE=apdwlc-dev APP_NAME=openshift-launchpad REPO=https://github.com/bcgov/openshift-launchpad BRANCH=BOIL-36-github-actions
+#      - name: Create server
+#        run: make create-server NAMESPACE=apdwlc-dev APP_NAME=openshift-launchpad REPO=https://github.com/bcgov/openshift-launchpad BRANCH=BOIL-36-github-actions
 
-#      - name: Deploy client
-#        run: make deploy-client NAMESPACE=apdwlc-dev APP_NAME=openshift-launchpad REPO=https://github.com/bcgov/openshift-launchpad BRANCH=BOIL-36-github-actions API_URL=http://openshift-launchpad-server-launchpad.192.168.64.4.nip.io
+#      - name: Create client
+#        run: make create-client NAMESPACE=apdwlc-dev APP_NAME=openshift-launchpad REPO=https://github.com/bcgov/openshift-launchpad BRANCH=BOIL-36-github-actions API_URL=http://openshift-launchpad-server-launchpad.192.168.64.4.nip.io
