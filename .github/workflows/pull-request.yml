@@ -8,7 +8,7 @@ jobs:
     runs-on: ubuntu-latest
 
     env:
-      PR_NUMBER: $(echo $GITHUB_REF | sed 's/.*pull\/\([0-9]*\)\/.*/\1/')
+      PR_NUMBER: ${{ echo $GITHUB_REF | sed 's/.*pull\/\([0-9]*\)\/.*/\1/' }}
       NAMESPACE: apdwlc-tools
       APP_NAME: openshift-launchpad-PR#$PR_NUMBER
       POSTGRESQL_DATABASE: launchpad
@@ -26,7 +26,6 @@ jobs:
 #          export REPO="https://github.com/bcgov/openshift-launchpad"
 #          export BRANCH="BOIL-36-github-actions"
 #          export API_URL="http://$APP_NAME-server-$NAMESPACE.pathfinder.gov.bc.ca"
-#          echo "$NAMESPACE"
 #
       - name: Testing
         run: |
@@ -48,8 +47,6 @@ jobs:
 #
 #      - name: Create Network Security Policy
 #        run: |
-#          echo "$PR_NUMBER"
-#          echo "$NAMESPACE"
 #          make create-nsp NAMESPACE="$NAMESPACE" APP_NAME="$APP_NAME"
 #          sleep 30s
 #
