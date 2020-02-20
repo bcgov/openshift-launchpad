@@ -16,7 +16,8 @@ jobs:
           echo $GITHUB_REF
           echo $GITHUB_REF | sed 's/.*pull\/\([0-9]*\)\/.*/\1/'
           TEST=$(echo $GITHUB_REF | sed 's/.*pull\/\([0-9]*\)\/.*/\1/')
-          echo ::set-env name=PR_NUMBER::$TEST
+          echo $TEST
+          echo "::set-env name=PR_NUMBER::$TEST"
           echo $PR_NUMBER
 
 #      - name: Download OpenShift CLI
