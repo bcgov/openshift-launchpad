@@ -1,6 +1,6 @@
 {
-  "kind": "Template",
   "apiVersion": "v1",
+  "kind": "Template",
   "labels": {
     "app": "${APP_NAME}",
     "template": "${APP_NAME}-nsp"
@@ -17,17 +17,13 @@
   ],
   "objects": [
     {
-      "kind": "NetworkSecurityPolicy",
       "apiVersion": "secops.pathfinder.gov.bc.ca/v1alpha1",
+      "kind": "NetworkSecurityPolicy",
       "metadata": {
-        "name": "openshift-launchpad-external-sp",
-        "labels": {
-          "app": "openshift-launchpad",
-          "template": "openshift-launchpad-sp"
-        }
+        "name": "${APP_NAME}-external"
       },
       "spec": {
-        "description": "Allow all pods in the namespace to access the internet.\n",
+        "description": "Allow all pods in the namespace to access the internet.",
         "source": [
           [
             "$namespace=${NAMESPACE}"
@@ -41,17 +37,13 @@
       }
     },
     {
-      "kind": "NetworkSecurityPolicy",
       "apiVersion": "secops.pathfinder.gov.bc.ca/v1alpha1",
+      "kind": "NetworkSecurityPolicy",
       "metadata": {
-        "name": "openshift-launchpad-server2db-sp",
-        "labels": {
-          "app": "openshift-launchpad",
-          "template": "openshift-launchpad-sp"
-        }
+        "name": "${APP_NAME}-internal"
       },
       "spec": {
-        "description": "Allow the API pod(s) to communicate to the Database pod(s).\n",
+        "description": "Allow the API pod(s) to communicate with the database pod(s).",
         "source": [
           [
             "name=${APP_NAME}-server"
