@@ -3,18 +3,18 @@ name: Continuous Integration
 on: pull_request
 
 jobs:
-  test:
-    name: Run client and server tests...
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v1
-
-      - name: Run client tests
-        run: make client-test
-
-      - name: Run server tests
-        run: make server-test
+#  test:
+#    name: Run client and server tests...
+#    runs-on: ubuntu-latest
+#    steps:
+#      - name: Checkout
+#        uses: actions/checkout@v1
+#
+#      - name: Run client tests
+#        run: make client-test
+#
+#      - name: Run server tests
+#        run: make server-test
 
   deploy:
     name: Create new instance of client, database and server...
@@ -36,7 +36,7 @@ jobs:
         uses: actions/checkout@v1
 
       - name: Create database
-        run: make create-database NAMESPACE=apdwlc-dev APP_NAME=openshift-launchpad POSTGRESQL_DATABASE=launchpad
+        run: make create-database NAMESPACE=apdwlc-tools APP_NAME=openshift-launchpad POSTGRESQL_DATABASE=launchpad
 
 #      - name: Create server
 #        run: make create-server NAMESPACE=apdwlc-dev APP_NAME=openshift-launchpad REPO=https://github.com/bcgov/openshift-launchpad BRANCH=BOIL-36-github-actions
