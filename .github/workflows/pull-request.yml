@@ -8,38 +8,39 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Set env
+      - name: Set PR Number env variable
         run: |
-          echo $GITHUB_REF
-          echo $GITHUB_REF | sed 's/.*pull\/\([0-9]*\)\/.*/\1/'
-          TEST=$(echo $GITHUB_REF | sed 's/.*pull\/\([0-9]*\)\/.*/\1/')
-          echo $TEST
-          echo "::set-env name=PR_NUMBER::$(echo $GITHUB_REF | sed 's/.*pull\/\([0-9]*\)\/.*/\1/')"
-          echo $PR_NUMBER
+          export PR_NUMBER=$(echo $GITHUB_REF | sed 's/.*pull\/\([0-9]*\)\/.*/\1/')
+          export NAMESPACE="apdwlc-tools"
+          export APP_NAME="openshift-launchpad-PR#$PR_NUMBER"
+          export POSTGRESQL_DATABASE="launchpad"
+          export REPO="https://github.com/bcgov/openshift-launchpad"
+          export BRANCH="BOIL-36-github-actions"
+          export API_URL="http://$APP_NAME-server-$NAMESPACE.pathfinder.gov.bc.ca"
 
-#      - name: Download OpenShift CLI
-#        run: |
-#          wget --quiet -O oc.tar.gz https://github.com/openshift/origin/releases/download/v3.11.0/openshift-origin-client-tools-v3.11.0-0cbc58b-linux-64bit.tar.gz
-#          FILE=$(tar --warning=no-unknown-keyword -tf oc.tar.gz | grep '/oc$')
-#          tar --warning=no-unknown-keyword -zxf oc.tar.gz "$FILE"
-#          sudo mv "$FILE" /usr/local/bin/oc
-#
-#      - name: Login to Openshift
-#        run: oc login https://console.pathfinder.gov.bc.ca:8443 --token=${{ secrets.OPENSHIFT_AUTH_TOKEN }}
-#
-#      - name: Checkout
-#        uses: actions/checkout@v1
-#
-#      - name: Create Network Security Policy
-#        run: |
-#          make deploy-nsp NAMESPACE=apdwlc-tools APP_NAME=openshift-launchpad
-#          sleep 30s
-#
-#      - name: Create database
-#        run: make create-database NAMESPACE=apdwlc-tools APP_NAME=openshift-launchpad POSTGRESQL_DATABASE=launchpad
+      - name: Download OpenShift CLI
+        run: |
+          wget --quiet -O oc.tar.gz https://github.com/openshift/origin/releases/download/v3.11.0/openshift-origin-client-tools-v3.11.0-0cbc58b-linux-64bit.tar.gz
+          FILE=$(tar --warning=no-unknown-keyword -tf oc.tar.gz | grep '/oc$')
+          tar --warning=no-unknown-keyword -zxf oc.tar.gz "$FILE"
+          sudo mv "$FILE" /usr/local/bin/oc
 
-#      - name: Create server
-#        run: make create-server NAMESPACE=apdwlc-dev APP_NAME=openshift-launchpad REPO=https://github.com/bcgov/openshift-launchpad BRANCH=BOIL-36-github-actions
+      - name: Login to Openshift
+        run: oc login https://console.pathfinder.gov.bc.ca:8443 --token=${{ secrets.OPENSHIFT_AUTH_TOKEN }}
 
-#      - name: Create client
-#        run: make create-client NAMESPACE=apdwlc-dev APP_NAME=openshift-launchpad REPO=https://github.com/bcgov/openshift-launchpad BRANCH=BOIL-36-github-actions API_URL=http://openshift-launchpad-server-launchpad.192.168.64.4.nip.io
+      - name: Checkout
+        uses: actions/checkout@v1
+
+      - name: Create Network Security Policy
+        run: |
+          make create-nsp NAMESPACE=$NAMESPACE APP_NAME=$APP_NAME
+          sleep 30s
+
+      - name: Create database
+        run: make create-database NAMESPACE=$NAMESPACE APP_NAME=$APP_NAME POSTGRESQL_DATABASE=$POSTGRESQL_DATABASE
+
+      - name: Create server
+        run: make create-server NAMESPACE=$NAMESPACE APP_NAME=$APP_NAME REPO=$REPO BRANCH=$BRANCH
+
+      - name: Create client
+        run: make create-client NAMESPACE=$NAMESPACE APP_NAME=$APP_NAME REPO=$REPO BRANCH=$BRANCH API_URL=$API_URL
