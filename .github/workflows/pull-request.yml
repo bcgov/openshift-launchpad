@@ -11,8 +11,10 @@ jobs:
       PR_NUMBER: $(echo $GITHUB_REF | sed 's/.*pull\/\([0-9]*\)\/.*/\1/')
 
     steps:
-      - name: Echo PR
-        run: echo $PR_NUMBER
+      - name: Set env
+        run: |
+          echo ::set-env name=PR_NUMBER::$(echo $GITHUB_REF | sed 's/.*pull\/\([0-9]*\)\/.*/\1/')
+          echo $PR_NUMBER
 
 #      - name: Download OpenShift CLI
 #        run: |
