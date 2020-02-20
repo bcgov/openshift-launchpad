@@ -17,6 +17,7 @@ jobs:
           export REPO="https://github.com/bcgov/openshift-launchpad"
           export BRANCH="BOIL-36-github-actions"
           export API_URL="http://$APP_NAME-server-$NAMESPACE.pathfinder.gov.bc.ca"
+          echo "$NAMESPACE"
 
       - name: Download OpenShift CLI
         run: |
@@ -33,7 +34,7 @@ jobs:
 
       - name: Create Network Security Policy
         run: |
-          echo "$(NAMESPACE)"
+          echo "$NAMESPACE"
           echo "TEST"
           make create-nsp NAMESPACE="$NAMESPACE" APP_NAME="$APP_NAME"
           sleep 30s
