@@ -73,28 +73,38 @@ deploy-client:
 ##############################################################################
 
 oc-all-clean:
+	test -n "$(NAMESPACE)" # Please provide a namespace via NAMESPACE=myproject
 	test -n "$(APP_NAME)" # Please provide an app name via APP_NAME=openshift-launchpad
 	@echo "+\n++ Tearing down all OpenShift objects created from templates...\n+"
+	@oc project $(NAMESPACE)
 	@oc delete all -l app=$(APP_NAME)
 
 oc-server-clean:
+	test -n "$(NAMESPACE)" # Please provide a namespace via NAMESPACE=myproject
 	test -n "$(APP_NAME)" # Please provide an app name via APP_NAME=openshift-launchpad
 	@echo "+\n++ Tearing down OpenShift server objects created from templates...\n+"
+	@oc project $(NAMESPACE)
 	@oc delete all -l template=$(APP_NAME)-server
 
 oc-db-clean:
+	test -n "$(NAMESPACE)" # Please provide a namespace via NAMESPACE=myproject
 	test -n "$(APP_NAME)" # Please provide an app name via APP_NAME=openshift-launchpad
 	@echo "+\n++ Tearing down OpenShift postgresql objects created from templates...\n+"
+	@oc project $(NAMESPACE)
 	@oc delete all -l template=$(APP_NAME)-database
 
 oc-persisted-clean:
+	test -n "$(NAMESPACE)" # Please provide a namespace via NAMESPACE=myproject
 	test -n "$(APP_NAME)" # Please provide a database service name via DATABASE_SERVICE_NAME=db-service
 	@echo "+\n++ Remove persistant storage used by db service \n+"
+	@oc project $(NAMESPACE)
 	@oc delete pvc $(APP_NAME)-database
 	@oc delete secret $(APP_NAME)-database
 	@oc delete nsp -l app=$(APP_NAME)
 
 oc-client-clean:
+	test -n "$(NAMESPACE)" # Please provide a namespace via NAMESPACE=myproject
 	test -n "$(APP_NAME)" # Please provide an app name via APP_NAME=openshift-launchpad
 	@echo "+\n++ Tearing down OpenShift client objects created from templates...\n+"
+	@oc project $(NAMESPACE)
 	@oc delete all -l template=$(APP_NAME)-client

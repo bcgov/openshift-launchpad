@@ -8,26 +8,31 @@
   "parameters": [
     {
       "name": "NAMESPACE",
+      "description": "The OpenShift namespace in which to deploy the database",
       "required": true
     },
     {
       "name": "APP_NAME",
+      "description": "App name that OpenShift objects will be prefixed with",
       "required": true
     },
     {
-      "from": "user[A-Z0-9]{3}",
-      "generate": "expression",
       "name": "POSTGRESQL_USER",
+      "description": "Username for PostgreSQL user, will be randomly generated if not supplied",
+      "generate": "expression",
+      "from": "user[A-Z0-9]{3}",
       "required": true
     },
     {
-      "from": "[a-zA-Z0-9]{16}",
-      "generate": "expression",
       "name": "POSTGRESQL_PASSWORD",
+      "description": "Password for PostgreSQL user, will be randomly generated if not supplied",
+      "generate": "expression",
+      "from": "[a-zA-Z0-9]{16}",
       "required": true
     },
     {
       "name": "POSTGRESQL_DATABASE",
+      "description": "Name of PostgreSQL database",
       "required": true
     }
   ],
