@@ -7,9 +7,6 @@ jobs:
     name: Create new instance of client, database and server...
     runs-on: ubuntu-latest
 
-    env:
-      PR_NUMBER: $(echo $GITHUB_REF | sed 's/.*pull\/\([0-9]*\)\/.*/\1/')
-
     steps:
       - name: Set env
         run: |
