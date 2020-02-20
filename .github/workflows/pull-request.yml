@@ -33,6 +33,8 @@ jobs:
 
       - name: Create Network Security Policy
         run: |
+          echo "$NAMESPACE"
+          echo "TEST"
           make create-nsp NAMESPACE="$NAMESPACE" APP_NAME="$APP_NAME"
           sleep 30s
 
