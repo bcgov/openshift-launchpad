@@ -7,27 +7,33 @@ jobs:
     name: Create new instance of client, database and server...
     runs-on: ubuntu-latest
 
+    env:
+      PR_NUMBER: $(echo $GITHUB_REF | sed 's/.*pull\/\([0-9]*\)\/.*/\1/')
+
     steps:
-      - name: Download OpenShift CLI
-        run: |
-          wget --quiet -O oc.tar.gz https://github.com/openshift/origin/releases/download/v3.11.0/openshift-origin-client-tools-v3.11.0-0cbc58b-linux-64bit.tar.gz
-          FILE=$(tar --warning=no-unknown-keyword -tf oc.tar.gz | grep '/oc$')
-          tar --warning=no-unknown-keyword -zxf oc.tar.gz "$FILE"
-          sudo mv "$FILE" /usr/local/bin/oc
+      - name: Echo PR
+        run: echo $PR_NUMBER
 
-      - name: Login to Openshift
-        run: oc login https://console.pathfinder.gov.bc.ca:8443 --token=${{ secrets.OPENSHIFT_AUTH_TOKEN }}
-
-      - name: Checkout
-        uses: actions/checkout@v1
-
-      - name: Create Network Security Policy
-        run: |
-          make deploy-nsp NAMESPACE=apdwlc-tools APP_NAME=openshift-launchpad
-          sleep 30s
-
-      - name: Create database
-        run: make create-database NAMESPACE=apdwlc-tools APP_NAME=openshift-launchpad POSTGRESQL_DATABASE=launchpad
+#      - name: Download OpenShift CLI
+#        run: |
+#          wget --quiet -O oc.tar.gz https://github.com/openshift/origin/releases/download/v3.11.0/openshift-origin-client-tools-v3.11.0-0cbc58b-linux-64bit.tar.gz
+#          FILE=$(tar --warning=no-unknown-keyword -tf oc.tar.gz | grep '/oc$')
+#          tar --warning=no-unknown-keyword -zxf oc.tar.gz "$FILE"
+#          sudo mv "$FILE" /usr/local/bin/oc
+#
+#      - name: Login to Openshift
+#        run: oc login https://console.pathfinder.gov.bc.ca:8443 --token=${{ secrets.OPENSHIFT_AUTH_TOKEN }}
+#
+#      - name: Checkout
+#        uses: actions/checkout@v1
+#
+#      - name: Create Network Security Policy
+#        run: |
+#          make deploy-nsp NAMESPACE=apdwlc-tools APP_NAME=openshift-launchpad
+#          sleep 30s
+#
+#      - name: Create database
+#        run: make create-database NAMESPACE=apdwlc-tools APP_NAME=openshift-launchpad POSTGRESQL_DATABASE=launchpad
 
 #      - name: Create server
 #        run: make create-server NAMESPACE=apdwlc-dev APP_NAME=openshift-launchpad REPO=https://github.com/bcgov/openshift-launchpad BRANCH=BOIL-36-github-actions
