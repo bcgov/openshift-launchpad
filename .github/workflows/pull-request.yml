@@ -31,6 +31,9 @@ jobs:
         run: |
           echo ::set-env name=FOO::$(echo -n "hello world")
           echo "$FOO"
+
+      - name: Testing2
+        run: echo "$FOO"
 #          echo "$PR_NUMBER"
 #          echo "$NAMESPACE"
 #
