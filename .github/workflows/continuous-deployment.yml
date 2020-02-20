@@ -1,0 +1,55 @@
+name: Continuous Deployment
+
+on:
+  push:
+    branches:
+      - develop
+
+jobs:
+  test:
+    name: Run client and server tests...
+    runs-on: ubuntu-latest
+    steps:
+
+      - name: Download OpenShift CLI
+        run: |
+          wget --quiet -O oc.tar.gz https://github.com/openshift/origin/releases/download/v3.11.0/openshift-origin-client-tools-v3.11.0-0cbc58b-linux-64bit.tar.gz
+          FILE=$(tar --warning=no-unknown-keyword -tf oc.tar.gz | grep '/oc$')
+          tar --warning=no-unknown-keyword -zxf oc.tar.gz "$FILE"
+          sudo mv "$FILE" /usr/local/bin/oc
+
+      - name: Checkout
+        uses: actions/checkout@v1
+
+      - name: Run client tests
+        run: make client-test
+
+# TODO: Add server tests
+#      - name: Run server tests
+#        run: make server-test
+
+# TODO: Add OpenShift login script
+#  deploy:
+#    name: Build and deploy client, database and server...
+#    runs-on: ubuntu-latest
+#
+#    # Env variables get injected into make scripts.
+#    # `secrets.*` come from the GitHub repository settings.
+#    env:
+#      MY_SECRET: ${{ secrets.MY_SECRET }}
+#
+#    steps:
+#      - name: Checkout
+#        uses: actions/checkout@v1
+#
+#      - name: Login to Openshift
+#        run: make login-openshift
+#
+#      - name: Deploy client
+#        run: make deploy-client
+#
+#      - name: Deploy database
+#        run: make deploy-database
+#
+#      - name: Deploy server
+#        run: make deploy-server
