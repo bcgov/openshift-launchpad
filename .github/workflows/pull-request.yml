@@ -33,14 +33,14 @@ jobs:
 
       - name: Create Network Security Policy
         run: |
-          make create-nsp NAMESPACE=$NAMESPACE APP_NAME=$APP_NAME
+          make create-nsp NAMESPACE="$NAMESPACE" APP_NAME="$APP_NAME"
           sleep 30s
 
-      - name: Create database
-        run: make create-database NAMESPACE=$NAMESPACE APP_NAME=$APP_NAME POSTGRESQL_DATABASE=$POSTGRESQL_DATABASE
-
-      - name: Create server
-        run: make create-server NAMESPACE=$NAMESPACE APP_NAME=$APP_NAME REPO=$REPO BRANCH=$BRANCH
-
-      - name: Create client
-        run: make create-client NAMESPACE=$NAMESPACE APP_NAME=$APP_NAME REPO=$REPO BRANCH=$BRANCH API_URL=$API_URL
+#      - name: Create database
+#        run: make create-database NAMESPACE="$NAMESPACE" APP_NAME="$APP_NAME" POSTGRESQL_DATABASE=$POSTGRESQL_DATABASE
+#
+#      - name: Create server
+#        run: make create-server NAMESPACE="$NAMESPACE" APP_NAME="$APP_NAME" REPO=$REPO BRANCH=$BRANCH
+#
+#      - name: Create client
+#        run: make create-client NAMESPACE="$NAMESPACE" APP_NAME="$APP_NAME" REPO=$REPO BRANCH=$BRANCH API_URL=$API_URL
