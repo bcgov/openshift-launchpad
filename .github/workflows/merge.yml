@@ -39,7 +39,7 @@ jobs:
         uses: actions/checkout@v1
 
 #      - name: Deploy server
-#        run: make deploy-server NAMESPACE=apdwlc-dev APP_NAME=openshift-launchpad REPO=https://github.com/bcgov/openshift-launchpad BRANCH=BOIL-36-github-actions
+#        run:
 
 #      - name: Deploy client
-#        run: make deploy-client NAMESPACE=apdwlc-dev APP_NAME=openshift-launchpad REPO=https://github.com/bcgov/openshift-launchpad BRANCH=BOIL-36-github-actions API_URL=http://openshift-launchpad-server-launchpad.192.168.64.4.nip.io
+#        run:

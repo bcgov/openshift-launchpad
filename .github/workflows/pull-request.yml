@@ -21,6 +21,11 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v1
 
+      - name: Create Network Security Policy
+        run: |
+          make deploy-nsp
+          sleep 30s
+
       - name: Create database
         run: make create-database NAMESPACE=apdwlc-tools APP_NAME=openshift-launchpad POSTGRESQL_DATABASE=launchpad
 
