@@ -31,7 +31,8 @@ client-test:
 ##############################################################################
 # Deployment commands
 ##############################################################################
-set-nsp:
+
+deploy-nsp:
 	test -n "$(NAMESPACE)" # Please provide a namespace via NAMESPACE=myproject
 	test -n "$(APP_NAME)" # Please provide an app name via APP_NAME=openshift-launchpad
 	@echo "+\n++ Set network security policies \n+"
