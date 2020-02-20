@@ -3,9 +3,7 @@ name: Continuous Deployment
 on:
   push:
     branches:
-      - BOIL-36-github-actions
-# TODO: Uncomment when ready to use `develop` as target branch
-#      - develop
+      - develop
 
 jobs:
   test:
@@ -25,6 +23,7 @@ jobs:
   deploy:
     name: Build and deploy client, database and server...
     runs-on: ubuntu-latest
+    needs: test
 
     steps:
       - name: Download OpenShift CLI
