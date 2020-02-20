@@ -4,7 +4,7 @@ on:
   push:
     branches:
       - BOIL-36-github-actions
-# TODO: Uncomment when ready to use develop as target branch
+# TODO: Uncomment when ready to use `develop` as target branch
 #      - develop
 
 jobs:
