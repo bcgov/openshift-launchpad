@@ -8,22 +8,27 @@
   "parameters": [
     {
       "name": "NAMESPACE",
+      "description": "The OpenShift namespace in which to deploy the client",
       "required": true
     },
     {
       "name": "APP_NAME",
+      "description": "App name that OpenShift objects will be prefixed with",
       "required": true
     },
     {
       "name": "REPO",
+      "description": "URL of boilerplate repository",
       "required": true
     },
     {
       "name": "BRANCH",
+      "description": "Branch of the boilerplate repository that should be built",
       "required": true
     },
     {
       "name": "API_URL",
+      "description": "Public URL of server service",
       "required": true
     }
   ],
