@@ -3,8 +3,9 @@ name: Continuous Deployment
 on:
   push:
     branches:
-#      - develop
       - BOIL-36-github-actions
+# TODO: Uncomment when ready to use develop as target branch
+#      - develop
 
 jobs:
   test:
@@ -24,11 +25,6 @@ jobs:
   deploy:
     name: Build and deploy client, database and server...
     runs-on: ubuntu-latest
-
-    # Env variables get injected into make scripts.
-    # `secrets.*` come from the GitHub repository settings.
-#    env:
-#      OPENSHIFT_AUTH_TOKEN: ${{ secrets.OPENSHIFT_AUTH_TOKEN }}
 
     steps:
       - name: Download OpenShift CLI
