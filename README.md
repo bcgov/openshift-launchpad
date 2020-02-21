@@ -4,28 +4,31 @@ A simple three-tiered application (database, server, client) that is designed to
 
 ## Purpose
 
-Most new project teams working within the BC Developers Exchange environment experience a kick-off period where they need to learn the tools and processes necessary to create and deploy a new application. Even something as seemingly simple as implementing a reference 3-tiered architecture can occupy a great deal of development time if the team doesn't start with a simple boilerplate. OpenShift configuration and deployment itself is a steep learning curve. With all of the new things to learn and absorb, "Sprint Zero" can easily drag out for weeks.
+Most new project teams working within the BC Developers Exchange environment experience a lengthy acclimation period in which learn about the tools and environment of the lab. While familiar with developing apps, teams are often unaware of how to deploy them to OpenShift. OpenShift configuration and deployment itself is a steep learning curve. With all of the new things to learn and absorb, *Sprint Zero* can easily drag out for weeks.
 
-This project is intended as a starting point for the team with a Product Owner who wants to start realizing business value soon after the project kicks off. The repo before you does not have everything necessary to solve every problem you will face, but it should work out of the box and allow you to put working features in front of users sooner. 
+This project is intended as a starting point for the team with a Product Owner who wants to start realizing business value as soon as possible after the project kicks off. This repository does not have everything necessary to solve every problem you will face, but it should work out of the box and allow you to add working features sooner.
 
 ## Philosophy
-- Everything is Open-Source. 
-- Keep things as simple as possible (you can make it more complicated later if you need to).
-- Automate as much as possible (you can find all the scripts and run them manually if you want to).
+
+- Everything is open-source. 
+- Keep things simple and add complexity when required.
+- Automate repetitive commands while exposing what's being done.
 - Obfuscate the underlying technology as little as possible.
-- We should be able to check out, build and run locally with minimal effort (using docker-compose).
+- Able to clone, build, and run locally with minimal effort.
 - Keep everything compatible with deployment to OpenShift.
-- Reduce technical debt as much as possible and keep cleaning it up as you go.
+- Minimize technical debt.
 
 ## Requirements:
+
 - [Git](https://git-scm.com)
 - [make](http://man7.org/linux/man-pages/man1/make.1.html) (installed by default on OS X and Linux)
 - [Docker](https://www.docker.com/)
 - [OpenShift CLI](https://docs.openshift.com/container-platform/3.11/cli_reference/get_started_cli.html#cli-reference-get-started-cli)
-- Docker Compose (included with [Docker](https://docs.docker.com/install/) on Windows and Mac; only for convenience when running locally)
+- Docker Compose (included with [Docker](https://docs.docker.com/install/) on Windows and Mac; used to run locally)
 
 ## Getting Started
-The application is fully Dockerized, simplifying both local development and deployment to OpenShift. If someone prefers to run Python, Node, and PostgreSQL directly on their workstation as individual services that is fully possible, but the seamless experience described here lends itself to easy setup and switching between branches. Note that the Docker-Compose commands are not intended to interact in any way with OpenShift (see "Deployment" below).
+
+The application is fully containerized, simplifying both local development and deployment to OpenShift. The processes described in this document use Docker to run services locally. Note that running the Python, Node, and PostgreSQL services without Docker containers is possible, but is left as an excersise for the reader. Further, note that the Docker Compose commands are not intended to interact in any way with OpenShift (see "Deployment" below).
 
 ### Local Deployment
 
@@ -59,7 +62,7 @@ The application is fully Dockerized, simplifying both local development and depl
 
 ## Commands
 
-The project uses Make commands listed in the [Makefile](Makefile) for ease of development. The commands are as follows:
+The project uses Make commands listed in the [Makefile](Makefile) for ease of development. The available commands are as follows.
 
 | Command                 | Description
 |-------------------------|---------------------------------------------------------------
