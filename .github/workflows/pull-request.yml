@@ -7,18 +7,10 @@ jobs:
     name: Create new instance of client, database and server...
     runs-on: ubuntu-latest
 
-    env:
-      NAMESPACE: apdwlc-tools
-      POSTGRESQL_DATABASE: launchpad
-      REPO: https://github.com/bcgov/openshift-launchpad
-      BRANCH: BOIL-36-github-actions
-      API_URL: http://$APP_NAME-server-$NAMESPACE.pathfinder.gov.bc.ca
-
     steps:
-      - name: Set PR Number env variable
+      - name: Set env variables
         run: |
-          echo ::set-env name=PR_NUMBER::$(echo $GITHUB_REF | sed 's/.*pull\/\([0-9]*\)\/.*/\1/')
-          echo ::set-env name=APP_NAME::"openshift-launchpad-PR$PR_NUMBER"
+          echo ::set-env name=APP_NAME::"openshift-launchpad-PR$(echo $GITHUB_REF | sed 's/.*pull\/\([0-9]*\)\/.*/\1/')"
           echo ::set-env name=NAMESPACE::"apdwlc-tools"
           echo ::set-env name=POSTGRESQL_DATABASE::"launchpad"
           echo ::set-env name=REPO::"https://github.com/bcgov/openshift-launchpad"
