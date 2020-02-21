@@ -28,17 +28,17 @@ This project is intended as a starting point for the team with a Product Owner w
 
 ## Getting Started
 
-The application is fully containerized, simplifying both local development and deployment to OpenShift. The processes described in this document use Docker to run services locally. Note that running the Python, Node, and PostgreSQL services without Docker containers is possible, but is left as an excersise for the reader. Further, note that the Docker Compose commands are not intended to interact in any way with OpenShift (see "Deployment" below).
+The application is fully containerized, simplifying both local development and deployment to OpenShift. The processes described in this document use Docker Compose to run services locally. Note that running the Python, Node, and PostgreSQL services locally without Docker containers is possible, but is left as an excersise for the reader. Further, note that the Docker Compose commands are not intended to interact in any way with OpenShift (see "Deployment" below).
 
 ### Local Deployment
 
 1. Install [Docker](https://www.docker.com/) (if you haven't already)
-2. Checkout the code `git clone https://github.com/bcgov/openshift-launchpad.git` (or use ssh)
+2. Checkout the project `git clone https://github.com/bcgov/openshift-launchpad.git` (or use ssh)
 3. Under the root directory, run `make run` in your terminal
-4. Visit the application on the following ports/URLs:
-	- The client container exposes port 3000 and can be viewed by visiting http://localhost:3000
-	- The server container exposes port 5000 and can be viewed by visiting http://localhost:5000
-	- The database container exposes port 5435 and can be viewed by using pgAdmin, postico, psql, etc.
+4. Inspect the application services exposed at the following URLs.
+	- The client container exposes port 3000 locally at http://localhost:3000
+	- The server container exposes port 5000 locally at http://localhost:5000
+	- The database container exposes port 5435 and can be inspected using pgAdmin, Postico, psql, etc.
 
 ### OpenShift Deployment
 
