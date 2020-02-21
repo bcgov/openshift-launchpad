@@ -3,6 +3,19 @@ name: Continuous Integration
 on: pull_request
 
 jobs:
+  test:
+    name: Run client and server tests...
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v1
+
+      - name: Run client tests
+        run: make client-test
+
+      - name: Run server tests
+        run: make server-test
+
   deploy:
     name: Create new instance of client, database and server...
     runs-on: ubuntu-latest
@@ -16,7 +29,7 @@ jobs:
           echo ::set-env name=REPO::"https://github.com/bcgov/openshift-launchpad"
           echo ::set-env name=BRANCH::"BOIL-36-github-actions"
 
-      - name: Set API env
+      - name: Set API env variable
         run: echo ::set-env name=API_URL::"http://$APP_NAME-server-$NAMESPACE.pathfinder.gov.bc.ca"
 
       - name: Download OpenShift CLI
