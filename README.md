@@ -87,6 +87,31 @@ The project uses Make commands listed in the [Makefile](Makefile) for ease of de
 
 Refer to the [Makefile](Makefile) for arguments required for the above commands.
 
+## Minishift Deployment
+
+Minishift is a tool that helps run OpenShift locally. A single-node cluster is created inside a VM. Minishift can be installed using [these instructions](https://docs.okd.io/latest/minishift/getting-started/installing.html#installing-with-homebrew).
+
+After installing, you'll have to run `minishift start` to spin up the cluster. Similar to the OpenShift console, Minishift provides a console that can be accessed from a web browser by running `minishift console`. Refer to the local Minishift console instead of the OpenShift console when following the steps outlined in the OpenShift Deployment section of this document.
+
+## Deploying on Windows
+
+We can run make commands in Windows using the following steps.
+- Install [GNUWin](http://gnuwin32.sourceforge.net/)
+- Find the installation location of GNUWin and its bin folder (eg: C:\\Program Files (x86)\\GnuWin32\\bin)
+- Open the Environment Variables sections of Windows System Properties (see [instructions](https://docs.oracle.com/en/database/oracle/r-enterprise/1.5.1/oread/creating-and-modifying-environment-variables-on-windows.html#GUID-DD6F9982-60D5-48F6-8270-A27EC53807D0))
+- Edit the `Path` environment variable and add the GNUWin bin directory from above (note that paths are comma separated)
+- Reopen PowerShell or CMD and run make commands
+
+## Database Migrations
+
+The server portion of this project interacts with a PostgreSQL image. In order for the database to be created and configured, the server runs database migrations after deploying. Under the hood, this procedure relies on SQLAlchemy as an ORM. If changes are made to the applications model, this must be reflected in the migrations.
+
+When you make changes to the model or add new model, run `flask db migrate -m "[YOUR MIGRATION COMMENTS]"`. Note that this command has the same dependencies as running the server itself. It can, therefore, be run inside the server Docker container or after installing the servers Python dependencies using `pip install -r server/requirements.txt` from the project root directory.
+
+While migrations are run automatically when running the application locally using Docker Compose as well as when deploying to OpenShift, it is possible to run them directly. To update the database run `flask db upgrade`. Similarly, changes can be rolled back using `flask db downgrade`.
+
+Docker Compose can be instructed to run only the migrations container by running `docker-compose start server-migrate`. Ensure the database container is already running as the migrations need a database on which to be applied.
+
 ## License
 
 Code released under the [Apache License, Version 2.0](LICENSE).
