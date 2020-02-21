@@ -4,9 +4,9 @@ A simple three-tiered application (database, server, client) that is designed to
 
 ## Purpose
 
-Most new project teams working within the BC Developers Exchange environment experience a lengthy acclimation period in which learn about the tools and environment of the lab. While familiar with developing apps, teams are often unaware of how to deploy them to OpenShift. OpenShift configuration and deployment itself is a steep learning curve. With all of the new things to learn and absorb, *Sprint Zero* can easily drag out for weeks.
+Most new project teams working within the BC Developers Exchange environment experience a lengthy acclimation period in which they learn about the tools and environment of the lab. While familiar with developing apps, teams are often unaware of how to deploy them to OpenShift. The concept of OpenShift configuration and deployment itself has a steep learning curve. With all of the new things to learn and absorb, *Sprint Zero* can easily drag out for weeks.
 
-This project is intended as a starting point for the team with a Product Owner who wants to start realizing business value as soon as possible after the project kicks off. This repository does not have everything necessary to solve every problem you will face, but it should work out of the box and allow you to add working features sooner.
+This project is intended as a starting point for the team with a Product Owner who wants to start realizing business value as soon as possible after the project kicks off. This repository does not have everything necessary to solve every problem you will face, but it should work out of the box and allow you to add features sooner.
 
 ## Philosophy
 
@@ -32,8 +32,8 @@ The application is fully containerized, simplifying both local development and d
 
 ### Local Deployment
 
-1. Install [Docker](https://www.docker.com/) (if you haven't already)
-2. Checkout the project `git clone https://github.com/bcgov/openshift-launchpad.git` (or use ssh)
+1. Install [Docker](https://www.docker.com/)
+2. Checkout the project `git clone https://github.com/bcgov/openshift-launchpad.git`
 3. Under the root directory, run `make run` in your terminal
 4. Inspect the application services exposed at the following URLs.
 	- The client container exposes port 3000 locally at http://localhost:3000
@@ -48,7 +48,7 @@ Before deploying to the BC Government OpenShift cluster, access must be granted.
 2. Login to your OpenShift cluster using the CLI
 	- Ensure you have access to the BC Gov OpenShift cluster (request access [here](https://github.com/BCDevOps/devops-requests/issues/new?template=openshift_user_access_request.md))
 	- Login to the BC Gov OpenShift cluster [here](https://console.pathfinder.gov.bc.ca:8443/console/)
-	- Ensure there is at least one namespace that you have rights to edit
+	- Ensure there is at least one namespace that you have rights to edit and note its ID
 	- Click your name in the top right to reveal a dropdown
 	- Click "Copy Login Command"
 	- Paste into your terminal
