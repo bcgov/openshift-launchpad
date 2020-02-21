@@ -15,7 +15,9 @@ jobs:
           echo ::set-env name=POSTGRESQL_DATABASE::"launchpad"
           echo ::set-env name=REPO::"https://github.com/bcgov/openshift-launchpad"
           echo ::set-env name=BRANCH::"BOIL-36-github-actions"
-          echo ::set-env name=API_URL::"http://$APP_NAME-server-$NAMESPACE.pathfinder.gov.bc.ca"
+
+      - name: Set API env
+        run: echo ::set-env name=API_URL::"http://$APP_NAME-server-$NAMESPACE.pathfinder.gov.bc.ca"
 
       - name: Download OpenShift CLI
         run: |
