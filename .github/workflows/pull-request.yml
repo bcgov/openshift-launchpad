@@ -10,7 +10,7 @@ jobs:
     steps:
       - name: Set env variables
         run: |
-          echo ::set-env name=APP_NAME::"openshift-launchpad-PR$(echo $GITHUB_REF | sed 's/.*pull\/\([0-9]*\)\/.*/\1/')"
+          echo ::set-env name=APP_NAME::"openshift-launchpad-pr$(echo $GITHUB_REF | sed 's/.*pull\/\([0-9]*\)\/.*/\1/')"
           echo ::set-env name=NAMESPACE::"apdwlc-tools"
           echo ::set-env name=POSTGRESQL_DATABASE::"launchpad"
           echo ::set-env name=REPO::"https://github.com/bcgov/openshift-launchpad"
