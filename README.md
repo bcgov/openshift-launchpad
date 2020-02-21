@@ -64,23 +64,23 @@ The application is fully containerized, simplifying both local development and d
 
 The project uses Make commands listed in the [Makefile](Makefile) for ease of development. The available commands are as follows.
 
-| Command                 | Description
-|-------------------------|---------------------------------------------------------------
-| make build              | (Re-)Builds local images listed in the docker-compose
-| make run                | Launches the application using Docker (builds the images if required)
-| make restart            | Stops the app, rebuilds the images, and restarts the app
-| make close              | Stops and removes any locally running containers
-| make clean              | Purges containers, images, and volumes
-| make client-test        | Runs client unit tests
-| make create-nsp         | Creates the requisite Network Security Policies in OpenShift
-| make create-database    | Creates the database service in OpenShift
-| make create-server      | Creates the server service in OpenShift
-| make create-client      | Creates the client servvice in OpenShift
-| make oc-all-clean       | Removes all OpenShift objects associated with the application (does not affect persisted objects)
-| make oc-database-clean  | Removes all OpenShift objects associated with the database service (does not affect persisted objects)
-| make oc-persisted-clean | Removes all persisted objects associated with the application (NSPs, volume claims, and secrets)
-| make oc-server-clean    | Removes all OpenShift objects associated with the server service
-| make oc-client-clean    | Removes all OpenShift objects associated with the client service
+| Command                 | Target    | Description
+|-------------------------|-----------|----------------------------------------------------
+| make build              | Local     | (Re-)Builds local images listed in the docker-compose
+| make run                | Local     | Launches the application using Docker (builds the images if required)
+| make restart            | Local     | Stops the app, rebuilds the images, and restarts the app
+| make close              | Local     | Stops and removes any locally running containers
+| make clean              | Local     | Purges containers, images, and volumes
+| make client-test        | Local     | Runs client unit tests
+| make create-nsp         | OpenShift | Creates the requisite Network Security Policies in OpenShift
+| make create-database    | OpenShift | Creates the database service in OpenShift
+| make create-server      | OpenShift | Creates the server service in OpenShift
+| make create-client      | OpenShift | Creates the client servvice in OpenShift
+| make oc-all-clean       | OpenShift | Removes all OpenShift objects associated with the application (does not affect persisted objects)
+| make oc-database-clean  | OpenShift | Removes all OpenShift objects associated with the database service (does not affect persisted objects)
+| make oc-persisted-clean | OpenShift | Removes all persisted objects associated with the application (NSPs, volume claims, and secrets)
+| make oc-server-clean    | OpenShift | Removes all OpenShift objects associated with the server service
+| make oc-client-clean    | OpenShift | Removes all OpenShift objects associated with the client service
 
 Refer to the [Makefile](Makefile) for arguments required for the above commands.
 
