@@ -42,8 +42,11 @@ The application is fully containerized, simplifying both local development and d
 
 ### OpenShift Deployment
 
-1. Ensure the OpenShift CLI is installed `oc version`
+Before deploying to the BC Government OpenShift cluster, access must be granted. If you are a member of a new Developer Exchange team, you may have to request access. The BC Developer Exchange [provides a channel](https://github.com/BCDevOps/devops-requests) through which OpenShift access can be requested.
+
+1. Ensure the [OpenShift CLI](https://docs.openshift.com/container-platform/3.11/cli_reference/get_started_cli.html#cli-reference-get-started-cli) is installed `oc version`
 2. Login to your OpenShift cluster using the CLI
+	- Ensure you have access to the BC Gov OpenShift cluster (request access [here](https://github.com/BCDevOps/devops-requests/issues/new?template=openshift_user_access_request.md))
 	- Login to the BC Gov OpenShift cluster [here](https://console.pathfinder.gov.bc.ca:8443/console/)
 	- Ensure there is at least one namespace that you have rights to edit
 	- Click your name in the top right to reveal a dropdown
