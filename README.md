@@ -24,6 +24,7 @@ This project is intended as a starting point for the team with a Product Owner w
 - [make](http://man7.org/linux/man-pages/man1/make.1.html) (installed by default on OS X and Linux)
 - [Docker](https://www.docker.com/)
 - [OpenShift CLI](https://docs.openshift.com/container-platform/3.11/cli_reference/get_started_cli.html#cli-reference-get-started-cli)
+	- The simplest way to install the CLI on MacOS is using `brew install openshift-cli` (requires [Homebrew](https://brew.sh))
 - Docker Compose (included with [Docker](https://docs.docker.com/install/) on Windows and Mac; used to run locally)
 
 ## Getting Started
@@ -32,24 +33,26 @@ The application is fully containerized, simplifying both local development and d
 
 ### Local Deployment
 
-1. Install [Docker](https://www.docker.com/)
+1. Ensure docker is installed `docker -v`
 2. Checkout the project `git clone https://github.com/bcgov/openshift-launchpad.git`
-3. Under the root directory, run `make run` in your terminal
+3. Navigate to project root directory `cd openshift-launchpad`
+3. Under the root directory, run `make run` in your terminal to stand up the application using Docker Compose
 4. Inspect the application services exposed at the following URLs.
-	- The client container exposes port 3000 locally at http://localhost:3000
-	- The server container exposes port 5000 locally at http://localhost:5000
-	- The database container exposes port 5435 and can be inspected using pgAdmin, Postico, psql, etc.
-5. Verify that the database migration container container was created and closed by running `docker ps -a | grep migrate`
+	- The client container exposes port 3000 locally at [http://localhost:3000]
+	- The server container exposes port 5000 locally at [http://localhost:5000/api/foo]
+	- The database container exposes a *sample_db* database on port 5435 and can be inspected using pgAdmin, Postico, psql, etc. as user *admin* with password *password* 
+5. Verify that the database migration container was created and closed by running `docker ps -a | grep migrate`
 
 ### OpenShift Deployment
 
 Before deploying to the BC Government OpenShift cluster, access must be granted. If you are a member of a new Developer Exchange team, you may have to request access. The BC Developer Exchange [provides a channel](https://github.com/BCDevOps/devops-requests) through which OpenShift access can be requested.
 
-1. Ensure the [OpenShift CLI](https://docs.openshift.com/container-platform/3.11/cli_reference/get_started_cli.html#cli-reference-get-started-cli) is installed `oc version`
+1. Ensure the OpenShift CLI is installed `oc version`
 2. Login to your OpenShift cluster using the CLI
 	- Ensure you have access to the BC Gov OpenShift cluster (request access [here](https://github.com/BCDevOps/devops-requests/issues/new?template=openshift_user_access_request.md))
 	- Login to the BC Gov OpenShift cluster [here](https://console.pathfinder.gov.bc.ca:8443/console/)
-	- Ensure there is at least one namespace that you have rights to edit and note its ID
+	- Ensure there is at least one namespace that you have rights to edit (listed in the rightmost column as "Projects")
+	- Click an editable namespace and note its ID (visible in the URL after `/project/`)
 	- Click your name in the top right to reveal a dropdown
 	- Click "Copy Login Command"
 	- Paste into your terminal
@@ -62,13 +65,19 @@ Before deploying to the BC Government OpenShift cluster, access must be granted.
 	- The relevant route will be named [APP_NAME]-server
 	- Copy the URL that the route exposes
 7. Run `make create-client NAMESPACE=[NAMESPACE] APP_NAME=[APP_NAME] REPO=https://github.com/bcgov/openshift-launchpad BRANCH=develop API_URL=[API_URL]` replacing `[API_URL]` with the route URL copied in the previous step
-8. Once the client is built and deployed, confirm it's working by navigating to the route it exposes
+8. Once the client is built and deployed (click Overview in OpenShift console), confirm it's working by navigating to the route it exposes (Applications > Routes)
 
 ### Minishift Deployment
 
 Minishift is a tool that helps run OpenShift locally. A single-node cluster is created inside a VM. Minishift can be installed using [these instructions](https://docs.okd.io/latest/minishift/getting-started/installing.html#installing-with-homebrew).
 
 After installing, you'll have to run `minishift start` to spin up the cluster. Similar to the OpenShift console, Minishift provides a console that can be accessed from a web browser by running `minishift console`. Refer to the local Minishift console instead of the OpenShift console when following the steps outlined in the OpenShift Deployment section of this document.
+
+### Cleanup
+
+To clean up the Docker containers locally, run `make clean`.
+
+If the application was deployed to OpenShift or Minishift, ensure you're logged in with the CLI (see step 2 of the OpenShift Deployment section of this document). Run `make oc-all-clean NAMESPACE=[NAMESPACE] APP_NAME=[APP_NAME]`. The previous command does not remove persisted objects (volume claims, NSPs, secrets). To remove persisted objects, run `make oc-persisted-clean NAMESPACE=[NAMESPACE] APP_NAME=[APP_NAME]`.
 
 ## Commands
 
