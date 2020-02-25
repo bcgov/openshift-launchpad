@@ -112,7 +112,7 @@ oc-server-clean:
 	test -n "$(APP_NAME)" # Please provide an app name via APP_NAME=openshift-launchpad
 	@echo "+\n++ Tearing down OpenShift server objects created from templates...\n+"
 	@oc project $(NAMESPACE)
-	@oc delete all -l template=$(APP_NAME)-server --ignore-not-found
+	@oc delete all -l template=$(APP_NAME)-server
 
 oc-client-clean:
 	test -n "$(NAMESPACE)" # Please provide a namespace via NAMESPACE=myproject
