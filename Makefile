@@ -28,6 +28,10 @@ client-test:
 	@echo "+\n++ Running client unit tests...\n+"
 	@docker-compose run client npm test
 
+server-test:
+	@echo "+\n++ Running server unit tests...\n+"
+	@echo "TODO"
+
 ##############################################################################
 # Deployment / CI-CD commands
 ##############################################################################
@@ -36,16 +40,16 @@ create-nsp:
 	test -n "$(NAMESPACE)" # Please provide a namespace via NAMESPACE=myproject
 	test -n "$(APP_NAME)" # Please provide an app name via APP_NAME=openshift-launchpad
 	@echo "+\n++ Set network security policies \n+"
-	@oc process -f deployment/nsp.json -p NAMESPACE=$(NAMESPACE) APP_NAME=$(APP_NAME) | oc create -f -
+	@oc process -f deployment/nsp.json -p NAMESPACE=$(NAMESPACE) APP_NAME=$(APP_NAME) | oc apply -f -
 
 create-database:
 	test -n "$(NAMESPACE)" # Please provide a namespace via NAMESPACE=myproject
 	test -n "$(APP_NAME)" # Please provide an app name via APP_NAME=openshift-launchpad
 	test -n "$(POSTGRESQL_DATABASE)" # Please provide a database name via POSTGRESQL_DATABASE=sample_db
 	@echo "+\n++ Creating OpenShift database build config and image stream...\n+"
-	@oc process -f deployment/database.bc.json -p NAMESPACE=$(NAMESPACE) APP_NAME=$(APP_NAME) | oc create -f -	
+	@oc process -f deployment/database.bc.json -p NAMESPACE=$(NAMESPACE) APP_NAME=$(APP_NAME) | oc apply -f -
 	@echo "+\n++ Creating OpenShift database deployment config, services, and routes...\n+"
-	@oc process -f deployment/database.dc.json -p NAMESPACE=$(NAMESPACE) APP_NAME=$(APP_NAME) POSTGRESQL_DATABASE=$(POSTGRESQL_DATABASE) | oc create -f -
+	@oc process -f deployment/database.dc.json -p NAMESPACE=$(NAMESPACE) APP_NAME=$(APP_NAME) POSTGRESQL_DATABASE=$(POSTGRESQL_DATABASE) | oc apply -f -
 
 create-server:
 	test -n "$(NAMESPACE)" # Please provide a namespace via NAMESPACE=myproject
@@ -53,9 +57,9 @@ create-server:
 	test -n "$(REPO)" # Please provide a git repo via REPO=https://github.com/bcgov/openshift-launchpad
 	test -n "$(BRANCH)" # Please provide a git branch via BRANCH=develop
 	@echo "+\n++ Creating OpenShift server build config and image stream...\n+"
-	@oc process -f deployment/server.bc.json -p NAMESPACE=$(NAMESPACE) APP_NAME=$(APP_NAME) REPO=$(REPO) BRANCH=$(BRANCH) | oc create -f -
+	@oc process -f deployment/server.bc.json -p NAMESPACE=$(NAMESPACE) APP_NAME=$(APP_NAME) REPO=$(REPO) BRANCH=$(BRANCH) | oc apply -f -
 	@echo "+\n++ Creating OpenShift server deployment config, services, and routes...\n+"
-	@oc process -f deployment/server.dc.json -p NAMESPACE=$(NAMESPACE) APP_NAME=$(APP_NAME) | oc create -f -
+	@oc process -f deployment/server.dc.json -p NAMESPACE=$(NAMESPACE) APP_NAME=$(APP_NAME) | oc apply -f -
 
 create-client:
 	test -n "$(NAMESPACE)" # Please provide a namespace via NAMESPACE=myproject
@@ -64,9 +68,9 @@ create-client:
 	test -n "$(BRANCH)" # Please provide a git branch via BRANCH=develop
 	test -n "$(API_URL)" # Please provide a base API URL via API_URL=myproject
 	@echo "+\n++ Creating OpenShift client build config and image stream...\n+"
-	@oc process -f deployment/client.bc.json -p NAMESPACE=$(NAMESPACE) APP_NAME=$(APP_NAME) REPO=$(REPO) BRANCH=$(BRANCH) API_URL=$(API_URL) | oc create -f -
+	@oc process -f deployment/client.bc.json -p NAMESPACE=$(NAMESPACE) APP_NAME=$(APP_NAME) REPO=$(REPO) BRANCH=$(BRANCH) API_URL=$(API_URL) | oc apply -f -
 	@echo "+\n++ Creating OpenShift client deployment config, services, and routes...\n+"
-	@oc process -f deployment/client.dc.json -p NAMESPACE=$(NAMESPACE) APP_NAME=$(APP_NAME) | oc create -f -
+	@oc process -f deployment/client.dc.json -p NAMESPACE=$(NAMESPACE) APP_NAME=$(APP_NAME) | oc apply -f -
 
 ##############################################################################
 # Deployment cleanup commands
