@@ -29,16 +29,16 @@ client-test:
 	@docker-compose run client npm test
 
 ##############################################################################
-# Deployment commands
+# Deployment / CI-CD commands
 ##############################################################################
 
-deploy-nsp:
+create-nsp:
 	test -n "$(NAMESPACE)" # Please provide a namespace via NAMESPACE=myproject
 	test -n "$(APP_NAME)" # Please provide an app name via APP_NAME=openshift-launchpad
 	@echo "+\n++ Set network security policies \n+"
 	@oc process -f deployment/nsp.json -p NAMESPACE=$(NAMESPACE) APP_NAME=$(APP_NAME) | oc create -f -
 
-deploy-database:
+create-database:
 	test -n "$(NAMESPACE)" # Please provide a namespace via NAMESPACE=myproject
 	test -n "$(APP_NAME)" # Please provide an app name via APP_NAME=openshift-launchpad
 	test -n "$(POSTGRESQL_DATABASE)" # Please provide a database name via POSTGRESQL_DATABASE=sample_db
@@ -47,7 +47,7 @@ deploy-database:
 	@echo "+\n++ Creating OpenShift database deployment config, services, and routes...\n+"
 	@oc process -f deployment/database.dc.json -p NAMESPACE=$(NAMESPACE) APP_NAME=$(APP_NAME) POSTGRESQL_DATABASE=$(POSTGRESQL_DATABASE) | oc create -f -
 
-deploy-server:
+create-server:
 	test -n "$(NAMESPACE)" # Please provide a namespace via NAMESPACE=myproject
 	test -n "$(APP_NAME)" # Please provide an app name via APP_NAME=openshift-launchpad
 	test -n "$(REPO)" # Please provide a git repo via REPO=https://github.com/bcgov/openshift-launchpad
@@ -57,7 +57,7 @@ deploy-server:
 	@echo "+\n++ Creating OpenShift server deployment config, services, and routes...\n+"
 	@oc process -f deployment/server.dc.json -p NAMESPACE=$(NAMESPACE) APP_NAME=$(APP_NAME) | oc create -f -
 
-deploy-client:
+create-client:
 	test -n "$(NAMESPACE)" # Please provide a namespace via NAMESPACE=myproject
 	test -n "$(APP_NAME)" # Please provide an app name via APP_NAME=openshift-launchpad
 	test -n "$(REPO)" # Please provide a git repo via REPO=https://github.com/bcgov/openshift-launchpad
@@ -79,14 +79,7 @@ oc-all-clean:
 	@oc project $(NAMESPACE)
 	@oc delete all -l app=$(APP_NAME)
 
-oc-server-clean:
-	test -n "$(NAMESPACE)" # Please provide a namespace via NAMESPACE=myproject
-	test -n "$(APP_NAME)" # Please provide an app name via APP_NAME=openshift-launchpad
-	@echo "+\n++ Tearing down OpenShift server objects created from templates...\n+"
-	@oc project $(NAMESPACE)
-	@oc delete all -l template=$(APP_NAME)-server
-
-oc-db-clean:
+oc-database-clean:
 	test -n "$(NAMESPACE)" # Please provide a namespace via NAMESPACE=myproject
 	test -n "$(APP_NAME)" # Please provide an app name via APP_NAME=openshift-launchpad
 	@echo "+\n++ Tearing down OpenShift postgresql objects created from templates...\n+"
@@ -101,6 +94,13 @@ oc-persisted-clean:
 	@oc delete pvc $(APP_NAME)-database
 	@oc delete secret $(APP_NAME)-database
 	@oc delete nsp -l app=$(APP_NAME)
+
+oc-server-clean:
+	test -n "$(NAMESPACE)" # Please provide a namespace via NAMESPACE=myproject
+	test -n "$(APP_NAME)" # Please provide an app name via APP_NAME=openshift-launchpad
+	@echo "+\n++ Tearing down OpenShift server objects created from templates...\n+"
+	@oc project $(NAMESPACE)
+	@oc delete all -l template=$(APP_NAME)-server
 
 oc-client-clean:
 	test -n "$(NAMESPACE)" # Please provide a namespace via NAMESPACE=myproject
