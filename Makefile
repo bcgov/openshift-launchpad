@@ -119,4 +119,4 @@ oc-client-clean:
 	test -n "$(APP_NAME)" # Please provide an app name via APP_NAME=openshift-launchpad
 	@echo "+\n++ Tearing down OpenShift client objects created from templates...\n+"
 	@oc project $(NAMESPACE)
-	@oc delete all -l template=$(APP_NAME)-client --ignore-not-found
+	@oc delete all -l template=$(APP_NAME)-client
