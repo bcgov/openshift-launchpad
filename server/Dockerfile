@@ -16,4 +16,4 @@ COPY . .
 
 # Run server
 EXPOSE 5000
-CMD python manage.py run -h 0.0.0.0
+CMD flask run --host 0.0.0.0

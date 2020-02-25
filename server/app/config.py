@@ -36,7 +36,6 @@ class Config:
 
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     SQLALCHEMY_DATABASE_URI = DB_URL
-    SECRET_KEY = 'temp'
 
 class TestConfig(Config):
     """Defines values for testing"""

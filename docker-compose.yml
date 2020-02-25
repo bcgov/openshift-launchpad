@@ -48,7 +48,6 @@ services:
       - 5000:5000
     environment:
       - FLASK_ENV=development
-      - APP_SETTINGS=app.config.DevelopmentConfig
       - POSTGRESQL_USER=admin
       - POSTGRESQL_PASSWORD=password
       - POSTGRESQL_DATABASE=sample_db
@@ -69,8 +68,10 @@ services:
       - "./server:/opt/server/"
     environment:
       - FLASK_ENV=development
-      - APP_SETTINGS=app.config.Config
-      - DATABASE_URL=postgres://admin:password@database:5432/sample_db
+      - POSTGRESQL_USER=admin
+      - POSTGRESQL_PASSWORD=password
+      - POSTGRESQL_DATABASE=sample_db
+      - POSTGRESQL_SERVICE=database
     depends_on:
       - database
     networks:

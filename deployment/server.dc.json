@@ -49,20 +49,20 @@
           "activeDeadlineSeconds": 21600,
           "rollingParams": {
             "post": {
-            "execNewPod": {
-              "metadata": {
-                "labels": {
-                  "name": "${APP_NAME}-server"
-                }
+              "execNewPod": {
+                "metadata": {
+                  "labels": {
+                    "name": "${APP_NAME}-server"
+                  }
+                },
+                "command": [
+                  "flask",
+                  "db",
+                  "upgrade"
+                ],
+                "containerName": "${APP_NAME}-server"
               },
-              "command": [
-                "flask",
-                "db",
-                "upgrade"
-              ],
-              "containerName": "${APP_NAME}-server"
-            },
-            "failurePolicy": "ignore"
+              "failurePolicy": "ignore"
             }
           }
         },
