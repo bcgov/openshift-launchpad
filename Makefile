@@ -50,6 +50,8 @@ create-database:
 	@oc process -f deployment/database.bc.json -p NAMESPACE=$(NAMESPACE) APP_NAME=$(APP_NAME) | oc apply -f -
 	@echo "+\n++ Creating OpenShift database deployment config, services, and routes...\n+"
 	@oc process -f deployment/database.dc.json -p NAMESPACE=$(NAMESPACE) APP_NAME=$(APP_NAME) POSTGRESQL_DATABASE=$(POSTGRESQL_DATABASE) | oc apply -f -
+	@echo "+\n++ Checking status of deployment.. \n+"
+	@oc rollout status dc/${APP_NAME}-database
 
 create-server:
 	test -n "$(NAMESPACE)" # Please provide a namespace via NAMESPACE=myproject
@@ -60,6 +62,8 @@ create-server:
 	@oc process -f deployment/server.bc.json -p NAMESPACE=$(NAMESPACE) APP_NAME=$(APP_NAME) REPO=$(REPO) BRANCH=$(BRANCH) | oc apply -f -
 	@echo "+\n++ Creating OpenShift server deployment config, services, and routes...\n+"
 	@oc process -f deployment/server.dc.json -p NAMESPACE=$(NAMESPACE) APP_NAME=$(APP_NAME) | oc apply -f -
+	@echo "+\n++ Checking status of deployment.. \n+"
+	@oc rollout status dc/${APP_NAME}-server
 
 create-client:
 	test -n "$(NAMESPACE)" # Please provide a namespace via NAMESPACE=myproject
@@ -71,6 +75,8 @@ create-client:
 	@oc process -f deployment/client.bc.json -p NAMESPACE=$(NAMESPACE) APP_NAME=$(APP_NAME) REPO=$(REPO) BRANCH=$(BRANCH) API_URL=$(API_URL) | oc apply -f -
 	@echo "+\n++ Creating OpenShift client deployment config, services, and routes...\n+"
 	@oc process -f deployment/client.dc.json -p NAMESPACE=$(NAMESPACE) APP_NAME=$(APP_NAME) | oc apply -f -
+	@echo "+\n++ Checking status of deployment.. \n+"
+	@oc rollout status dc/${APP_NAME}-client
 
 ##############################################################################
 # Deployment cleanup commands
@@ -82,6 +88,7 @@ oc-all-clean:
 	@echo "+\n++ Tearing down all OpenShift objects created from templates...\n+"
 	@oc project $(NAMESPACE)
 	@oc delete all -l app=$(APP_NAME)
+	@oc delete secret $(APP_NAME)-database --ignore-not-found
 
 oc-database-clean:
 	test -n "$(NAMESPACE)" # Please provide a namespace via NAMESPACE=myproject
@@ -89,15 +96,16 @@ oc-database-clean:
 	@echo "+\n++ Tearing down OpenShift postgresql objects created from templates...\n+"
 	@oc project $(NAMESPACE)
 	@oc delete all -l template=$(APP_NAME)-database
+	@oc delete secret $(APP_NAME)-database --ignore-not-found
 
 oc-persisted-clean:
 	test -n "$(NAMESPACE)" # Please provide a namespace via NAMESPACE=myproject
 	test -n "$(APP_NAME)" # Please provide a database service name via DATABASE_SERVICE_NAME=db-service
 	@echo "+\n++ Remove persistant storage used by db service \n+"
 	@oc project $(NAMESPACE)
-	@oc delete pvc $(APP_NAME)-database
-	@oc delete secret $(APP_NAME)-database
-	@oc delete nsp -l app=$(APP_NAME)
+	@oc delete pvc $(APP_NAME)-database --ignore-not-found
+	@oc delete secret $(APP_NAME)-database --ignore-not-found
+	@oc delete nsp -l app=$(APP_NAME) --ignore-not-found
 
 oc-server-clean:
 	test -n "$(NAMESPACE)" # Please provide a namespace via NAMESPACE=myproject
