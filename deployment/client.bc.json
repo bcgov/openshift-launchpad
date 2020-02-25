@@ -63,6 +63,12 @@
           },
           "type": "Git"
         },
+        "resources": {
+          "limits": {
+            "cpu": "1000m",
+            "memory": "3Gi"
+          }
+        },
         "strategy": {
           "type": "Docker",
           "dockerStrategy": {
