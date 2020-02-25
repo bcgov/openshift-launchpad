@@ -72,12 +72,8 @@
         },
         "resources": {
           "limits": {
-            "cpu": "500m",
-            "memory": "3Gi"
-          },
-          "requests": {
-            "cpu": "100m",
-            "memory": "2Gi"
+            "cpu": "2",
+            "memory": "4Gi"
           }
         }
       }
