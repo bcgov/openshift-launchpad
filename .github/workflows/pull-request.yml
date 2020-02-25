@@ -44,6 +44,11 @@ jobs:
 
       - name: Checkout
         uses: actions/checkout@v1
+      
+      - name: Remove existing environment for $APP_NAME
+        run: |
+          make oc-all-clean NAMESPACE=$NAMESPACE APP_NAME=$APP_NAME
+          make oc-persisted-clean NAMESPACE=$NAMESPACE APP_NAME=$APP_NAME
 
       - name: Create Network Security Policy
         run: |

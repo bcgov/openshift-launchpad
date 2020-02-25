@@ -72,8 +72,8 @@
         },
         "resources": {
           "limits": {
-            "cpu": "1000m",
-            "memory": "3Gi"
+            "cpu": "2",
+            "memory": "4Gi"
           }
         }
       }
