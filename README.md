@@ -57,6 +57,7 @@ Before deploying to the BC Government OpenShift cluster, access must be granted.
 	- Click "Copy Login Command"
 	- Paste into your terminal
 3. From the root project directory, run `make create-nsp NAMESPACE=[NAMESPACE] APP_NAME=[APP_NAME]` replacing `[NAMESPACE]` with the ID of your OpenShift namespace and `[APP_NAME]` with an arbitrary application name (as per Kubernetes [requirements](https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#dns-subdomain-names), must meet [RFC-1123](https://tools.ietf.org/html/rfc1123))
+	- Because the BC Gov OpenShift cluster uses a zero-trust seurity model, an NSP is required to enable communication between pods. During your first deployment, please allow several minutes for the NSP to be applied.
 4. Run `make create-database NAMESPACE=[NAMESPACE] APP_NAME=[APP_NAME] POSTGRESQL_DATABASE=[POSTGRESQL_DATABASE]` replacing `[POSTGRESQL_DATABASE]` with an arbitrary database name
 5. Using the clsuter console, wait for the database to become fully deployed i.e. scale to one or more pods
 6. Run `make create-server NAMESPACE=[NAMESPACE] APP_NAME=[APP_NAME] REPO=https://github.com/bcgov/openshift-launchpad BRANCH=develop`
