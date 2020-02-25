@@ -25,9 +25,21 @@ DB_URL = 'postgres://{}:{}@{}:5432/{}'.format(
     os.environ.get('POSTGRESQL_SERVICE', 'database'),
     os.environ.get('POSTGRESQL_DATABASE', 'sample_db'))
 
+DB_TEST_URL = 'postgres://{}:{}@{}:5432/{}'.format(
+    os.environ.get('POSTGRESQL_USER', 'admin'),
+    os.environ.get('POSTGRESQL_PASSWORD', 'password'),
+    os.environ.get('POSTGRESQL_SERVICE', 'database'),
+    os.environ.get('POSTGRESQL_DATABASE', 'sample_db_test'))
+
 class Config:
     """Defines values that are known to and consumed by a Flask app"""
 
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     SQLALCHEMY_DATABASE_URI = DB_URL
     SECRET_KEY = 'temp'
+
+class TestConfig(Config):
+    """Defines values for testing"""
+
+    TESTING = True
+    SQLALCHEMY_DATABASE_URI = DB_TEST_URL
