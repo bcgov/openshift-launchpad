@@ -19,6 +19,7 @@ jobs:
   deploy:
     name: Create new instance of client, database and server...
     runs-on: ubuntu-latest
+    needs: test
 
     steps:
       - name: Set env variables
