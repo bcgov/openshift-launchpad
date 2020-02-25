@@ -95,7 +95,7 @@ oc-database-clean:
 	test -n "$(APP_NAME)" # Please provide an app name via APP_NAME=openshift-launchpad
 	@echo "+\n++ Tearing down OpenShift postgresql objects created from templates...\n+"
 	@oc project $(NAMESPACE)
-	@oc delete all -l template=$(APP_NAME)-database --ignore-not-found
+	@oc delete all -l app=$(APP_NAME)
 	@oc delete secret $(APP_NAME)-database --ignore-not-found
 
 oc-persisted-clean:
