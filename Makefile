@@ -35,7 +35,7 @@ client-test:
 
 server-test:
 	@echo "+\n++ Running server unit tests...\n+"
-	@docker-compose run server python manage.py test
+	@docker-compose run server python run_tests.py
 
 ##############################################################################
 # Deployment / CI-CD commands
