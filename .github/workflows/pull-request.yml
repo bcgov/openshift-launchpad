@@ -23,14 +23,13 @@ jobs:
     steps:
       - name: Set env variables
         run: |
-          echo ::set-env name=APP_NAME::"openshift-launchpad-pr$(echo $GITHUB_REF | sed 's/.*pull\/\([0-9]*\)\/.*/\1/')"
+          APP_NAME="openshift-launchpad-pr$(echo $GITHUB_REF | sed 's/.*pull\/\([0-9]*\)\/.*/\1/')"
+          echo ::set-env name=APP_NAME::$APP_NAME
           echo ::set-env name=NAMESPACE::"apdwlc-tools"
           echo ::set-env name=POSTGRESQL_DATABASE::"launchpad"
           echo ::set-env name=REPO::"https://github.com/bcgov/openshift-launchpad"
           echo ::set-env name=BRANCH::"BOIL-36-github-actions"
-
-      - name: Set API env variable
-        run: echo ::set-env name=API_URL::"http://$APP_NAME-server-$NAMESPACE.pathfinder.gov.bc.ca"
+          echo ::set-env name=API_URL::"http://$APP_NAME-server-$NAMESPACE.pathfinder.gov.bc.ca"
 
       - name: Download OpenShift CLI
         run: |
