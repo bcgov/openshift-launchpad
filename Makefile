@@ -1,5 +1,10 @@
 #!make
 
+.DEFAULT_GOAL := default
+
+default:
+	@echo "Please see README.md for usage of make commands"
+
 ##############################################################################
 # Development commands
 ##############################################################################
