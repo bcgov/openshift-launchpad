@@ -33,7 +33,7 @@ jobs:
         run: |
           APP_NAME="openshift-launchpad-pr$(echo $GITHUB_REF | sed 's/.*pull\/\([0-9]*\)\/.*/\1/')"
           BRANCH="${{ github.event.pull_request.head.ref }}"
-          NAMESPACE="apdwlc-dev"
+          NAMESPACE="apdwlc-tools"
           echo ::set-env name=APP_NAME::$APP_NAME
           echo ::set-env name=NAMESPACE::$NAMESPACE
           echo ::set-env name=POSTGRESQL_DATABASE::"launchpad"
