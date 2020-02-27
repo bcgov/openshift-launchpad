@@ -68,6 +68,8 @@ Before deploying to the BC Government OpenShift cluster, access must be granted.
 7. Run `make create-client NAMESPACE=[NAMESPACE] APP_NAME=[APP_NAME] REPO=https://github.com/bcgov/openshift-launchpad BRANCH=develop API_URL=[API_URL]` replacing `[API_URL]` with the route URL copied in the previous step
 8. Once the client is built and deployed (click Overview in OpenShift console), confirm it's working by navigating to the route it exposes (Applications > Routes)
 
+At this point, the build config and deployment config have been created within OpenShift. If code within the server or client repos is changed, a new build must be started. The new build creates a new image thereby triggering a new deployment. To start a new build for the client, run `oc start-build [APP_NAME]-client`. Similarly a new server build is started when running `oc start-build [APP_NAME]-server`. To track the progress of the build, use the `--follow` argument e.g. `oc start-build [APP_NAME]-client --follow`.
+
 ### Minishift Deployment
 
 Minishift is a tool that helps run OpenShift locally. A single-node cluster is created inside a VM. Minishift can be installed using [these instructions](https://docs.okd.io/latest/minishift/getting-started/installing.html#installing-with-homebrew).
