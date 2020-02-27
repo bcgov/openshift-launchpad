@@ -1,4 +1,5 @@
-'''The simplest possible entry into a Flask app.'''
+"""The simplest possible entry into a Flask app."""
+
 import unittest
 from flask.cli import FlaskGroup
 from app import create_app
@@ -9,7 +10,7 @@ CLI = FlaskGroup(create_app=create_app)
 
 @CLI.command()
 def test():
-    # Runs the tests without code coverage
+    """Discover and run unit tests"""
     tests = unittest.TestLoader().discover('test', pattern='test*.py')
     result = unittest.TextTestRunner(verbosity=2).run(tests)
     if result.wasSuccessful():
