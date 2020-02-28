@@ -43,7 +43,8 @@ const prodConfig = {
     new webpack.EnvironmentPlugin({API_URL: 'http://localhost:5000/api'}),
   ],
 };
-const devConfig = Object.assign({}, prodConfig, {
+const devConfig = {
+  ...prodConfig,
   name: 'dev',
   mode: 'development',
   devServer: {		
@@ -54,7 +55,6 @@ const devConfig = Object.assign({}, prodConfig, {
     host: HOST,		
     port: PORT,		
   },
-});
-devConfig.plugins.push(new webpack.HotModuleReplacementPlugin());
+};
 
 module.exports = [prodConfig, devConfig];
