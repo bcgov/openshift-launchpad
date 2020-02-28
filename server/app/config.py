@@ -36,6 +36,7 @@ class Config:
 
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     SQLALCHEMY_DATABASE_URI = DB_URL
+    SECRET_KEY = os.urandom(24)
 
 class TestConfig(Config):
     """Defines values for testing"""
