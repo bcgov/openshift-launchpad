@@ -2,7 +2,7 @@
 Convenience methods for tests
 """
 
-from app import DB
+from app.api.models.db import DB
 from app.api.models.foo import Foo
 
 # Helper function to add a sample string to Foo

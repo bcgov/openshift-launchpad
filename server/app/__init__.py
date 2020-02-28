@@ -17,7 +17,6 @@ from flask_migrate import Migrate
 from app.api.models.db import DB
 from app.api.blueprints.foo import FOO_BLUEPRINT
 
-
 def create_app():
     '''Initializes the Flask application including extensions (like SQLAlchemy).'''
     # Instantiate the app
@@ -34,7 +33,7 @@ def create_app():
     # Set up extensions
     DB.init_app(app)
 
-    # instantiate Migrate
+    # Setup database migrations
     Migrate(app, DB)
 
     # Register blueprints (add more as needed)
