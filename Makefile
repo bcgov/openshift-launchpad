@@ -110,7 +110,7 @@ oc-persisted-clean:
 	@oc project $(NAMESPACE)
 	@oc delete pvc $(APP_NAME)-database --ignore-not-found
 	@oc delete secret $(APP_NAME)-database --ignore-not-found
-	@oc delete nsp -l app=$(APP_NAME) --ignore-not-found
+	@oc delete nsp -l app=$(APP_NAME)
 
 oc-server-clean:
 	test -n "$(NAMESPACE)" # Please provide a namespace via NAMESPACE=myproject
