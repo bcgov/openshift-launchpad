@@ -40,20 +40,20 @@ const prodConfig = {
       title: 'Basic React App',
       template: './src/index.html',
     }),
-    new webpack.EnvironmentPlugin({API_URL: 'http://localhost:5000/api'}),
+    new webpack.EnvironmentPlugin({ API_URL: 'http://localhost:5000/api' }),
   ],
 };
 const devConfig = {
   ...prodConfig,
   name: 'dev',
   mode: 'development',
-  devServer: {		
-    contentBase: './dist',		
-    hot: true,		
-    historyApiFallback: true,		
-    writeToDisk: true,		
-    host: HOST,		
-    port: PORT,		
+  devServer: {
+    contentBase: './dist',
+    hot: true,
+    historyApiFallback: true,
+    writeToDisk: true,
+    host: HOST,
+    port: PORT,
   },
 };
 
