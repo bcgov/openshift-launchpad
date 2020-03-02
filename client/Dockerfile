@@ -24,9 +24,8 @@ COPY . .
 # Build the source
 RUN npm run build
 
-EXPOSE 3000
-
-# user
+# Use generic non-root user
 USER 1001
 
+EXPOSE 3000
 CMD ["npm", "run", "start"]
