@@ -7,7 +7,7 @@ USER root
 ENV APP_ROOT=/opt/server
 RUN mkdir ${APP_ROOT}
 
-# user / permissions
+# Set permissions to app dir for generic users
 RUN chmod -R u+x ${APP_ROOT} && \
     chgrp -R 0 ${APP_ROOT} && \
     chmod -R g=u ${APP_ROOT} /etc/passwd
