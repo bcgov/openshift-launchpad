@@ -19,6 +19,8 @@ dist
 # Icon must end with two \r
 Icon
 
+# SonarQube
+.scannerwork
 
 # Thumbnails
 ._*

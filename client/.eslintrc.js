@@ -6,12 +6,14 @@ module.exports = {
   env: {
     node: true,
     browser: true,
+    "jest/globals": true,
   },
   extends: [
     'eslint:recommended',
     'plugin:react/recommended',
     'airbnb-base',
   ],
+  plugins: ['jest'],
   parserOptions: {},
   settings: {
     react: {

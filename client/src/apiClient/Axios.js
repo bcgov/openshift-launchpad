@@ -1,10 +1,10 @@
 import axios from 'axios';
 
-const instance = axios.create({
+const Axios = axios.create({
   baseURL: process.env.API_URL,
 });
 
-instance.interceptors.response.use(
+Axios.interceptors.response.use(
   // Automatically unpack the successful response
   (response) => response.data,
   // Automatically log a failed response and then pass it along
@@ -14,4 +14,4 @@ instance.interceptors.response.use(
   },
 );
 
-export default instance;
+export default Axios;

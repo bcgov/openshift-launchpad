@@ -5,7 +5,7 @@ import Home from '@/components/Home';
 import AboutUs from '@/components/AboutUs';
 import NotFound from '@/components/NotFound';
 
-const PublicRoutes = () => (
+const Routes = () => (
   <Switch>
     <Route exact path="/" component={Home} />
     <Route exact path="/about-us" component={AboutUs} />
@@ -13,4 +13,4 @@ const PublicRoutes = () => (
   </Switch>
 );
 
-export default PublicRoutes;
+export default Routes;
