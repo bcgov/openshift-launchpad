@@ -43,9 +43,6 @@ jobs:
           echo ::set-env name=REPO::$REPO
           echo ::set-env name=BRANCH::$BRANCH
           echo ::set-env name=API_URL::"http://$APP_NAME-server-$NAMESPACE.pathfinder.gov.bc.ca"
-          echo $NAMESPACE
-          echo $REPO
-          echo $DATABASE
 
       - name: Download OpenShift CLI
         run: |
