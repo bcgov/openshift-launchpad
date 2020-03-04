@@ -125,6 +125,16 @@ We can run make commands in Windows using the following steps.
 - Edit the `Path` environment variable and add the GNUWin bin directory from above (note that paths are comma separated)
 - Reopen PowerShell or CMD and run Makefile commands
 
+## Contributing
+
+Currently, the OpenShift Launchpad is composed of a React frontend and a Python backend. In coming releases, the Launchpad will allow users to use one backend and one frontend from a list of many. The team has taken to calling these standalone frontend and backend building blocks "boosters". Available boosters will include the following.
+- [Python backend](https://github.com/bcgov/openshift-launchpad-be-python)
+- [Node backend](https://github.com/bcgov/openshift-launchpad-be-node)
+- [React frontend](https://github.com/bcgov/openshift-launchpad-fe-react)
+- [Vue frontend](https://github.com/bcgov/openshift-launchpad-fe-vue)
+
+If you're passionate about a framework or language that we have not mentioned, please contribute a booster. See the [contribution guidelines](CONTRIBUTING.md) for a spec that boosters must adhere to.
+
 ## License
 
 Code released under the [Apache License, Version 2.0](LICENSE).
