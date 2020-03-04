@@ -14,7 +14,7 @@ All boosters must be contained in public GitHub repositories. They must also mee
 - Must contain a `Dockerfile` in the project root directory
 - A backend booster must expose its API on port 5000
 - A frontend booster must expose its web app on port 3000
-- Backend boosters must abide by the [Swagger definition](https://editor.swagger.io/?url=https://raw.githubusercontent.com/bcgov/openshift-launchpad/BOIL-67-contribution-guidelines/swagger.yaml)
+- Backend boosters must abide by the [Swagger definition](https://editor.swagger.io/?url=https://raw.githubusercontent.com/bcgov/openshift-launchpad/develop/swagger.yaml)
 
 Please ensure that all boosters are able to be run without any modification to the code using standard Docker commands. Cloning a booster, navigating to the project root directory, and running `docker build -t booster . && docker run -it booster` must result in a functional product. Further, all frontend boosters should be decoupled from backend boosters and vice versa.
 
