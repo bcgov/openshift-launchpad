@@ -1,0 +1,124 @@
+swagger: '2.0'
+info:
+  description: This document outlines the API spec that OpenShift launchpad client and server modules must subscribe to. Please note that the API base URL must be filled in and will depend on the deployment of the application.
+  version: '0.1.0'
+  title: OpenShift Launchpad
+  license:
+    name: Apache 2.0
+    url: https://github.com/bcgov/openshift-launchpad/blob/master/LICENSE
+externalDocs:
+  description: OpenShift Launchpad GitHub Repository
+  url: https://github.com/bcgov/openshift-launchpad
+host: '[YOUR_OPENSHIFT_ROUTE]'
+basePath: /api
+consumes:
+- application/json
+produces:
+- application/json
+schemes:
+- https
+- http
+tags:
+- name: foo
+  description: Operations related to Foo instances
+paths:
+  /foo:
+    get:
+      tags: [foo]
+      summary: List all Foo instances
+      operationId: listAllFoos
+      responses:
+        200:
+          description: Successful operation
+          schema:
+            $ref: '#/definitions/FooList'
+    post:
+      tags: [foo]
+      summary: Create a new Foo instance
+      operationId: createFoo
+      parameters:
+        - in: body
+          name: string_field
+          description: An arbitrary string unique to this Foo instance
+          required: true
+          schema:
+            type: string
+      responses:
+        201:
+          description: Successful operation
+          schema:
+            $ref: '#/definitions/Foo'
+        400:
+          description: Invalid or duplicate Foo string_field property
+  /foo/{fooId}:
+    get:
+      tags: [foo]
+      summary: Get Foo instance by ID
+      operationId: getFooById
+      parameters:
+      - in: path
+        name: fooId
+        description: ID of Foo instance to return
+        required: true
+        type: integer
+      responses:
+        200:
+          description: Successful operation
+          schema:
+            $ref: '#/definitions/Foo'
+        404:
+          description: Foo instance not found
+    put:
+      tags: [foo]
+      summary: Update Foo instance by ID
+      operationId: updateFooById
+      parameters:
+      - in: path
+        name: fooId
+        description: ID of Foo instance to update
+        required: true
+        type: integer
+      - in: body
+        name: string_field
+        description: The new value of the Foo string_field property
+        required: true
+        schema:
+          type: string
+      responses:
+        200:
+          description: Successful operation
+          schema:
+            $ref: '#/definitions/Foo'
+        400:
+          description: Invalid or duplicate Foo string_field property
+        404:
+          description: Foo instance not found
+    delete:
+      tags: [foo]
+      summary: Deletes a pet
+      operationId: deleteFooById
+      parameters:
+      - in: path
+        name: fooId
+        description: ID of Foo instance to return
+        required: true
+        type: integer
+      responses:
+        200:
+          description: Successful operation
+          schema:
+            type: object
+        404:
+          description: Foo instance not found
+definitions:
+  FooList:
+    type: array
+    items:
+      $ref: '#/definitions/Foo'
+  Foo:
+    type: object
+    properties:
+      id:
+        type: integer
+      string_field:
+        type: string
