@@ -16,6 +16,8 @@ All boosters must be contained in public GitHub repositories. They must also mee
 - A frontend booster must expose its web app on port 3000
 - Backend boosters must abide by the [Swagger definition](https://editor.swagger.io/?url=https://raw.githubusercontent.com/bcgov/openshift-launchpad/BOIL-67-contribution-guidelines/swagger.yaml)
 
+Please ensure that all boosters are able to be run without any modification to the code using standard Docker commands. Cloning a booster, navigating to the project root directory, and running `docker build -t booster . && docker run -it booster` must result in a functional product. Further, all frontend boosters should be decoupled from backend boosters and vice versa.
+
 Once the above requirements have been met, you may request that the booster be added to the OpenShift Launchpad. This may be requested in the following ways.
 - Open a pull request with the requisite changes made to the choose-your-own-adventure script
 - Create a GitHub issue explaining the request and include the booster repository
