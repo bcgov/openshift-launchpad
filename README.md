@@ -133,7 +133,7 @@ Currently, the OpenShift Launchpad is composed of a React frontend and a Python 
 - [React frontend](https://github.com/bcgov/openshift-launchpad-fe-react)
 - [Vue frontend](https://github.com/bcgov/openshift-launchpad-fe-vue)
 
-If you're passionate about a framwork or language that we have not mentioned, please contribute a booster. See the [contribution guidelines](CONTRIBUTING.md) for a spec that boosters must adhere to.
+If you're passionate about a framework or language that we have not mentioned, please contribute a booster. See the [contribution guidelines](CONTRIBUTING.md) for a spec that boosters must adhere to.
 
 ## License
 
