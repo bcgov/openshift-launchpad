@@ -75,7 +75,7 @@
               ],
               "from": {
                 "kind": "ImageStreamTag",
-                "name": "${APP_NAME}-server:latest",
+                "name": "${APP_NAME}-server:${IMAGE_TAG}",
                 "namespace": "${NAMESPACE}"
               }
             },
