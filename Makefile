@@ -111,7 +111,7 @@ promote-image-client:
 	test -n "$(SOURCE_TAG)" # Please provide a imagestream tag as source via SOURCE_TAG=dev
 	test -n "$(DEST_NAMESPACE)" # Please provide a destination namespace via DEST_NAMESPACE=myproject-prod
 	test -n "$(DEST_TAG)" # Please provide a imagestream tag as destination via DEST_TAG=prod
-	@echo "+\n++ Promote by pushing image \n+"
+	@echo "+\n++ Promote by pushing image from $(SOURCE_NAMESPACE)/$(SOURCE_TAG) to $(DEST_NAMESPACE)/$(DEST_TAG)  \n+"
 	@oc tag $(NAMESPACE)/$(APP_NAME)-server:$(SOURCE_TAG) $(TARGET_NAMESPACE)/$(APP_NAME)-server:$(DEST_TAG)
 	@oc rollout status -n $(NAMESPACE) dc/${APP_NAME}-server
 
