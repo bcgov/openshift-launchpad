@@ -1,35 +1,105 @@
-# openshift-launchpad-be-python
+# Wildfire Predictive Services FWI Percentile Calculator API
 
-A portable Python/Flask + PostgreSQL backend designed to be used with the [OpenShift Launchpad](https://github.com/bcgov/openshift-launchpad)
+## Description
 
-## Table of Contents
+Wildfire Predictive Services support decision making in prevention, preparedness, response and recovery.
 
-1. [Getting Help or Reporting an Issue](#getting-help-or-reporting-an-issue)
-1. [How to Contribute](#how-to-contribute)
-1. [License](#license)
+## Getting Started
 
-## Getting Help or Reporting an Issue
+### Dependencies
 
-To report bugs/issues/features requests, please file an [issue](https://github.com/bcgov/openshift-launchpad-fe-react/issues).
+* Docker [Mac](https://hub.docker.com/editions/community/docker-ce-desktop-mac/), [Win](https://hub.docker.com/editions/community/docker-ce-desktop-windows/), [Ubuntu](https://docs.docker.com/install/linux/docker-ce/ubuntu/), [Fedora](https://docs.docker.com/install/linux/docker-ce/fedora/)
 
-## How to Contribute
+* Docker Compose
 
-If you would like to contribute, please see our [contributing](CONTRIBUTING.md) guidelines.
+```
+brew install docker-compose
+```
 
-Please note that this project is released with a [Contributor Code of Conduct](CODE-OF-CONDUCT.md). By participating in this project you agree to abide by its terms.
+### Installing
+
+You will need a .env file, see sample.env. For local development, you can copy sample.env to .env
+
+```
+cd code
+docker-compose build
+```
+
+#### On your local MacOS
+
+Do so at your own risk!
+
+Install system dependancies:
+```
+brew install pyenv
+pyenv install 3.6.10
+brew install pipenv
+```
+
+Install project requirements:
+```
+cd wps-api
+pipenv install --dev
+```
+If you have trouble getting pipenv to resolve python 3.8.1, you can also try:
+```
+pipenv install --python ~/.pyenv/versions/3.6.10/bin/python3.6 --dev
+```
+
+### Executing program
+
+Running the web service in docker:
+```
+docker-compose up
+```
+Running unit tests in docker:
+```
+docker-compose run web python -m unittest
+```
+
+#### Local machine, running mac os
+
+Run it:
+```
+pipenv run uvicorn main:app --reload
+```
+or
+```
+make run
+```
+
+Run tests:
+```
+pipenv run python -m unittest
+```
+or
+```
+make test
+```
+
+Running jupyter notebooks:
+```
+pipenv run jupyter notebook
+```
+or
+```
+make notebook
+```
+
+Shell:
+```
+pipenv shell
+```
+
+## Architecture
+
+![FWI calculator container diagram](container_diagram.png)
 
 ## License
 
-    Copyright 2020 Province of British Columbia
+This project is licensed under the [Apache License, Version 2.0](https://github.com/bcgov/wps-api/blob/master/LICENSE).
 
-    Licensed under the Apache License, Version 2.0 (the "License");
-    you may not use this file except in compliance with the License.
-    You may obtain a copy of the License at
+## Acknowledgments
 
-       http://www.apache.org/licenses/LICENSE-2.0
-
-    Unless required by applicable law or agreed to in writing, software
-    distributed under the License is distributed on an "AS IS" BASIS,
-    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-    See the License for the specific language governing permissions and
-    limitations under the License.
+Template copied from
+* [DomPizzie](https://gist.github.com/DomPizzie/7a5ff55ffa9081f2de27c315f5018afc)

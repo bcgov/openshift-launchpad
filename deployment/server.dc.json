@@ -46,25 +46,7 @@
       "spec": {
         "strategy": {
           "type": "Rolling",
-          "activeDeadlineSeconds": 21600,
-          "rollingParams": {
-            "post": {
-              "execNewPod": {
-                "metadata": {
-                  "labels": {
-                    "name": "${APP_NAME}-server"
-                  }
-                },
-                "command": [
-                  "flask",
-                  "db",
-                  "upgrade"
-                ],
-                "containerName": "${APP_NAME}-server"
-              },
-              "failurePolicy": "ignore"
-            }
-          }
+          "activeDeadlineSeconds": 21600
         },
         "triggers": [
           {

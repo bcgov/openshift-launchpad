@@ -23,19 +23,19 @@ services:
       - default
 
   ####################### Database Definition #######################
-  database:
-    container_name: database
-    image: centos/postgresql-10-centos7:latest
-    ports:
-      - 5435:5432
-    environment:
-      - POSTGRESQL_USER=admin
-      - POSTGRESQL_PASSWORD=password
-      - POSTGRESQL_DATABASE=sample_db
-    volumes:
-      - "postgres-data:/var/lib/postgresql/data"
-    networks:
-      - default
+  # database:
+  #   container_name: database
+  #   image: centos/postgresql-10-centos7:latest
+  #   ports:
+  #     - 5435:5432
+  #   environment:
+  #     - POSTGRESQL_USER=admin
+  #     - POSTGRESQL_PASSWORD=password
+  #     - POSTGRESQL_DATABASE=sample_db
+  #   volumes:
+  #     - "postgres-data:/var/lib/postgresql/data"
+  #   networks:
+  #     - default
 
   ####################### Server Definition #######################
   server:
@@ -52,30 +52,28 @@ services:
       - POSTGRESQL_PASSWORD=password
       - POSTGRESQL_DATABASE=sample_db
       - POSTGRESQL_SERVICE=database
-    depends_on:
-      - server-migrate
     networks:
       - default
 
   ####### Server Database Migration Definition ###########
-  server-migrate:
-    restart: on-failure
-    container_name: server-migrate
-    build:
-      context: server
-    command: ["flask", "db", "upgrade"]
-    volumes:
-      - "./server:/opt/server/"
-    environment:
-      - FLASK_ENV=development
-      - POSTGRESQL_USER=admin
-      - POSTGRESQL_PASSWORD=password
-      - POSTGRESQL_DATABASE=sample_db
-      - POSTGRESQL_SERVICE=database
-    depends_on:
-      - database
-    networks:
-      - default
+  # server-migrate:
+  #   restart: on-failure
+  #   container_name: server-migrate
+  #   build:
+  #     context: server
+  #   command: ["flask", "db", "upgrade"]
+  #   volumes:
+  #     - "./server:/opt/server/"
+  #   environment:
+  #     - FLASK_ENV=development
+  #     - POSTGRESQL_USER=admin
+  #     - POSTGRESQL_PASSWORD=password
+  #     - POSTGRESQL_DATABASE=sample_db
+  #     - POSTGRESQL_SERVICE=database
+  #   depends_on:
+  #     - database
+  #   networks:
+  #     - default
 
 ####################### Networks Definition #######################
 networks:

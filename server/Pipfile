@@ -1,0 +1,24 @@
+[[source]]
+name = "pypi"
+url = "https://pypi.org/simple"
+verify_ssl = true
+
+[dev-packages]
+jupyter = "*"
+notebook = "*"
+pycodestyle = "*"
+pyodbc = "*"
+autopep8 = "*"
+pytest = "*"
+pep8 = "*"
+pytest-pep8 = "*"
+pandas = "*"
+
+[packages]
+fastapi = "*"
+uvicorn = "*"
+python-multipart = "*"
+requests = "*"
+
+[requires]
+python_version = "3.6"
