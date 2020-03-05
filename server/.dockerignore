@@ -1,5 +1,4 @@
-.git
-*Dockerfile*
+env
 .dockerignore
+Dockerfile
 venv
-node_modules
