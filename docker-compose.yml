@@ -7,7 +7,7 @@ services:
     container_name: client
     build:
       context: client
-    command: ["npm", "run", "serve"]
+    # command: ["npm", "run", "serve"]
     environment:
       HOST: 0.0.0.0
       PORT: 3000
