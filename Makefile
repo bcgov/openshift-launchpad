@@ -105,16 +105,6 @@ promote-image-client:
 	@oc rollout status -n $(TARGET_NAMESPACE) dc/${APP_NAME}-client
 
 
-promote-image-client:
-	test -n "$(APP_NAME)" # Please provide an app name via APP_NAME=openshift-launchpad
-	test -n "$(SOURCE_NAMESPACE)" # Please provide a namespace via SOURCE_NAMESPACE=myproject-test
-	test -n "$(SOURCE_TAG)" # Please provide a imagestream tag as source via SOURCE_TAG=dev
-	test -n "$(DEST_NAMESPACE)" # Please provide a destination namespace via DEST_NAMESPACE=myproject-prod
-	test -n "$(DEST_TAG)" # Please provide a imagestream tag as destination via DEST_TAG=prod
-	@echo "+\n++ Promote by pushing image from $(SOURCE_NAMESPACE)/$(SOURCE_TAG) to $(DEST_NAMESPACE)/$(DEST_TAG)  \n+"
-	@oc tag $(NAMESPACE)/$(APP_NAME)-server:$(SOURCE_TAG) $(TARGET_NAMESPACE)/$(APP_NAME)-server:$(DEST_TAG)
-	@oc rollout status -n $(NAMESPACE) dc/${APP_NAME}-server
-
 ##############################################################################
 # Deployment cleanup commands
 ##############################################################################
