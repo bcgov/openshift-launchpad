@@ -63,6 +63,7 @@ create-server:
 	test -n "$(APP_NAME)" # Please provide an app name via APP_NAME=openshift-launchpad
 	test -n "$(REPO)" # Please provide a git repo via REPO=https://github.com/bcgov/openshift-launchpad
 	test -n "$(BRANCH)" # Please provide a git branch via BRANCH=develop
+	test -n "$(IMAGE_TAG)" # Please provide IS tag name IMAGE_TAG=pr
 	@echo "+\n++ Creating OpenShift server build config and image stream...\n+"
 	@oc process -f deployment/server.bc.json -p NAMESPACE=$(NAMESPACE) APP_NAME=$(APP_NAME) IMAGE_TAG=$(IMAGE_TAG) REPO=$(REPO) BRANCH=$(BRANCH) | oc apply -n $(NAMESPACE) -f -
 	@echo "+\n++ Creating OpenShift server deployment config, services, and routes...\n+"
@@ -76,7 +77,7 @@ create-client:
 	test -n "$(REPO)" # Please provide a git repo via REPO=https://github.com/bcgov/openshift-launchpad
 	test -n "$(BRANCH)" # Please provide a git branch via BRANCH=develop
 	test -n "$(API_URL)" # Please provide a base API URL via API_URL=myproject
-	test -n "$(IMAGE_TAG)" # Please provide a base API URL via IMAGE_TAG=dev
+	test -n "$(IMAGE_TAG)" # Please provide IS tag name IMAGE_TAG=pr
 	@echo "+\n++ Creating OpenShift client build config and image stream...\n+"
 	@oc process -f deployment/client.bc.json -p NAMESPACE=$(NAMESPACE) APP_NAME=$(APP_NAME) IMAGE_TAG=$(IMAGE_TAG) REPO=$(REPO) BRANCH=$(BRANCH) API_URL=$(API_URL) | oc apply -n $(NAMESPACE) -f -
 	@echo "+\n++ Creating OpenShift client deployment config, services, and routes...\n+"
