@@ -30,6 +30,11 @@
       "name": "API_URL",
       "description": "Public URL of server service",
       "required": true
+    },
+    {
+      "name": "IMAGE_TAG",
+      "description": "ImageStream tag for build and deploy",
+      "required": true
     }
   ],
   "objects": [

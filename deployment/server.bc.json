@@ -25,6 +25,11 @@
       "name": "BRANCH",
       "description": "Branch of the boilerplate repository that should be built",
       "required": true
+    },
+    {
+      "name": "IMAGE_TAG",
+      "description": "ImageStream tag for build and deploy",
+      "required": true
     }
   ],
   "objects": [

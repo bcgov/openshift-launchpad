@@ -15,6 +15,11 @@
       "name": "APP_NAME",
       "description": "App name that OpenShift objects will be prefixed with",
       "required": true
+    },
+    {
+      "name": "IMAGE_TAG",
+      "description": "ImageStream tag for build and deploy",
+      "required": true
     }
   ],
   "objects": [

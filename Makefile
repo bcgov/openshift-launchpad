@@ -81,7 +81,7 @@ create-client:
 	@echo "+\n++ Creating OpenShift client build config and image stream...\n+"
 	@oc process -f deployment/client.bc.json -p NAMESPACE=$(NAMESPACE) APP_NAME=$(APP_NAME) IMAGE_TAG=$(IMAGE_TAG) REPO=$(REPO) BRANCH=$(BRANCH) API_URL=$(API_URL) | oc apply -n $(NAMESPACE) -f -
 	@echo "+\n++ Creating OpenShift client deployment config, services, and routes...\n+"
-	@oc process -f deployment/client.dc.json -p NAMESPACE=$(NAMESPACE) APP_NAME=$(APP_NAME) | oc apply -n $(NAMESPACE) -f -
+	@oc process -f deployment/client.dc.json -p NAMESPACE=$(NAMESPACE) APP_NAME=$(APP_NAME) IMAGE_TAG=$(IMAGE_TAG) | oc apply -n $(NAMESPACE) -f -
 	@echo "+\n++ Checking status of deployment.. \n+"
 	@oc rollout status dc/${APP_NAME}-client -n $(NAMESPACE)
 
