@@ -1,5 +1,5 @@
 name: 'Client Test'
 description: 'Test client'
 runs:
-    using: make
-    main: client-test
+    using: docker
+    main: make client-test
