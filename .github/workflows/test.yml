@@ -10,7 +10,7 @@ jobs:
       - uses: actions/checkout@v2
 
       - name: Server Tests
-        uses: openshift-launchpad/deployment/actions/server-tests
+        uses: ./deployment/actions/server-tests
 
   frontend-test:
     name: Run client tests...
@@ -19,4 +19,4 @@ jobs:
       - uses: actions/checkout@v2
 
       - name: Server Tests
-        uses: openshift-launchpad/deployment/actions/client-tests
+        uses: ./deployment/actions/client-tests
