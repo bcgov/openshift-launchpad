@@ -1,0 +1,2 @@
+- name: Create server
+run: make create-server NAMESPACE=$NAMESPACE APP_NAME=$APP_NAME REPO=$REPO BRANCH=$BRANCH IMAGE_TAG=$TAG

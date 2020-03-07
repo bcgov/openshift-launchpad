@@ -1,0 +1,2 @@
+- name: Create database
+run: make create-database NAMESPACE=$NAMESPACE APP_NAME=$APP_NAME POSTGRESQL_DATABASE=$POSTGRESQL_DATABASE

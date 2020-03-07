@@ -1,0 +1,2 @@
+- name: Create client
+run: make create-client NAMESPACE=$NAMESPACE APP_NAME=$APP_NAME REPO=$REPO BRANCH=$BRANCH API_URL=$API_URL IMAGE_TAG=$TAG

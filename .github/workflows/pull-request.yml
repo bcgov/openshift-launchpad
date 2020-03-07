@@ -7,21 +7,17 @@ jobs:
     name: Run server tests...
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
-        uses: actions/checkout@v1
+      - uses: actions/checkout@v2
 
-      - name: Run server tests
-        run: make server-test
+      - name: Login to Openshift
+        uses: ./deployment/actions/server-tests
 
   frontend-test:
     name: Run client tests...
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
-        uses: actions/checkout@v1
-
-      - name: Run client tests
-        run: make client-test
+      - uses: actions/checkout@v2
+        uses: ./deployment/actions/client-tests
 
   deploy:
     name: Create new instance of client, database and server...
@@ -69,12 +65,7 @@ jobs:
         run: |
           make create-nsp NAMESPACE=$NAMESPACE APP_NAME=$APP_NAME
           sleep 30s
-
-      - name: Create database
-        run: make create-database NAMESPACE=$NAMESPACE APP_NAME=$APP_NAME POSTGRESQL_DATABASE=$POSTGRESQL_DATABASE
-
-      - name: Create server
-        run: make create-server NAMESPACE=$NAMESPACE APP_NAME=$APP_NAME REPO=$REPO BRANCH=$BRANCH IMAGE_TAG=$TAG
-
-      - name: Create client
-        run: make create-client NAMESPACE=$NAMESPACE APP_NAME=$APP_NAME REPO=$REPO BRANCH=$BRANCH API_URL=$API_URL IMAGE_TAG=$TAG
+      
+      - uses: ./deployment/actions/deploy-database
+      - uses: ./deployment/actions/deploy-server
+      - uses: ./deployment/actions/deploy-client

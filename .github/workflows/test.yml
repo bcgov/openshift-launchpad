@@ -1,0 +1,22 @@
+name: Continuous Integration
+
+on: push
+
+jobs:
+  backend-test:
+    name: Run server tests...
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Server Tests
+        uses: ./deployment/actions/server-tests
+
+  frontend-test:
+    name: Run client tests...
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Server Tests
+        uses: ./deployment/actions/client-tests

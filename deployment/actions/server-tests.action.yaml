@@ -1,0 +1,5 @@
+name: 'Server Test'
+description: 'Test server'
+runs:
+    using: make
+    main: client-test
