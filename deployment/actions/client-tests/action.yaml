@@ -1,5 +1,6 @@
 name: 'Client Test'
 description: 'Test client'
 runs:
-    using: docker
-    main: make client-test
+    using: Docker
+    image: '../../client/Dockerfile'
+    main: 'make client-test'
