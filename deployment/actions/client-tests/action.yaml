@@ -1,6 +1,5 @@
 name: 'Client Test'
 description: 'Test client'
 runs:
-    using: 'docker'
-    image: '../../client/Dockerfile'
+    using: 'node10'
     main: 'make client-test'
