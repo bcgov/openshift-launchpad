@@ -1,5 +1,5 @@
 name: 'Client Test'
 description: 'Test client'
 runs:
-    using: 'node10'
+    using: 'node12'
     main: 'make client-test'
