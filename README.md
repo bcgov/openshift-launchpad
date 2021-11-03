@@ -125,6 +125,10 @@ We can run make commands in Windows using the following steps.
 - Edit the `Path` environment variable and add the GNUWin bin directory from above (note that paths are comma separated)
 - Reopen PowerShell or CMD and run Makefile commands
 
+## Architecture Diagram
+
+![Architecture Diagram](architecture-diagram.png)
+
 ## Contributing
 
 Currently, the OpenShift Launchpad is composed of a React frontend and a Python backend. In coming releases, the Launchpad will allow users to use one backend and one frontend from a list of many. The team has taken to calling these standalone frontend and backend building blocks "boosters". Available boosters will include the following.
